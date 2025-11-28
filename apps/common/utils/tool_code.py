@@ -32,14 +32,17 @@ class ToolExecutor:
         self.sandbox_so_path = f'{self.sandbox_path}/lib/sandbox.so'
         self.process_timeout_seconds = int(CONFIG.get("SANDBOX_PYTHON_PROCESS_TIMEOUT_SECONDS", '3600'))
         try:
-            self._init_dir()
+            self._init_sandbox_dir()
         except Exception as e:
             # 本机忽略异常，容器内不忽略
             maxkb_logger.error(f'Exception: {e}', exc_info=True)
             if self.sandbox:
                 raise e
 
-    def _init_dir(self):
+    def _init_sandbox_dir(self):
+        if not self.sandbox:
+            # 不是sandbox就不初始化目录
+            return
         try:
             # 只初始化一次
             fd = os.open(os.path.join(PROJECT_DIR, 'tmp', 'tool_executor_init_dir.lock'),
@@ -49,17 +52,14 @@ class ToolExecutor:
             # 文件已存在 → 已初始化过
             return
         maxkb_logger.debug("init dir")
-        if self.sandbox:
-            try:
-                os.system("chmod -R g-rwx /dev/shm /dev/mqueue")
-                os.system("chmod o-rwx /run/postgresql")
-            except Exception as e:
-                maxkb_logger.warning(f'Exception: {e}', exc_info=True)
-                pass
+        try:
+            os.system("chmod -R g-rwx /dev/shm /dev/mqueue")
+            os.system("chmod o-rwx /run/postgresql")
+        except Exception as e:
+            maxkb_logger.warning(f'Exception: {e}', exc_info=True)
+            pass
         if CONFIG.get("SANDBOX_TMP_DIR_ENABLED", '0') == "1":
-            tmp_dir_path = os.path.join(self.sandbox_path, 'tmp')
-            os.makedirs(tmp_dir_path, 0o700, exist_ok=True)
-            os.system(f"chown -R {self.user}:root {tmp_dir_path}")
+            os.system("chmod g+rwx /tmp")
         # 初始化sandbox配置文件
         sandbox_lib_path = os.path.dirname(self.sandbox_so_path)
         sandbox_conf_file_path = f'{sandbox_lib_path}/.sandbox.conf'
