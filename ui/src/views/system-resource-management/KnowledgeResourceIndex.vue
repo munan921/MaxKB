@@ -81,6 +81,9 @@
             <span v-else-if="row.type === 2">{{
               $t('views.knowledge.knowledgeType.larkKnowledge')
             }}</span>
+            <span v-else-if="row.type === 4">{{
+              $t('views.knowledge.knowledgeType.workflowKnowledge')
+            }}</span>
             <span v-else>{{ $t('views.knowledge.knowledgeType.generalKnowledge') }}</span>
           </template>
         </el-table-column>
