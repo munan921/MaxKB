@@ -173,7 +173,7 @@
                   :title="$t('views.system.resource_management.management')"
                   @click="
                     router.push({
-                      path: `/knowledge/${row.id}/resource-management/document`,
+                      path: `/knowledge/${row.id}/resource-management/${row.type}/document`,
                     })
                   "
                 >
@@ -222,7 +222,7 @@
                   <el-dropdown-item
                     @click="
                       router.push({
-                        path: `/knowledge/${row.id}/resource-management/setting`,
+                        path: `/knowledge/${row.id}/resource-management/${row.type}/setting`,
                       })
                     "
                     v-if="permissionPrecise.edit()"

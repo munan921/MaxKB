@@ -38,7 +38,7 @@
           type="primary"
           @click="
             router.push({
-              path: `/knowledge/${data?.id}/${folderId}/document`,
+              path: `/knowledge/${data?.id}/${folderId}/${type}/document`,
             })
           "
           >{{ $t('views.knowledge.ResultSuccess.buttons.toDocument') }}</el-button
@@ -96,7 +96,7 @@ const props = defineProps({
 const router = useRouter()
 const route = useRoute()
 const {
-  params: { id, folderId }, // id为knowledgeID
+  params: { id, folderId, type }, // id为knowledgeID
 } = route as any
 
 const apiType = computed(() => {

@@ -71,7 +71,7 @@ const documentsType = computed(() => knowledge.documentsType)
 const router = useRouter()
 const route = useRoute()
 const {
-  params: { folderId },
+  params: { folderId, type }, // type为知识库类型的类型
   query: { id }, // id为knowledgeID，有id的是上传文档
 } = route
 
@@ -110,7 +110,7 @@ async function next() {
             MsgSuccess(t('common.submitSuccess'))
             clearStore()
             router.push({
-              path: `/knowledge/${id}/${folderId}/document`,
+              path: `/knowledge/${id}/${folderId}/${type}/document`,
             })
           })
       }
@@ -129,7 +129,7 @@ async function next() {
             MsgSuccess(t('common.submitSuccess'))
             clearStore()
             router.push({
-              path: `/knowledge/${id}/${folderId}/document`,
+              path: `/knowledge/${id}/${folderId}/${type}/document`,
             })
           })
       }
@@ -172,7 +172,7 @@ function submit() {
         MsgSuccess(t('common.submitSuccess'))
         clearStore()
         router.push({
-          path: `/knowledge/${id}/${folderId}/document`,
+          path: `/knowledge/${id}/${folderId}/${type}/document`,
         })
       })
       .catch(() => {

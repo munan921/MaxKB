@@ -365,9 +365,7 @@ const publish = () => {
       const node = res.node
       const err_message = res.errMessage
       if (typeof err_message == 'string') {
-        MsgError(
-          res.node.properties?.stepName + ` ${t('views.workflow.node')}，` + err_message,
-        )
+        MsgError(res.node.properties?.stepName + ` ${t('views.workflow.node')}，` + err_message)
       } else {
         const keys = Object.keys(err_message)
         MsgError(
@@ -402,9 +400,7 @@ const clickShowDebug = () => {
       const node = res.node
       const err_message = res.errMessage
       if (typeof err_message == 'string') {
-        MsgError(
-          res.node.properties?.stepName + ` ${t('views.workflow.node')}，` + err_message,
-        )
+        MsgError(res.node.properties?.stepName + ` ${t('views.workflow.node')}，` + err_message)
       } else {
         const keys = Object.keys(err_message)
         MsgError(
@@ -499,7 +495,9 @@ const go = () => {
 }
 
 const get_resource_management_route = () => {
-  return `/knowledge/${from}/${id}/WORK_FLOW/document`
+  return `/knowledge/${id}/${folderId}/4/document`
+
+  // return `/system/resource-management/knowledge`
 }
 
 const get_route = () => {

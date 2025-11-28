@@ -12,7 +12,7 @@
                   type="primary"
                   @click="
                     router.push({
-                      path: `/knowledge/document/upload/${folderId}`,
+                      path: `/knowledge/document/upload/${folderId}/${type}`,
                       query: { id: id },
                     })
                   "
@@ -29,7 +29,7 @@
                   type="primary"
                   @click="
                     router.push({
-                      path: `/knowledge/import/${folderId}`,
+                      path: `/knowledge/import/${folderId}/${type}`,
                       query: {
                         id: id,
                         folder_token: knowledgeDetail?.meta.folder_token,
@@ -739,7 +739,7 @@ import AddTagDialog from '@/views/document/tag/MulAddTagDialog.vue'
 const route = useRoute()
 const router = useRouter()
 const {
-  params: { id, folderId }, // id为knowledgeID
+  params: { id, folderId, type }, // id为knowledgeID
 } = route as any
 const { common } = useStore()
 const storeKey = 'documents'

@@ -27,14 +27,14 @@ const ModelRouter = {
 
     // 上传文档
     {
-      path: '/knowledge/document/upload/:folderId',
+      path: '/knowledge/document/upload/:folderId/:type',
       name: 'UploadDocument',
       meta: { activeMenu: '/knowledge' },
       component: () => import('@/views/document/UploadDocument.vue'),
       hidden: true,
     },
     {
-      path: '/knowledge/import/:folderId',
+      path: '/knowledge/import/:folderId/:type',
       name: 'ImportLarkDocument',
       meta: { activeMenu: '/knowledge' },
       component: () => import('@/views/document/ImportLarkDocument.vue'),
