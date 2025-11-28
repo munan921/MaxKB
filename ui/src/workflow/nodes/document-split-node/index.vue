@@ -50,11 +50,26 @@
             />
           </el-select>
         </el-form-item>
-        <el-form-item :label="$t('子分块大小')">
-          <el-slider
+        <el-form-item>
+          <template #label>
+            <div class="flex">
+              <span>子分块长度</span>
+              <el-tooltip
+                effect="dark"
+                placement="top"
+              >
+                <template #content>
+                核心目标是平衡检索精度与召回效率 <br/>
+                •避免过短拆分：单块＜50 字易导致语义碎片化，检索时可能因缺少上下文无法匹配查询意图<br/>
+                •避免过长拆分：单块＞500 字会增加冗余信息，降低检索精准度，且占用更多存储和计算资源
+                </template>
+                <AppIcon iconName="app-warning" class="app-warning-icon"></AppIcon>
+              </el-tooltip>
+            </div>
+          </template>
+          <el-input-number
             v-model="form_data.chunk_size"
             show-input
-            :show-input-controls="false"
             :min="50"
             :max="100000"
           />
