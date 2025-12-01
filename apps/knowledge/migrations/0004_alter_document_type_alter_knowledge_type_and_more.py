@@ -53,7 +53,6 @@ class Migration(migrations.Migration):
             ],
             options={
                 'db_table': 'knowledge_workflow_version',
-                'unique_together': {('knowledge',)},
             },
         ),
     ]
