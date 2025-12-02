@@ -7,8 +7,8 @@ import os
 import socket
 import subprocess
 import sys
-import signal
-import time
+import tempfile
+import pwd
 import uuid_utils.compat as uuid
 from common.utils.logger import maxkb_logger
 from django.utils.translation import gettext_lazy as _
@@ -82,6 +82,7 @@ class ToolExecutor:
         err = '{"code":500,"msg":str(e),"data":None}'
         action_function = f'({function_name !a}, locals_v.get({function_name !a}))' if function_name else 'locals_v.popitem()'
         python_paths = CONFIG.get_sandbox_python_package_paths().split(',')
+        target_user = f'os.setgid({pwd.getpwnam(self.user).pw_gid});os.setuid({pwd.getpwnam(self.user).pw_uid});' if self.sandbox else ''
         _exec_code = f"""
 try:
     import os, sys, json, base64, builtins
@@ -92,19 +93,21 @@ try:
     keywords={keywords}
     globals_v={'{}'}
     os.environ.clear()
+    {target_user}
     exec({dedent(code_str)!a}, globals_v, locals_v)
     f_name, f = {action_function}
     for local in locals_v:
         globals_v[local] = locals_v[local]
     exec_result=f(**keywords)
-    builtins.print("\\n{_id}:"+base64.b64encode(json.dumps({success}, default=str).encode()).decode())
+    builtins.print("\\n{_id}:"+base64.b64encode(json.dumps({success}, default=str).encode()).decode(), flush=True)
 except Exception as e:
-    builtins.print("\\n{_id}:"+base64.b64encode(json.dumps({err}, default=str).encode()).decode())
+    builtins.print("\\n{_id}:"+base64.b64encode(json.dumps({err}, default=str).encode()).decode(), flush=True)
 """
-        if self.sandbox:
-            subprocess_result = self._exec_sandbox(_exec_code)
-        else:
-            subprocess_result = self._exec(_exec_code)
+        with tempfile.NamedTemporaryFile(mode='w', suffix='.py', delete=True) as f:
+            maxkb_logger.debug(f"Sandbox execute code: {_exec_code}")
+            f.write(_exec_code)
+            f.flush()
+            subprocess_result = self._exec(f.name)
         if subprocess_result.returncode != 0:
             raise Exception(subprocess_result.stderr or subprocess_result.stdout or "Unknown exception occurred")
         lines = subprocess_result.stdout.splitlines()
@@ -225,40 +228,18 @@ exec({dedent(code)!a})
             }
         return tool_config
 
-    def _exec_sandbox(self, _code):
+    def _exec(self, execute_file):
         kwargs = {'cwd': BASE_DIR, 'env': {
             'LD_PRELOAD': self.sandbox_so_path,
         }}
-        maxkb_logger.debug(f"Sandbox execute code: {_code}")
-        compressed_and_base64_encoded_code_str = base64.b64encode(gzip.compress(_code.encode())).decode()
-        cmd = [
-            'su', '-s', python_directory, '-c',
-            f'import base64,gzip; exec(gzip.decompress(base64.b64decode(\'{compressed_and_base64_encoded_code_str}\')).decode())',
-            self.user
-        ]
         try:
-            proc = subprocess.Popen(
-                cmd,
-                stdout=subprocess.PIPE,
-                stderr=subprocess.PIPE,
+            subprocess_result = subprocess.run(
+                [python_directory, execute_file],
+                timeout=self.process_timeout_seconds,
                 text=True,
-                **kwargs,
-                start_new_session=True
-            )
-            proc.wait(timeout=self.process_timeout_seconds)
-            return subprocess.CompletedProcess(
-                proc.args,
-                proc.returncode,
-                proc.stdout.read(),
-                proc.stderr.read()
-            )
+                capture_output=True, **kwargs)
+            return subprocess_result
         except subprocess.TimeoutExpired:
-            pgid = os.getpgid(proc.pid)
-            os.killpg(pgid, signal.SIGTERM) #温和终止
-            time.sleep(1) #留出短暂时间让进程清理
-            if proc.poll() is None: #如果仍未终止，强制终止
-                os.killpg(pgid, signal.SIGKILL)
-            proc.wait()
             raise Exception(_(f"Process execution timed out after {self.process_timeout_seconds} seconds."))
 
     def validate_mcp_transport(self, code_str):
@@ -267,6 +248,3 @@ exec({dedent(code)!a})
             if config.get('transport') not in ['sse', 'streamable_http']:
                 raise Exception(_('Only support transport=sse or transport=streamable_http'))
 
-    @staticmethod
-    def _exec(_code):
-        return subprocess.run([python_directory, '-c', _code], text=True, capture_output=True)
