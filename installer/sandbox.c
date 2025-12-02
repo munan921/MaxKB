@@ -86,9 +86,10 @@ static int is_sandbox_user() {
     return 0;
 }
 /**
- * 匹配黑名单（用于域名或具体字符串匹配）
+ * 限制网络访问
  */
-static int match_env_patterns(const char *target, const char *env_val) {
+// ------------------ 匹配 域名 黑名单 ------------------
+static int match_banned_domain(const char *target, const char *env_val) {
     if (!target || !env_val || !*env_val) return 0;
     char *patterns = strdup(env_val);
     char *token = strtok(patterns, ",");
@@ -115,7 +116,7 @@ static int match_env_patterns(const char *target, const char *env_val) {
     free(patterns);
     return matched;
 }
-// ------------------ IP/CIDR 黑名单 ------------------
+// ------------------ 匹配 IP/CIDR 黑名单 ------------------
 static int match_banned_ip(const char *ip_str, const char *banned_list) {
     if (!ip_str || !banned_list || !*banned_list) return 0;
     char *list = strdup(banned_list);
@@ -186,7 +187,7 @@ int getaddrinfo(const char *node, const char *service,
                     inet_pton(AF_INET6, node, &ipv6) == 1;
         if (!is_ip) {
             // 仅对域名进行阻塞
-            if (match_env_patterns(node, banned_hosts)) {
+            if (match_banned_domain(node, banned_hosts)) {
                 fprintf(stderr, "[sandbox] 🚫 Access to host %s is banned (DNS blocked)\n", node);
                 return EAI_FAIL;
             }
@@ -194,7 +195,9 @@ int getaddrinfo(const char *node, const char *service,
     }
     return real_getaddrinfo(node, service, hints, res);
 }
-/* ------------------ 禁止创建子进程------------------ */
+/**
+ * 限制创建子进程
+ */
 static int allow_create_subprocess() {
     ensure_config_loaded();
     return allow_subprocess || !is_sandbox_user();
