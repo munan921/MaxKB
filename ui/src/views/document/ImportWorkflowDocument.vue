@@ -14,7 +14,7 @@
                 :is="ak[active]"
                 v-model:loading="loading"
                 :workflow="_workflow"
-                :knowledge_id="knowledgeId"
+                :knowledge_id="id"
                 :id="action_id"
               ></component>
             </keep-alive>
