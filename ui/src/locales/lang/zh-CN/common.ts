@@ -62,6 +62,7 @@ export default {
     existingExtensionsTip: '文件后缀已存在',
     localUpload: '本地文件',
     urlUpload: 'URL 地址',
+    uploadMethodTip: '请选择上传方式'
   },
   status: {
     label: '状态',

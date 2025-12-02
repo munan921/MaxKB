@@ -341,6 +341,10 @@ const handleInputConfirm = () => {
 
 async function submit() {
   const formEl = fieldFormRef.value
+  if (!form_data.value.local_upload && !form_data.value.url_upload) {
+    MsgWarning(t('common.fileUpload.uploadMethodTip'))
+    return
+  }
   if (!formEl) return
   await formEl.validate().then(() => {
     const formattedData = cloneDeep(form_data.value)

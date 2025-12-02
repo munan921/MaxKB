@@ -60,6 +60,7 @@ export default {
     existingExtensionsTip: 'The following extensions already exist',
     localUpload: 'Local Files',
     urlUpload: 'URL',
+    uploadMethodTip: 'Please select upload method',
   },
   status: {
     label: 'Status',
