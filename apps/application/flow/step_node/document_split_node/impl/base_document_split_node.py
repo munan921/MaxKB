@@ -8,7 +8,7 @@ from django.core.files.uploadedfile import InMemoryUploadedFile
 from application.flow.i_step_node import NodeResult
 from application.flow.step_node.document_split_node.i_document_split_node import IDocumentSplitNode
 from common.chunk import text_to_chunk
-from knowledge.serializers.document import default_split_handle, FileBufferHandle
+from knowledge.serializers.document import default_split_handle, FileBufferHandle, md_qa_split_handle
 
 
 def bytes_to_uploaded_file(file_bytes, file_name="file.txt"):
@@ -65,7 +65,11 @@ class BaseDocumentSplitNode(IDocumentSplitNode):
             get_buffer = FileBufferHandle().get_buffer
 
             file_mem = bytes_to_uploaded_file(doc['content'].encode('utf-8'))
-            result = default_split_handle.handle(file_mem, patterns, with_filter, limit, get_buffer, self._save_image)
+            if split_strategy == 'qa':
+                result = md_qa_split_handle.handle(file_mem, get_buffer, self._save_image)
+            else:
+                result = default_split_handle.handle(file_mem, patterns, with_filter, limit, get_buffer,
+                                                     self._save_image)
             # 统一处理结果为列表
             results = result if isinstance(result, list) else [result]
 
@@ -102,7 +106,7 @@ class BaseDocumentSplitNode(IDocumentSplitNode):
         }
         item['name'] = file_name
         item['source_file_id'] = source_file_id
-        item['paragraphs'] = item.pop('content', [])
+        item['paragraphs'] = item.pop('content', item.get('paragraphs', []))
 
         for paragraph in item['paragraphs']:
             paragraph['problem_list'] = self._generate_problem_list(
@@ -126,7 +130,11 @@ class BaseDocumentSplitNode(IDocumentSplitNode):
         if document_name_relate_problem_type == 'referencing':
             document_name_relate_problem = self.get_reference_content(document_name_relate_problem_reference)
 
-        problem_list = []
+        problem_list = [
+            item for p in paragraph.get('problem_list', []) for item in p.get('content', '').split('<br>')
+            if item.strip()
+        ]
+
         if split_strategy == 'auto':
             if paragraph_title_relate_problem and paragraph.get('title'):
                 problem_list.append(paragraph.get('title'))
@@ -141,7 +149,7 @@ class BaseDocumentSplitNode(IDocumentSplitNode):
             if document_name_relate_problem and document_name:
                 problem_list.append(document_name)
 
-        return problem_list
+        return list(set(problem_list))
 
     def get_details(self, index: int, **kwargs):
         return {
