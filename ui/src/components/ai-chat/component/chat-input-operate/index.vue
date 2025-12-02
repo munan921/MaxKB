@@ -384,24 +384,25 @@
             }}
           </el-button>
         </div>
-        <el-divider style="margin: 16px 0"/>
-        <el-upload
-          v-if="props.applicationDetails.file_upload_setting.local_upload"
-          action="#"
-          multiple
-          :auto-upload="false"
-          :show-file-list="false"
-          :accept="getAcceptList()"
-          :on-change="(file: any, fileList: any) => uploadFile(file, fileList)"
-          v-model:file-list="fileAllList"
-          ref="upload"
-          class="import-button"
-        >
-          <el-button class="w-full url-upload-button">{{
-              $t('chat.uploadFile.localUpload')
-            }}
-          </el-button>
-        </el-upload>
+        <div v-if="props.applicationDetails.file_upload_setting.local_upload">
+          <el-divider style="margin: 16px 0"/>
+          <el-upload
+            action="#"
+            multiple
+            :auto-upload="false"
+            :show-file-list="false"
+            :accept="getAcceptList()"
+            :on-change="(file: any, fileList: any) => uploadFile(file, fileList)"
+            v-model:file-list="fileAllList"
+            ref="upload"
+            class="import-button"
+          >
+            <el-button class="w-full url-upload-button">{{
+                $t('chat.uploadFile.localUpload')
+              }}
+            </el-button>
+          </el-upload>
+        </div>
       </el-card>
     </div>
   </div>
