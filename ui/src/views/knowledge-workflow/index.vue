@@ -50,7 +50,7 @@
           <template #dropdown>
             <el-dropdown-menu>
               <el-dropdown-item @click="toImportDoc">
-                <AppIcon iconName="app-create-chat" class="color-secondary"></AppIcon>
+                <AppIcon iconName="app-import-doc" class="color-secondary"></AppIcon>
                 {{ $t('views.workflow.operation.toImportDoc') }}
               </el-dropdown-item>
 
