@@ -298,6 +298,19 @@ You are a master of problem optimization, adept at accurately inferring user int
         requiredMessage: 'Please select an image',
       },
     },
+    videoUnderstandNode: {
+      label: 'Video Understanding',
+      text: 'Identify objects, scenes, and other information in videos to answer user questions',
+      answer: 'AI Response Content',
+      model: {
+        label: 'Vision Model',
+        requiredMessage: 'Please select a vision model',
+      },
+      image: {
+        label: 'Select Video',
+        requiredMessage: 'Please select a video',
+      },
+    },
     variableAssignNode: {
       label: 'Variable Assign',
       text: 'Update the value of the global variable',

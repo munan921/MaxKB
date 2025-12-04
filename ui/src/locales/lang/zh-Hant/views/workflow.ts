@@ -284,6 +284,19 @@ export default {
       title1: '分段標題設置為分段的關聯問題',
       title2: '文檔名稱設置為分段的關聯問題',
     },
+    videoUnderstandNode: {
+      label: '视频理解',
+      text: '识别出视频中的对象、场景等信息回答用户问题',
+      answer: 'AI 回答内容',
+      model: {
+        label: '视觉模型',
+        requiredMessage: '请选择视觉模型',
+      },
+      image: {
+        label: '选择视频',
+        requiredMessage: '请选择视频',
+      },
+    },
     imageUnderstandNode: {
       label: '圖片理解',
       text: '識別出圖片中的物件、場景等信息回答用戶問題',
@@ -456,13 +469,13 @@ export default {
       loopIndex: '下標',
       loopItem: '循環元素',
     },
-    loopBodyNode: { label: '循環體', text: '循環體' },
+    loopBodyNode: {label: '循環體', text: '循環體'},
     loopContinueNode: {
       label: 'Continue',
       text: '用於終止當前循環，執行下次循環',
       isContinue: 'Continue',
     },
-    loopBreakNode: { label: 'Break', text: '終止當前循環，跳出循環體', isBreak: 'Break' },
+    loopBreakNode: {label: 'Break', text: '終止當前循環，跳出循環體', isBreak: 'Break'},
     variableSplittingNode: {
       label: '變量拆分',
       text: '通過配置 JSON Path 表達式，對輸入的 JSON 格式變量進行解析和拆分',
