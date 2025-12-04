@@ -370,12 +370,6 @@ class KnowledgeSerializer(serializers.Serializer):
         def edit(self, instance: Dict, select_one=True):
             self.is_valid()
             knowledge = QuerySet(Knowledge).get(id=self.data.get("knowledge_id"))
-            if QuerySet(Knowledge).filter(
-                    workspace_id=knowledge.workspace_id,
-                    name=instance.get('name'),
-                    folder_id=knowledge.folder_id
-            ).exclude(id=knowledge.id).exists():
-                raise AppApiException(500, _('Knowledge base name duplicate!'))
             KnowledgeEditRequest(data=instance).is_valid(knowledge=knowledge)
             if 'embedding_model_id' in instance:
                 knowledge.embedding_model_id = instance.get('embedding_model_id')
@@ -542,10 +536,6 @@ class KnowledgeSerializer(serializers.Serializer):
                 self.is_valid(raise_exception=True)
                 KnowledgeBaseCreateRequest(data=instance).is_valid(raise_exception=True)
             folder_id = instance.get('folder_id', self.data.get('workspace_id'))
-            if QuerySet(Knowledge).filter(workspace_id=self.data.get('workspace_id'),
-                                          folder_id=folder_id,
-                                          name=instance.get('name')).exists():
-                raise AppApiException(500, _('Knowledge base name duplicate!'))
 
             knowledge_id = uuid.uuid7()
             knowledge = Knowledge(
@@ -609,10 +599,6 @@ class KnowledgeSerializer(serializers.Serializer):
                 KnowledgeWebCreateRequest(data=instance).is_valid(raise_exception=True)
 
             folder_id = instance.get('folder_id', self.data.get('workspace_id'))
-            if QuerySet(Knowledge).filter(workspace_id=self.data.get('workspace_id'),
-                                          folder_id=folder_id,
-                                          name=instance.get('name')).exists():
-                raise AppApiException(500, _('Knowledge base name duplicate!'))
 
             knowledge_id = uuid.uuid7()
             knowledge = Knowledge(

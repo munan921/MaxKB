@@ -127,10 +127,6 @@ class KnowledgeWorkflowSerializer(serializers.Serializer):
             self.is_valid(raise_exception=True)
 
             folder_id = instance.get('folder_id', self.data.get('workspace_id'))
-            if QuerySet(Knowledge).filter(
-                    workspace_id=self.data.get('workspace_id'), folder_id=folder_id, name=instance.get('name')
-            ).exists():
-                raise AppApiException(500, _('Knowledge base name duplicate!'))
 
             knowledge_id = uuid.uuid7()
             knowledge = Knowledge(
