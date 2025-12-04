@@ -797,7 +797,6 @@ class ToolSerializer(serializers.Serializer):
             res = requests.get(download_url, timeout=5)
             tool_data = RestrictedUnpickler(io.BytesIO(res.content)).load().tool
             tool_id = uuid.uuid7()
-            print(instance.get('tool_type'))
             tool = Tool(
                 id=tool_id,
                 name=instance.get('name'),
