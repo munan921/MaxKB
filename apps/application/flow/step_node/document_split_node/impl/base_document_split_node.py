@@ -147,10 +147,10 @@ class BaseDocumentSplitNode(IDocumentSplitNode):
             if document_name_relate_problem and document_name:
                 problem_list.append(document_name)
         elif split_strategy == 'custom':
-            if paragraph_title_relate_problem:
-                problem_list.extend(paragraph_title_relate_problem)
-            if document_name_relate_problem:
-                problem_list.extend(document_name_relate_problem)
+            if paragraph_title_relate_problem and paragraph.get('title'):
+                problem_list.extend(paragraph.get('title'))
+            if document_name_relate_problem and document_name:
+                problem_list.extend(document_name)
         elif split_strategy == 'qa':
             if document_name_relate_problem and document_name:
                 problem_list.append(document_name)
