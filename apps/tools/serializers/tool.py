@@ -797,6 +797,7 @@ class ToolSerializer(serializers.Serializer):
             res = requests.get(download_url, timeout=5)
             tool_data = RestrictedUnpickler(io.BytesIO(res.content)).load().tool
             tool_id = uuid.uuid7()
+            print(instance.get('tool_type'))
             tool = Tool(
                 id=tool_id,
                 name=instance.get('name'),
@@ -808,7 +809,7 @@ class ToolSerializer(serializers.Serializer):
                 input_field_list=tool_data.get('input_field_list', []),
                 init_field_list=tool_data.get('init_field_list', []),
                 scope=ToolScope.WORKSPACE,
-                tool_type=instance.get('tool_type', ToolType.CUSTOM),
+                tool_type=tool_data.get('tool_type', ToolType.CUSTOM),
                 folder_id=instance.get('folder_id', self.data.get('workspace_id')),
                 template_id=self.data.get('tool_id'),
                 label=instance.get('label'),
