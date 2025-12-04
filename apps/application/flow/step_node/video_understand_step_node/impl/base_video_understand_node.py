@@ -159,7 +159,7 @@ class BaseVideoUnderstandNode(IVideoUnderstandNode):
         for data in chat_record.details.values():
             if self.node.id == data['node_id'] and 'video_list' in data:
                 video_list = data['video_list']
-                if len(video_list) == 0 or data['dialogue_type'] == 'WORKFLOW':
+                if video_list is None or len(video_list) == 0 or data['dialogue_type'] == 'WORKFLOW':
                     return HumanMessage(content=chat_record.problem_text)
                 file_id_list = []
                 url_list = []
