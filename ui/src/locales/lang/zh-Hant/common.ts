@@ -128,4 +128,12 @@ export default {
   variable: '變量',
   allCheck: '全選',
   type: '類型',
+  pages: {
+    prev: '上一條',
+    next: '下一條',
+  },
+  steps: {
+    prev: '上一步',
+    next: '下一步',
+  },
 }

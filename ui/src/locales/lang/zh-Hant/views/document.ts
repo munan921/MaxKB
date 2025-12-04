@@ -90,8 +90,6 @@ export default {
     },
   },
   buttons: {
-    prev: '上一步',
-    next: '下一步',
     import: '開始導入',
     preview: '生成預覽',
     continueImporting: '繼續導入文檔',

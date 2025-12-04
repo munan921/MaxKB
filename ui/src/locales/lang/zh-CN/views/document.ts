@@ -88,8 +88,6 @@ export default {
     },
   },
   buttons: {
-    prev: '上一步',
-    next: '下一步',
     import: '开始导入',
     preview: '生成预览',
     continueImporting: '继续导入文档',

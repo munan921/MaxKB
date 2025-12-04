@@ -29,7 +29,7 @@
         $t('common.cancel')
       }}</el-button>
       <el-button @click="prev" v-if="active === 1" :disabled="SetRulesRef?.loading || loading">{{
-        $t('views.document.buttons.prev')
+        $t('common.steps.prev')
       }}</el-button>
       <el-button
         @click="next"
@@ -39,7 +39,7 @@
       >
         {{
           documentsType === 'txt'
-            ? $t('views.document.buttons.next')
+            ? $t('common.steps.next')
             : $t('views.document.buttons.import')
         }}
       </el-button>

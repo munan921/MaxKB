@@ -129,4 +129,12 @@ export default {
   variable: 'Variable',
   allCheck: 'Select All',
   type: 'Type',
+  pages: {
+    prev: 'Previous',
+    next: 'Next',
+  },
+  steps: {
+    prev: 'Previous',
+    next: 'Next',
+  },
 }

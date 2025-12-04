@@ -33,14 +33,14 @@
         :loading="loading"
         @click="up"
       >
-        {{ $t('views.document.buttons.prev') }}</el-button
+        {{ $t('common.steps.prev') }}</el-button
       >
       <el-button
         v-if="base_form_list.length > 0 && active == 'data_source'"
         :disabled="loading"
         @click="next"
       >
-        {{ $t('views.document.buttons.next') }}
+        {{ $t('common.steps.next') }}
       </el-button>
       <el-button
         v-if="base_form_list.length > 0 ? active == 'knowledge_base' : active == 'data_source'"

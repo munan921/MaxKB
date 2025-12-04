@@ -92,8 +92,6 @@ export default {
     },
   },
   buttons: {
-    prev: 'Previous',
-    next: 'Next',
     import: 'Start Import',
     preview: 'Apply',
     continueImporting: 'Continue Importing Documents',

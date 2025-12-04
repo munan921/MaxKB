@@ -130,4 +130,12 @@ export default {
   variable: '变量',
   allCheck: '全选',
   type: '类型',
+  pages: {
+    prev: '上一条',
+    next: '下一条',
+  },
+  steps: {
+    prev: '上一步',
+    next: '下一步',
+  },
 }
