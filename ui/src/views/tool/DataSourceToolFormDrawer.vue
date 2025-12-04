@@ -283,11 +283,6 @@ const codeTemplate = `
 from typing import Dict, List
 
 
-def get_call_url(node, function_name):
-    return '/workspace/\${current_workspace_id}/knowledge/\${current_knowledge_id}/datasource/tool/' + node.get(
-        'properties').get('node_data').get('tool_lib_id') + f'/{function_name}'
-
-
 def get_form_list(node, **kwargs) -> List[Dict[str, object]]:
     """获取文件列表表单配置
 
@@ -307,7 +302,7 @@ def get_form_list(node, **kwargs) -> List[Dict[str, object]]:
         "input_type": 'Tree',
         "attrs": {
             "lazy": True,
-            "url": get_call_url(node, 'get_file_list'),
+            "fetch_list_function": "get_file_list",
         },
         "label": '',
     }]

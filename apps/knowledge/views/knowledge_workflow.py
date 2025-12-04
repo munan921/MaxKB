@@ -32,8 +32,20 @@ class KnowledgeDatasourceFormListView(APIView):
         ),
     )
     def post(self, request: Request, workspace_id: str, knowledge_id: str, type: str, id: str):
-        return result.success(KnowledgeWorkflowSerializer.Datasource(
-            data={'type': type, 'id': id, 'params': request.data, 'function_name': 'get_form_list'}).action())
+        r = KnowledgeWorkflowSerializer.Datasource(
+            data={'type': type, 'id': id, 'params': request.data, 'function_name': 'get_form_list'}
+        ).action()
+        for item in r:
+            attrs = item.get('attrs')
+            if attrs:
+                function = attrs.pop('fetch_list_function', None)
+                if function and callable(function):
+                    function_name = function.__name__
+                else:
+                    function_name = function
+                attrs[
+                    'url'] = '/workspace/${current_workspace_id}/knowledge/${current_knowledge_id}/datasource/tool/' + f'{id}/{function_name}'
+        return result.success(r)
 
 
 class KnowledgeDatasourceView(APIView):
