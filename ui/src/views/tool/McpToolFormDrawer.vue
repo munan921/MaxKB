@@ -17,7 +17,7 @@
         v-loading="loading"
         @submit.prevent
       >
-        <el-form-item :label="$t('views.tool.form.mcpName.label')" prop="name">
+        <el-form-item :label="$t('common.name')" prop="name">
           <div class="flex w-full">
             <div
               v-if="form.id"
@@ -253,7 +253,7 @@ const submit = async (formEl: FormInstance | undefined) => {
           throw new Error('Code must be a valid JSON object')
         }
       } catch (e) {
-        MsgError(t('views.workflow.nodes.mcpNode.mcpServerTip'))
+        MsgError(t('workflow.nodes.mcpNode.mcpServerTip'))
         return
       }
       loading.value = true

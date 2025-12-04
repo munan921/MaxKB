@@ -126,7 +126,7 @@
                   @change="search_type_change"
                 >
                   <el-option :label="$t('dynamicsForm.tag.label')" value="tag" />
-                  <el-option :label="$t('views.tool.form.toolName.label')" value="name" />
+                  <el-option :label="$t('common.name')" value="name" />
                 </el-select>
                 <el-input
                   v-if="search_type === 'name'"
@@ -211,19 +211,19 @@
                           :class="filterMethod['status'] ? '' : 'is-active'"
                           :command="beforeCommand('status', '')"
                           class="justify-center"
-                          >{{ $t('views.document.table.all') }}
+                          >{{ $t('common.status.all') }}
                         </el-dropdown-item>
                         <el-dropdown-item
                           :class="filterMethod['status'] === State.SUCCESS ? 'is-active' : ''"
                           class="justify-center"
                           :command="beforeCommand('status', State.SUCCESS)"
-                          >{{ $t('views.document.fileStatus.SUCCESS') }}
+                          >{{ $t('common.status.success') }}
                         </el-dropdown-item>
                         <el-dropdown-item
                           :class="filterMethod['status'] === State.FAILURE ? 'is-active' : ''"
                           class="justify-center"
                           :command="beforeCommand('status', State.FAILURE)"
-                          >{{ $t('views.document.fileStatus.FAILURE') }}
+                          >{{ $t('common.status.fail') }}
                         </el-dropdown-item>
                         <el-dropdown-item
                           :class="
@@ -303,7 +303,7 @@
                           :class="filterMethod['is_active'] === '' ? 'is-active' : ''"
                           :command="beforeCommand('is_active', '')"
                           class="justify-center"
-                          >{{ $t('views.document.table.all') }}
+                          >{{ $t('common.status.all') }}
                         </el-dropdown-item>
                         <el-dropdown-item
                           :class="filterMethod['is_active'] === true ? 'is-active' : ''"
@@ -359,7 +359,7 @@
                           :class="filterMethod['hit_handling_method'] ? '' : 'is-active'"
                           :command="beforeCommand('hit_handling_method', '')"
                           class="justify-center"
-                          >{{ $t('views.document.table.all') }}
+                          >{{ $t('common.status.all') }}
                         </el-dropdown-item>
                         <template v-for="(value, key) of hitHandlingMethod" :key="key">
                           <el-dropdown-item

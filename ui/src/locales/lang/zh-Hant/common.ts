@@ -60,7 +60,7 @@ export default {
     existingExtensionsTip: '文件後綴已存在',
     localUpload: '本地文件',
     urlUpload: 'URL 地址',
-    uploadMethodTip: '請選擇上傳方式'
+    uploadMethodTip: '請選擇上傳方式',
   },
   status: {
     label: '狀態',
@@ -71,6 +71,9 @@ export default {
     disableSuccess: '停用成功',
     published: '已發佈',
     unpublished: '未發佈',
+    success: '成功',
+    fail: '失敗',
+    all: '全部',
   },
   param: {
     outputParam: '輸出參數',
@@ -123,4 +126,6 @@ export default {
     placeholder: '請輸入提示詞',
   },
   variable: '變量',
+  allCheck: '全選',
+  type: '類型',
 }

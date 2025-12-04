@@ -1,6 +1,5 @@
 export default {
   title: '工具',
-  all: '全部',
   createTool: '创建工具',
   editTool: '編輯工具',
   createMcpTool: '建立MCP',
@@ -46,13 +45,11 @@ export default {
   },
   form: {
     toolName: {
-      label: '名稱',
       name: '工具名稱',
       placeholder: '請輸入工具名稱',
       requiredMessage: '請輸入工具名稱',
     },
     mcpName: {
-      label: '名稱',
       name: 'MCP名稱',
       placeholder: '請輸入MCP名稱',
       requiredMessage: '請輸入MCP名稱',

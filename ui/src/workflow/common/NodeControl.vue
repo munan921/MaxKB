@@ -18,10 +18,10 @@
     <el-button link @click="zoomOut" style="border: none">
       <el-tooltip
         effect="dark"
-        :content="$t('views.workflow.control.zoomOut')"
+        :content="$t('workflow.control.zoomOut')"
         placement="top"
       >
-        <el-icon :size="16" :title="$t('views.workflow.control.zoomOut')"
+        <el-icon :size="16" :title="$t('workflow.control.zoomOut')"
           ><ZoomOut
         /></el-icon>
       </el-tooltip>
@@ -29,10 +29,10 @@
     <el-button link @click="zoomIn" style="border: none">
       <el-tooltip
         effect="dark"
-        :content="$t('views.workflow.control.zoomIn')"
+        :content="$t('workflow.control.zoomIn')"
         placement="top"
       >
-        <el-icon :size="16" :title="$t('views.workflow.control.zoomIn')"
+        <el-icon :size="16" :title="$t('workflow.control.zoomIn')"
           ><ZoomIn
         /></el-icon>
       </el-tooltip>
@@ -40,12 +40,12 @@
     <el-button link @click="fitView" style="border: none">
       <el-tooltip
         effect="dark"
-        :content="$t('views.workflow.control.fitView')"
+        :content="$t('workflow.control.fitView')"
         placement="top"
       >
         <AppIcon
           iconName="app-fitview"
-          :title="$t('views.workflow.control.fitView')"
+          :title="$t('workflow.control.fitView')"
         ></AppIcon>
       </el-tooltip>
     </el-button>
@@ -53,39 +53,39 @@
     <el-button link @click="retract" style="border: none">
       <el-tooltip
         effect="dark"
-        :content="$t('views.workflow.control.retract')"
+        :content="$t('workflow.control.retract')"
         placement="top"
       >
         <AppIcon
           style="font-size: 16px"
           iconName="app-retract"
-          :title="$t('views.workflow.control.retract')"
+          :title="$t('workflow.control.retract')"
         ></AppIcon>
       </el-tooltip>
     </el-button>
     <el-button link @click="extend" style="border: none">
       <el-tooltip
         effect="dark"
-        :content="$t('views.workflow.control.extend')"
+        :content="$t('workflow.control.extend')"
         placement="top"
       >
         <AppIcon
           style="font-size: 16px"
           iconName="app-extend"
-          :title="$t('views.workflow.control.extend')"
+          :title="$t('workflow.control.extend')"
         ></AppIcon>
       </el-tooltip>
     </el-button>
     <el-button link @click="layout" style="border: none">
       <el-tooltip
         effect="dark"
-        :content="$t('views.workflow.control.beautify')"
+        :content="$t('workflow.control.beautify')"
         placement="top"
       >
         <AppIcon
           style="font-size: 16px"
           iconName="app-beautify"
-          :title="$t('views.workflow.control.beautify')"
+          :title="$t('workflow.control.beautify')"
         ></AppIcon>
       </el-tooltip>
     </el-button>

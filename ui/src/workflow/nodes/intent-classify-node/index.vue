@@ -1,6 +1,6 @@
 <template>
   <NodeContainer :nodeModel="nodeModel">
-    <h5 class="title-decoration-1 mb-8">{{ $t('views.workflow.nodeSetting') }}</h5>
+    <h5 class="title-decoration-1 mb-8">{{ $t('workflow.nodeSetting') }}</h5>
     <el-card shadow="never" class="card-never" style="--el-card-padding: 12px">
       <el-form
         @submit.prevent
@@ -53,9 +53,9 @@
         </el-form-item>
         <el-form-item
           prop="content_list"
-          :label="$t('views.workflow.nodes.intentNode.input.label')"
+          :label="$t('workflow.nodes.intentNode.input.label')"
           :rules="{
-            message: $t('views.workflow.nodes.textToSpeechNode.content.label'),
+            message: $t('workflow.nodes.textToSpeechNode.content.label'),
             trigger: 'change',
             required: true,
           }"
@@ -64,7 +64,7 @@
             <div class="flex-between">
               <div>
                 <span
-                  >{{ $t('views.workflow.nodes.intentNode.input.label')
+                  >{{ $t('workflow.nodes.intentNode.input.label')
                   }}<span class="color-danger">*</span></span
                 >
               </div>
@@ -74,7 +74,7 @@
             ref="nodeCascaderRef"
             :nodeModel="nodeModel"
             class="w-full"
-            :placeholder="$t('views.workflow.nodes.textToSpeechNode.content.label')"
+            :placeholder="$t('workflow.nodes.textToSpeechNode.content.label')"
             v-model="form_data.content_list"
           />
         </el-form-item>
@@ -94,7 +94,7 @@
             <div class="flex-between">
               <div>
                 <span
-                  >{{ $t('views.workflow.nodes.intentNode.classify.label')
+                  >{{ $t('workflow.nodes.intentNode.classify.label')
                   }}<span class="color-danger">*</span></span
                 >
               </div>
@@ -287,7 +287,7 @@ const form = {
     },
     {
       id: randomId(),
-      content: t('views.workflow.nodes.intentNode.other'),
+      content: t('workflow.nodes.intentNode.other'),
       isOther: true,
     },
   ],
@@ -333,7 +333,7 @@ const validate = () => {
         form_data.value.branch.length !=
         new Set(form_data.value.branch.map((item: any) => item.content)).size
       ) {
-        throw t('views.workflow.nodes.intentNode.error2')
+        throw t('workflow.nodes.intentNode.error2')
       }
     })
     .catch((err: any) => {

@@ -1,6 +1,6 @@
 <template>
   <NodeContainer :nodeModel="nodeModel">
-    <h5 class="title-decoration-1 mb-8">{{ $t('views.workflow.nodeSetting') }}</h5>
+    <h5 class="title-decoration-1 mb-8">{{ $t('workflow.nodeSetting') }}</h5>
     <el-card shadow="never" class="card-never" style="--el-card-padding: 12px">
       <el-form
         @submit.prevent
@@ -71,7 +71,7 @@
             v-model="form_data.system"
             style="height: 100px"
             @submitDialog="submitSystemDialog"
-            :placeholder="`${t('views.workflow.SystemPromptPlaceholder')}{{${t('views.workflow.nodes.startNode.label')}.question}}`"
+            :placeholder="`${t('workflow.SystemPromptPlaceholder')}{{${t('workflow.nodes.startNode.label')}.question}}`"
           />
         </el-form-item>
         <el-form-item
@@ -103,7 +103,7 @@
             v-model="form_data.prompt"
             style="height: 150px"
             @submitDialog="submitDialog"
-            :placeholder="`${t('views.workflow.UserPromptPlaceholder')}{{${t('views.workflow.nodes.startNode.label')}.question}}`"
+            :placeholder="`${t('workflow.UserPromptPlaceholder')}{{${t('workflow.nodes.startNode.label')}.question}}`"
           />
         </el-form-item>
         <el-form-item :label="$t('views.application.form.historyRecord.label')">
@@ -118,18 +118,18 @@
           />
         </el-form-item>
         <el-form-item
-          :label="$t('views.workflow.nodes.aiChatNode.returnContent.label')"
+          :label="$t('workflow.nodes.aiChatNode.returnContent.label')"
           @click.prevent
           v-if="[WorkflowMode.Application, WorkflowMode.ApplicationLoop].includes(workflowMode)"
         >
           <template #label>
             <div class="flex align-center">
               <div class="mr-4">
-                <span>{{ $t('views.workflow.nodes.aiChatNode.returnContent.label') }}</span>
+                <span>{{ $t('workflow.nodes.aiChatNode.returnContent.label') }}</span>
               </div>
               <el-tooltip effect="dark" placement="right" popper-class="max-w-200">
                 <template #content>
-                  {{ $t('views.workflow.nodes.aiChatNode.returnContent.tooltip') }}
+                  {{ $t('workflow.nodes.aiChatNode.returnContent.tooltip') }}
                 </template>
                 <AppIcon iconName="app-warning" class="app-warning-icon"></AppIcon>
               </el-tooltip>
@@ -198,11 +198,11 @@ function submitSystemDialog(val: string) {
   set(props.nodeModel.properties.node_data, 'system', val)
 }
 
-const defaultPrompt = `{{${t('views.workflow.nodes.startNode.label')}.question}}`
+const defaultPrompt = `{{${t('workflow.nodes.startNode.label')}.question}}`
 
 const form = {
   model_id: '',
-  system: t('views.workflow.nodes.questionNode.systemDefault'),
+  system: t('workflow.nodes.questionNode.systemDefault'),
   prompt: defaultPrompt,
   dialogue_number: 1,
   is_result: false,

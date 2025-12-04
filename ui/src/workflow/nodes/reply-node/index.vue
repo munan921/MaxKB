@@ -9,17 +9,17 @@
         label-width="auto"
         ref="replyNodeFormRef"
       >
-        <el-form-item :label="$t('views.workflow.nodes.replyNode.replyContent')">
+        <el-form-item :label="$t('workflow.nodes.replyNode.replyContent')">
           <template #label>
             <div class="flex-between">
-              <span>{{ $t('views.workflow.nodes.replyNode.replyContent') }}</span>
+              <span>{{ $t('workflow.nodes.replyNode.replyContent') }}</span>
               <el-select
                 :teleported="false"
                 v-model="form_data.reply_type"
                 size="small"
                 style="width: 85px"
               >
-                <el-option :label="$t('views.workflow.variable.Referencing')" value="referencing" />
+                <el-option :label="$t('workflow.variable.Referencing')" value="referencing" />
                 <el-option :label="$t('common.custom')" value="content" />
               </el-select>
             </div>
@@ -28,7 +28,7 @@
           <MdEditorMagnify
             v-if="form_data.reply_type === 'content'"
             @wheel="wheel"
-            :title="$t('views.workflow.nodes.replyNode.replyContent')"
+            :title="$t('workflow.nodes.replyNode.replyContent')"
             v-model="form_data.content"
             style="height: 150px"
             @submitDialog="submitDialog"
@@ -38,23 +38,23 @@
             ref="nodeCascaderRef"
             :nodeModel="nodeModel"
             class="w-full"
-            :placeholder="$t('views.workflow.nodes.searchKnowledgeNode.searchQuestion.placeholder')"
+            :placeholder="$t('workflow.nodes.searchKnowledgeNode.searchQuestion.placeholder')"
             v-model="form_data.fields"
           />
         </el-form-item>
         <el-form-item
           v-if="[WorkflowMode.Application, WorkflowMode.ApplicationLoop].includes(workflowMode)"
-          :label="$t('views.workflow.nodes.aiChatNode.returnContent.label')"
+          :label="$t('workflow.nodes.aiChatNode.returnContent.label')"
           @click.prevent
         >
           <template #label>
             <div class="flex align-center">
               <div class="mr-4">
-                <span>{{ $t('views.workflow.nodes.aiChatNode.returnContent.label') }}</span>
+                <span>{{ $t('workflow.nodes.aiChatNode.returnContent.label') }}</span>
               </div>
               <el-tooltip effect="dark" placement="right" popper-class="max-w-200">
                 <template #content>
-                  {{ $t('views.workflow.nodes.aiChatNode.returnContent.tooltip') }}
+                  {{ $t('workflow.nodes.aiChatNode.returnContent.tooltip') }}
                 </template>
                 <AppIcon iconName="app-warning" class="app-warning-icon"></AppIcon>
               </el-tooltip>

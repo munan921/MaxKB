@@ -1,6 +1,6 @@
 <template>
   <NodeContainer :nodeModel="nodeModel">
-    <h5 class="title-decoration-1 mb-8">{{ $t('views.workflow.nodeSetting') }}</h5>
+    <h5 class="title-decoration-1 mb-8">{{ $t('workflow.nodeSetting') }}</h5>
     <div class="border-r-6 p-8-12 mb-8 layout-bg lighter">
       <el-form
         @submit.prevent
@@ -25,7 +25,7 @@
                 style="width: 85px"
               >
                 <el-option
-                  :label="$t('views.workflow.nodes.mcpNode.reference')"
+                  :label="$t('workflow.nodes.mcpNode.reference')"
                   value="referencing"
                 />
                 <el-option :label="$t('common.custom')" value="custom" />
@@ -78,7 +78,7 @@
               <span>{{ $t('views.tool.title') }}</span>
               <el-button type="primary" link @click="getTools()">
                 <AppIcon iconName="app-add-outlined" class="mr-4"></AppIcon>
-                {{ $t('views.workflow.nodes.mcpNode.getTool') }}
+                {{ $t('workflow.nodes.mcpNode.getTool') }}
               </el-button>
             </div>
           </template>
@@ -106,7 +106,7 @@
       </el-form>
     </div>
     <h5 class="title-decoration-1 mb-8">
-      {{ $t('views.workflow.nodes.mcpNode.toolParam') }}
+      {{ $t('workflow.nodes.mcpNode.toolParam') }}
     </h5>
     <template v-if="form_data.tool_params[form_data.params_nested]">
       <div class="p-8-12" v-if="!form_data.mcp_tool">
@@ -146,7 +146,7 @@
                   @change="form_data.tool_params[form_data.params_nested][item.label.label] = ''"
                 >
                   <el-option
-                    :label="$t('views.workflow.variable.Referencing')"
+                    :label="$t('workflow.variable.Referencing')"
                     value="referencing"
                   />
                   <el-option :label="$t('common.custom')" value="custom" />
@@ -175,7 +175,7 @@
               ref="nodeCascaderRef2"
               :nodeModel="nodeModel"
               class="w-full"
-              :placeholder="$t('views.workflow.variable.placeholder')"
+              :placeholder="$t('workflow.variable.placeholder')"
               v-model="form_data.tool_params[form_data.params_nested][item.label.label]"
             />
           </el-form-item>
@@ -220,7 +220,7 @@
                   @change="form_data.tool_params[item.label.label] = ''"
                 >
                   <el-option
-                    :label="$t('views.workflow.variable.Referencing')"
+                    :label="$t('workflow.variable.Referencing')"
                     value="referencing"
                   />
                   <el-option :label="$t('common.custom')" value="custom" />
@@ -249,7 +249,7 @@
               ref="nodeCascaderRef2"
               :nodeModel="nodeModel"
               class="w-full"
-              :placeholder="$t('views.workflow.variable.placeholder')"
+              :placeholder="$t('workflow.variable.placeholder')"
               v-model="form_data.tool_params[item.label.label]"
             />
           </el-form-item>
@@ -339,17 +339,17 @@ async function mcpToolSelectChange() {
 
 function getTools() {
   if (form_data.value.mcp_source === 'referencing' && !form_data.value.mcp_tool_id) {
-    MsgError(t('views.workflow.nodes.mcpNode.mcpToolTip'))
+    MsgError(t('workflow.nodes.mcpNode.mcpToolTip'))
     return
   }
   if (form_data.value.mcp_source === 'referencing' && form_data.value.mcp_tool_id) {
     if (!mcpToolSelectOptions.value.find((item) => item.id === form_data.value.mcp_tool_id)) {
-      MsgError(t('views.workflow.nodes.mcpNode.mcpToolTip'))
+      MsgError(t('workflow.nodes.mcpNode.mcpToolTip'))
       return
     }
   }
   if (form_data.value.mcp_source === 'custom' && !form_data.value.mcp_servers) {
-    MsgError(t('views.workflow.nodes.mcpNode.mcpServerTip'))
+    MsgError(t('workflow.nodes.mcpNode.mcpServerTip'))
     return
   }
   try {
@@ -360,7 +360,7 @@ function getTools() {
       return
     }
   } catch (e) {
-    MsgError(t('views.workflow.nodes.mcpNode.mcpServerTip'))
+    MsgError(t('workflow.nodes.mcpNode.mcpServerTip'))
     return
   }
   // 一切正常，获取tool
@@ -372,7 +372,7 @@ function _getTools(mcp_servers: any) {
     .getMcpTools(id, mcp_servers, loading)
     .then((res: any) => {
       form_data.value.mcp_tools = res.data
-      MsgSuccess(t('views.workflow.nodes.mcpNode.getToolsSuccess'))
+      MsgSuccess(t('workflow.nodes.mcpNode.getToolsSuccess'))
       // 修改了json，刷新mcp_server
       form_data.value.mcp_server = form_data.value.mcp_tools.find(
         (item: any) => item.name === form_data.value.mcp_tool,
@@ -563,13 +563,13 @@ const validate = async () => {
     if (!form.mcp_servers) {
       return Promise.reject({
         node: props.nodeModel,
-        errMessage: t('views.workflow.nodes.mcpNode.mcpServerTip'),
+        errMessage: t('workflow.nodes.mcpNode.mcpServerTip'),
       })
     }
     if (!form.mcp_tool) {
       return Promise.reject({
         node: props.nodeModel,
-        errMessage: t('views.workflow.nodes.mcpNode.mcpToolTip'),
+        errMessage: t('workflow.nodes.mcpNode.mcpToolTip'),
       })
     }
   }

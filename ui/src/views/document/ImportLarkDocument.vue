@@ -37,7 +37,7 @@
               <div class="card-never border-r-6 mb-16">
                 <el-checkbox
                   v-model="allCheck"
-                  :label="$t('views.document.feishu.allCheck')"
+                  :label="$t('common.allCheck')"
                   size="large"
                   class="ml-24"
                   @change="handleAllCheckChange"

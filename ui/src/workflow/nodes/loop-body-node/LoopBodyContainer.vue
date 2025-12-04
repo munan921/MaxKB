@@ -34,8 +34,8 @@
               class="mb-16"
               :title="
                 props.nodeModel.type === 'application-node'
-                  ? $t('views.workflow.tip.applicationNodeError')
-                  : $t('views.workflow.tip.functionNodeError')
+                  ? $t('workflow.tip.applicationNodeError')
+                  : $t('workflow.tip.functionNodeError')
               "
               type="error"
               show-icon
@@ -58,7 +58,7 @@
                   <span class="break-all">{{ item.label }} {{ '{' + item.value + '}' }}</span>
                   <el-tooltip
                     effect="dark"
-                    :content="$t('views.workflow.setting.copyParam')"
+                    :content="$t('workflow.setting.copyParam')"
                     placement="top"
                     v-if="showicon === index"
                   >
@@ -75,7 +75,7 @@
     </div>
 
     <el-dialog
-      :title="$t('views.workflow.nodeName')"
+      :title="$t('workflow.nodeName')"
       v-model="nodeNameDialogVisible"
       :close-on-click-modal="false"
       :close-on-press-escape="false"
@@ -163,7 +163,7 @@ const editName = async (formEl: FormInstance | undefined) => {
         nodeNameDialogVisible.value = false
         formEl.resetFields()
       } else {
-        ElMessage.error(t('views.workflow.tip.repeatedNodeError'))
+        ElMessage.error(t('workflow.tip.repeatedNodeError'))
       }
     }
   })

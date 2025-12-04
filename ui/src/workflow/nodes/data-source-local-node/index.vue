@@ -1,6 +1,6 @@
 <template>
   <NodeContainer :nodeModel="nodeModel">
-    <h5 class="title-decoration-1 mb-8">{{ $t('views.workflow.nodeSetting') }}</h5>
+    <h5 class="title-decoration-1 mb-8">{{ $t('workflow.nodeSetting') }}</h5>
     <el-card shadow="never" class="card-never">
       <el-form
         @submit.prevent
@@ -10,17 +10,17 @@
         label-width="auto"
       >
         <el-form-item
-          :label="$t('views.workflow.nodes.dataSourceLocalNode.fileFormat.label')"
+          :label="$t('workflow.nodes.dataSourceLocalNode.fileFormat.label')"
           :rules="{
             type: 'array',
             required: true,
-            message: $t('views.workflow.nodes.dataSourceLocalNode.fileFormat.requiredMessage'),
+            message: $t('workflow.nodes.dataSourceLocalNode.fileFormat.requiredMessage'),
             trigger: 'change',
           }"
         >
           <el-select
             v-model="form_data.file_type_list"
-            :placeholder="$t('views.workflow.nodes.dataSourceLocalNode.fileFormat.requiredMessage')"
+            :placeholder="$t('workflow.nodes.dataSourceLocalNode.fileFormat.requiredMessage')"
             class="w-240"
             clearable
             multiple
@@ -40,7 +40,7 @@
           </el-select>
         </el-form-item>
         <el-form-item
-          :label="$t('views.workflow.nodes.dataSourceLocalNode.maxFileNumber.label')"
+          :label="$t('workflow.nodes.dataSourceLocalNode.maxFileNumber.label')"
           :rules="{
             required: true,
             message: $t('common.inputPlaceholder'),
@@ -59,7 +59,7 @@
           />
         </el-form-item>
         <el-form-item
-          :label="$t('views.workflow.nodes.dataSourceLocalNode.maxFileCountNumber.label')"
+          :label="$t('workflow.nodes.dataSourceLocalNode.maxFileCountNumber.label')"
           :rules="{
             required: true,
             message: $t('common.inputPlaceholder'),

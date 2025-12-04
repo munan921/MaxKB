@@ -86,16 +86,16 @@ export default {
   nodes: {
     knowledgeWriteNode: {
       text: '知识库写入',
-      label: '知识库写入',
+      label: '将输入的分段列表写入当前知识库，并完成向量化处理',
     },
     dataSourceWebNode: {
       label: 'Web站点',
-      text: 'Web站点',
+      text: '输入根地址自动抓取 Web 数据（单链接对应单文档），输出含内容的文档列表',
       field_label: '文档列表',
     },
     dataSourceLocalNode: {
       label: '本地文件',
-      text: '本地文件',
+      text: '上传本地文档，输出文档列表（不解析内容，需配合 “文档内容提取” 节点解析）',
       fileList: '文件列表',
       fileFormat: {
         label: '支持的文件格式',
@@ -270,12 +270,12 @@ export default {
     },
     documentExtractNode: {
       label: '文档内容提取',
-      text: '提取文档中的内容',
+      text: '解析输入文档，输出结构化文档内容',
       content: '文档内容',
     },
     documentSplitNode: {
       label: '文档分段',
-      text: '将文档内容拆分为多个分段',
+      text: '按分段策略拆分输入文档内容，输出分段文本列表',
       paragraphList: '分段列表',
       splitStrategy: {
         label: '分段策略',
@@ -536,9 +536,6 @@ export default {
   },
   SystemPromptPlaceholder: '系统提示词，可以引用系统中的变量：如',
   UserPromptPlaceholder: '用户提示词，可以引用系统中的变量：如',
-  debug: {
-    executionResult: '执行结果',
-    executionSuccess: '执行成功',
-    executionFailed: '执行失败',
-  },
+  ExecutionRecord: '执行记录',
+  debug: {},
 }

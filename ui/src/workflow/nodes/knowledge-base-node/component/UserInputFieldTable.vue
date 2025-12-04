@@ -144,7 +144,7 @@ function deleteField(index: any) {
 function refreshFieldList(data: any, index: any) {
   for (let i = 0; i < inputFieldList.value.length; i++) {
     if (inputFieldList.value[i].field === data.field && index !== i) {
-      MsgError(t('views.workflow.tip.paramErrorMessage') + data.field)
+      MsgError(t('workflow.tip.paramErrorMessage') + data.field)
       return
     }
   }

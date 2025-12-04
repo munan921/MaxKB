@@ -116,13 +116,10 @@ export default {
     name: '文件名稱',
     char_length: '字符數',
     paragraph: '分段',
-    all: '全部',
     updateTime: '更新時間',
   },
   fileStatus: {
     label: '文件狀態',
-    SUCCESS: '成功',
-    FAILURE: '失敗',
     EMBEDDING: '索引中',
     PENDING: '排隊中',
     GENERATE: '生成中',
@@ -197,6 +194,5 @@ export default {
     selectDocument: '選擇文檔',
     tip1: '僅支持文檔和表格類型，文檔會根據標題分段，表格會轉為Markdown格式後再分段。',
     tip2: '導入文檔前，建議規範文檔的分段標識。',
-    allCheck: '全選',
   },
 }

@@ -23,7 +23,7 @@
         </el-input>
       </div>
 
-      <el-tab-pane :label="$t('views.workflow.baseComponent')" name="base">
+      <el-tab-pane :label="$t('workflow.baseComponent')" name="base">
         <el-scrollbar height="400">
           <div v-if="filter_menu_nodes.length > 0">
             <template v-for="(node, index) in filter_menu_nodes" :key="index">
@@ -67,7 +67,7 @@
             </template>
           </div>
           <div v-else class="ml-16 mt-8">
-            <el-text type="info">{{ $t('views.workflow.tip.noData') }}</el-text>
+            <el-text type="info">{{ $t('workflow.tip.noData') }}</el-text>
           </div>
         </el-scrollbar>
       </el-tab-pane>

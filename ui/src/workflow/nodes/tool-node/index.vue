@@ -1,6 +1,6 @@
 <template>
   <NodeContainer :nodeModel="nodeModel">
-    <h5 class="title-decoration-1 mb-16">{{ $t('views.workflow.nodeSetting') }}</h5>
+    <h5 class="title-decoration-1 mb-16">{{ $t('workflow.nodeSetting') }}</h5>
     <div class="flex-between">
       <h5 class="lighter mb-8">{{ $t('common.param.inputParam') }}</h5>
       <el-button link type="primary" @click="openAddDialog()">
@@ -99,18 +99,18 @@
       </div>
 
       <el-form-item
-        :label="$t('views.workflow.nodes.aiChatNode.returnContent.label')"
+        :label="$t('workflow.nodes.aiChatNode.returnContent.label')"
         @click.prevent
         v-if="[WorkflowMode.Application, WorkflowMode.ApplicationLoop].includes(workflowMode)"
       >
         <template #label>
           <div class="flex align-center">
             <div class="mr-4">
-              <span>{{ $t('views.workflow.nodes.aiChatNode.returnContent.label') }}</span>
+              <span>{{ $t('workflow.nodes.aiChatNode.returnContent.label') }}</span>
             </div>
             <el-tooltip effect="dark" placement="right" popper-class="max-w-200">
               <template #content>
-                {{ $t('views.workflow.nodes.aiChatNode.returnContent.tooltip') }}
+                {{ $t('workflow.nodes.aiChatNode.returnContent.tooltip') }}
               </template>
               <AppIcon iconName="app-warning" class="app-warning-icon"></AppIcon>
             </el-tooltip>

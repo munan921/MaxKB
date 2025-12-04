@@ -27,7 +27,6 @@ export default {
   },
   form: {
     appName: {
-      label: '名稱',
       placeholder: '請輸入應用名稱',
       requiredMessage: '請輸入應用名稱',
     },
@@ -35,7 +34,6 @@ export default {
       placeholder: '描述該應用的應用場景及用途，如：XXX 小助手回答用戶提出的 XXX 產品使用問題',
     },
     appType: {
-      label: '類型',
       simplePlaceholder: '適合新手建立小助手',
       workflowPlaceholder: '適合高階用戶自訂小助手的工作流程',
     },

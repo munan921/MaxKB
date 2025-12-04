@@ -9,16 +9,16 @@ export const startNode = {
   y: 3340,
   properties: {
     height: 364,
-    stepName: t('views.workflow.nodes.startNode.label'),
+    stepName: t('workflow.nodes.startNode.label'),
     config: {
       fields: [
         {
-          label: t('views.workflow.nodes.startNode.question'),
+          label: t('workflow.nodes.startNode.question'),
           value: 'question',
         },
       ],
       globalFields: [
-        { label: t('views.workflow.nodes.startNode.currentTime'), value: 'time' },
+        { label: t('workflow.nodes.startNode.currentTime'), value: 'time' },
         {
           label: t('views.application.form.historyRecord.label'),
           value: 'history_context',
@@ -29,8 +29,8 @@ export const startNode = {
         },
       ],
     },
-    fields: [{ label: t('views.workflow.nodes.startNode.question'), value: 'question' }],
-    globalFields: [{ label: t('views.workflow.nodes.startNode.currentTime'), value: 'time' }],
+    fields: [{ label: t('workflow.nodes.startNode.question'), value: 'question' }],
+    globalFields: [{ label: t('workflow.nodes.startNode.currentTime'), value: 'time' }],
     showNode: true,
   },
 }
@@ -42,7 +42,7 @@ export const baseNode = {
   text: '',
   properties: {
     height: 728.375,
-    stepName: t('views.workflow.nodes.baseNode.label'),
+    stepName: t('workflow.nodes.baseNode.label'),
     input_field_list: [],
     node_data: {
       name: '',
@@ -64,7 +64,7 @@ export const knowledgeBaseNode = {
   text: '',
   properties: {
     height: 728.375,
-    stepName: t('views.workflow.nodes.baseNode.label'),
+    stepName: t('workflow.nodes.baseNode.label'),
     input_field_list: [],
     node_data: {
       name: '',
@@ -82,17 +82,17 @@ export const dataSourceLocalNode = {
   type: WorkflowType.DataSourceLocalNode,
   x: 360,
   y: 2761.3875,
-  text: t('views.workflow.nodes.dataSourceLocalNode.text'),
-  label: t('views.workflow.nodes.dataSourceLocalNode.label'),
+  text: t('workflow.nodes.dataSourceLocalNode.text'),
+  label: t('workflow.nodes.dataSourceLocalNode.label'),
   properties: {
     kind: WorkflowKind.DataSource,
     height: 728.375,
-    stepName: t('views.workflow.nodes.dataSourceLocalNode.label'),
+    stepName: t('workflow.nodes.dataSourceLocalNode.label'),
     input_field_list: [],
     config: {
       fields: [
         {
-          label: t('views.workflow.nodes.dataSourceLocalNode.fileList'),
+          label: t('workflow.nodes.dataSourceLocalNode.fileList'),
           value: 'file_list',
         },
       ],
@@ -108,16 +108,16 @@ export const dataSourceWebNode = {
   type: WorkflowType.DataSourceWebNode,
   x: 360,
   y: 2761.3875,
-  text: t('views.workflow.nodes.dataSourceWebNode.text'),
-  label: t('views.workflow.nodes.dataSourceWebNode.label'),
+  text: t('workflow.nodes.dataSourceWebNode.text'),
+  label: t('workflow.nodes.dataSourceWebNode.label'),
   properties: {
     kind: WorkflowKind.DataSource,
     height: 180,
-    stepName: t('views.workflow.nodes.dataSourceWebNode.label'),
+    stepName: t('workflow.nodes.dataSourceWebNode.label'),
     config: {
       fields: [
         {
-          label: t('views.workflow.nodes.dataSourceWebNode.field_label'),
+          label: t('workflow.nodes.dataSourceWebNode.field_label'),
           value: 'document_list',
         },
       ],
@@ -127,11 +127,11 @@ export const dataSourceWebNode = {
 
 export const knowledgeWriteNode = {
   type: WorkflowType.KnowledgeWriteNode,
-  text: t('views.workflow.nodes.knowledgeWriteNode.text'),
-  label: t('views.workflow.nodes.knowledgeWriteNode.label'),
+  text: t('workflow.nodes.knowledgeWriteNode.text'),
+  label: t('workflow.nodes.knowledgeWriteNode.label'),
   height: 100,
   properties: {
-    stepName: t('views.workflow.nodes.knowledgeWriteNode.label'),
+    stepName: t('workflow.nodes.knowledgeWriteNode.label'),
     config: {
       fields: [],
     },
@@ -148,23 +148,23 @@ export const baseNodes = [baseNode, startNode]
  */
 export const aiChatNode = {
   type: WorkflowType.AiChat,
-  text: t('views.workflow.nodes.aiChatNode.text'),
-  label: t('views.workflow.nodes.aiChatNode.label'),
+  text: t('workflow.nodes.aiChatNode.text'),
+  label: t('workflow.nodes.aiChatNode.label'),
   height: 340,
   properties: {
-    stepName: t('views.workflow.nodes.aiChatNode.label'),
+    stepName: t('workflow.nodes.aiChatNode.label'),
     config: {
       fields: [
         {
-          label: t('views.workflow.nodes.aiChatNode.answer'),
+          label: t('workflow.nodes.aiChatNode.answer'),
           value: 'answer',
         },
         {
-          label: t('views.workflow.nodes.aiChatNode.think'),
+          label: t('workflow.nodes.aiChatNode.think'),
           value: 'reasoning_content',
         },
         {
-          label: t('views.workflow.nodes.aiChatNode.historyMessage'),
+          label: t('workflow.nodes.aiChatNode.historyMessage'),
           value: 'history_message',
         },
       ],
@@ -176,27 +176,27 @@ export const aiChatNode = {
  */
 export const searchKnowledgeNode = {
   type: WorkflowType.SearchKnowledge,
-  text: t('views.workflow.nodes.searchKnowledgeNode.text'),
-  label: t('views.workflow.nodes.searchKnowledgeNode.label'),
+  text: t('workflow.nodes.searchKnowledgeNode.text'),
+  label: t('workflow.nodes.searchKnowledgeNode.label'),
   height: 355,
   properties: {
-    stepName: t('views.workflow.nodes.searchKnowledgeNode.label'),
+    stepName: t('workflow.nodes.searchKnowledgeNode.label'),
     config: {
       fields: [
         {
-          label: t('views.workflow.nodes.searchKnowledgeNode.paragraph_list'),
+          label: t('workflow.nodes.searchKnowledgeNode.paragraph_list'),
           value: 'paragraph_list',
         },
         {
-          label: t('views.workflow.nodes.searchKnowledgeNode.is_hit_handling_method_list'),
+          label: t('workflow.nodes.searchKnowledgeNode.is_hit_handling_method_list'),
           value: 'is_hit_handling_method_list',
         },
         {
-          label: t('views.workflow.nodes.searchKnowledgeNode.result'),
+          label: t('workflow.nodes.searchKnowledgeNode.result'),
           value: 'data',
         },
         {
-          label: t('views.workflow.nodes.searchKnowledgeNode.directly_return'),
+          label: t('workflow.nodes.searchKnowledgeNode.directly_return'),
           value: 'directly_return',
         },
       ],
@@ -209,20 +209,20 @@ export const searchKnowledgeNode = {
  */
 export const searchDocumentNode = {
   type: WorkflowType.SearchDocument,
-  text: t('views.workflow.nodes.searchDocumentNode.text'),
-  label: t('views.workflow.nodes.searchDocumentNode.label'),
+  text: t('workflow.nodes.searchDocumentNode.text'),
+  label: t('workflow.nodes.searchDocumentNode.label'),
   height: 355,
   properties: {
     width: 600,
-    stepName: t('views.workflow.nodes.searchDocumentNode.label'),
+    stepName: t('workflow.nodes.searchDocumentNode.label'),
     config: {
       fields: [
         {
-          label: t('views.workflow.nodes.searchDocumentNode.knowledgeList'),
+          label: t('workflow.nodes.searchDocumentNode.knowledgeList'),
           value: 'knowledge_list',
         },
         {
-          label: t('views.workflow.nodes.searchDocumentNode.documentList'),
+          label: t('workflow.nodes.searchDocumentNode.documentList'),
           value: 'document_list',
         },
       ],
@@ -232,15 +232,15 @@ export const searchDocumentNode = {
 
 export const questionNode = {
   type: WorkflowType.Question,
-  text: t('views.workflow.nodes.questionNode.text'),
-  label: t('views.workflow.nodes.questionNode.label'),
+  text: t('workflow.nodes.questionNode.text'),
+  label: t('workflow.nodes.questionNode.label'),
   height: 345,
   properties: {
-    stepName: t('views.workflow.nodes.questionNode.label'),
+    stepName: t('workflow.nodes.questionNode.label'),
     config: {
       fields: [
         {
-          label: t('views.workflow.nodes.questionNode.result'),
+          label: t('workflow.nodes.questionNode.result'),
           value: 'answer',
         },
       ],
@@ -249,11 +249,11 @@ export const questionNode = {
 }
 export const variableSplittingNode = {
   type: WorkflowType.VariableSplittingNode,
-  text: t('views.workflow.nodes.variableSplittingNode.text'),
-  label: t('views.workflow.nodes.variableSplittingNode.label'),
+  text: t('workflow.nodes.variableSplittingNode.text'),
+  label: t('workflow.nodes.variableSplittingNode.label'),
   height: 345,
   properties: {
-    stepName: t('views.workflow.nodes.variableSplittingNode.label'),
+    stepName: t('workflow.nodes.variableSplittingNode.label'),
     config: {
       fields: [
         {
@@ -267,12 +267,12 @@ export const variableSplittingNode = {
 
 export const parameterExtractionNode = {
   type: WorkflowType.ParameterExtractionNode,
-  text: t('views.workflow.nodes.parameterExtractionNode.text'),
-  label: t('views.workflow.nodes.parameterExtractionNode.label'),
+  text: t('workflow.nodes.parameterExtractionNode.text'),
+  label: t('workflow.nodes.parameterExtractionNode.label'),
   height: 345,
   properties: {
     width: 430,
-    stepName: t('views.workflow.nodes.parameterExtractionNode.label'),
+    stepName: t('workflow.nodes.parameterExtractionNode.label'),
     config: {
       fields: [
         {
@@ -286,16 +286,16 @@ export const parameterExtractionNode = {
 
 export const conditionNode = {
   type: WorkflowType.Condition,
-  text: t('views.workflow.nodes.conditionNode.text'),
-  label: t('views.workflow.nodes.conditionNode.label'),
+  text: t('workflow.nodes.conditionNode.text'),
+  label: t('workflow.nodes.conditionNode.label'),
   height: 175,
   properties: {
     width: 600,
-    stepName: t('views.workflow.nodes.conditionNode.label'),
+    stepName: t('workflow.nodes.conditionNode.label'),
     config: {
       fields: [
         {
-          label: t('views.workflow.nodes.conditionNode.branch_name'),
+          label: t('workflow.nodes.conditionNode.branch_name'),
           value: 'branch_name',
         },
       ],
@@ -304,11 +304,11 @@ export const conditionNode = {
 }
 export const replyNode = {
   type: WorkflowType.Reply,
-  text: t('views.workflow.nodes.replyNode.text'),
-  label: t('views.workflow.nodes.replyNode.label'),
+  text: t('workflow.nodes.replyNode.text'),
+  label: t('workflow.nodes.replyNode.label'),
   height: 210,
   properties: {
-    stepName: t('views.workflow.nodes.replyNode.label'),
+    stepName: t('workflow.nodes.replyNode.label'),
     config: {
       fields: [
         {
@@ -321,19 +321,19 @@ export const replyNode = {
 }
 export const rerankerNode = {
   type: WorkflowType.RerankerNode,
-  text: t('views.workflow.nodes.rerankerNode.text'),
-  label: t('views.workflow.nodes.rerankerNode.label'),
+  text: t('workflow.nodes.rerankerNode.text'),
+  label: t('workflow.nodes.rerankerNode.label'),
   height: 252,
   properties: {
-    stepName: t('views.workflow.nodes.rerankerNode.label'),
+    stepName: t('workflow.nodes.rerankerNode.label'),
     config: {
       fields: [
         {
-          label: t('views.workflow.nodes.rerankerNode.result_list'),
+          label: t('workflow.nodes.rerankerNode.result_list'),
           value: 'result_list',
         },
         {
-          label: t('views.workflow.nodes.rerankerNode.result'),
+          label: t('workflow.nodes.rerankerNode.result'),
           value: 'result',
         },
       ],
@@ -342,23 +342,23 @@ export const rerankerNode = {
 }
 export const formNode = {
   type: WorkflowType.FormNode,
-  text: t('views.workflow.nodes.formNode.text'),
-  label: t('views.workflow.nodes.formNode.label'),
+  text: t('workflow.nodes.formNode.text'),
+  label: t('workflow.nodes.formNode.label'),
   height: 252,
   properties: {
     width: 600,
-    stepName: t('views.workflow.nodes.formNode.label'),
+    stepName: t('workflow.nodes.formNode.label'),
     node_data: {
       is_result: true,
       form_field_list: [],
-      form_content_format: `${t('views.workflow.nodes.formNode.form_content_format1')}
+      form_content_format: `${t('workflow.nodes.formNode.form_content_format1')}
 {{form}}
-${t('views.workflow.nodes.formNode.form_content_format2')}`,
+${t('workflow.nodes.formNode.form_content_format2')}`,
     },
     config: {
       fields: [
         {
-          label: t('views.workflow.nodes.formNode.form_data'),
+          label: t('workflow.nodes.formNode.form_data'),
           value: 'form_data',
         },
       ],
@@ -367,19 +367,19 @@ ${t('views.workflow.nodes.formNode.form_content_format2')}`,
 }
 export const documentExtractNode = {
   type: WorkflowType.DocumentExtractNode,
-  text: t('views.workflow.nodes.documentExtractNode.text'),
-  label: t('views.workflow.nodes.documentExtractNode.label'),
+  text: t('workflow.nodes.documentExtractNode.text'),
+  label: t('workflow.nodes.documentExtractNode.label'),
   height: 252,
   properties: {
-    stepName: t('views.workflow.nodes.documentExtractNode.label'),
+    stepName: t('workflow.nodes.documentExtractNode.label'),
     config: {
       fields: [
         {
-          label: t('views.workflow.nodes.documentExtractNode.content'),
+          label: t('workflow.nodes.documentExtractNode.content'),
           value: 'content',
         },
         {
-          label: t('views.workflow.nodes.dataSourceWebNode.field_label'),
+          label: t('workflow.nodes.dataSourceWebNode.field_label'),
           value: 'document_list',
         },
       ],
@@ -388,16 +388,16 @@ export const documentExtractNode = {
 }
 export const documentSplitNode = {
   type: WorkflowType.DocumentSplitNode,
-  text: t('views.workflow.nodes.documentSplitNode.text'),
-  label: t('views.workflow.nodes.documentSplitNode.label'),
+  text: t('workflow.nodes.documentSplitNode.text'),
+  label: t('workflow.nodes.documentSplitNode.label'),
   height: 252,
   properties: {
     width: 500,
-    stepName: t('views.workflow.nodes.documentSplitNode.label'),
+    stepName: t('workflow.nodes.documentSplitNode.label'),
     config: {
       fields: [
         {
-          label: t('views.workflow.nodes.documentSplitNode.paragraphList'),
+          label: t('workflow.nodes.documentSplitNode.paragraphList'),
           value: 'paragraph_list',
         },
       ],
@@ -406,15 +406,15 @@ export const documentSplitNode = {
 }
 export const imageUnderstandNode = {
   type: WorkflowType.ImageUnderstandNode,
-  text: t('views.workflow.nodes.imageUnderstandNode.text'),
-  label: t('views.workflow.nodes.imageUnderstandNode.label'),
+  text: t('workflow.nodes.imageUnderstandNode.text'),
+  label: t('workflow.nodes.imageUnderstandNode.label'),
   height: 252,
   properties: {
-    stepName: t('views.workflow.nodes.imageUnderstandNode.label'),
+    stepName: t('workflow.nodes.imageUnderstandNode.label'),
     config: {
       fields: [
         {
-          label: t('views.workflow.nodes.imageUnderstandNode.answer'),
+          label: t('workflow.nodes.imageUnderstandNode.answer'),
           value: 'answer',
         },
       ],
@@ -424,15 +424,15 @@ export const imageUnderstandNode = {
 
 export const videoUnderstandNode = {
   type: WorkflowType.VideoUnderstandNode,
-  text: t('views.workflow.nodes.videoUnderstandNode.text'),
-  label: t('views.workflow.nodes.videoUnderstandNode.label'),
+  text: t('workflow.nodes.videoUnderstandNode.text'),
+  label: t('workflow.nodes.videoUnderstandNode.label'),
   height: 252,
   properties: {
-    stepName: t('views.workflow.nodes.videoUnderstandNode.label'),
+    stepName: t('workflow.nodes.videoUnderstandNode.label'),
     config: {
       fields: [
         {
-          label: t('views.workflow.nodes.videoUnderstandNode.answer'),
+          label: t('workflow.nodes.videoUnderstandNode.answer'),
           value: 'answer',
         },
       ],
@@ -441,11 +441,11 @@ export const videoUnderstandNode = {
 }
 export const variableAggregationNode = {
   type: WorkflowType.VariableAggregationNode,
-  text: t('views.workflow.nodes.variableAggregationNode.text'),
-  label: t('views.workflow.nodes.variableAggregationNode.label'),
+  text: t('workflow.nodes.variableAggregationNode.text'),
+  label: t('workflow.nodes.variableAggregationNode.label'),
   height: 252,
   properties: {
-    stepName: t('views.workflow.nodes.variableAggregationNode.label'),
+    stepName: t('workflow.nodes.variableAggregationNode.label'),
     config: {
       fields: [],
     },
@@ -454,22 +454,22 @@ export const variableAggregationNode = {
 
 export const variableAssignNode = {
   type: WorkflowType.VariableAssignNode,
-  text: t('views.workflow.nodes.variableAssignNode.text'),
-  label: t('views.workflow.nodes.variableAssignNode.label'),
+  text: t('workflow.nodes.variableAssignNode.text'),
+  label: t('workflow.nodes.variableAssignNode.label'),
   height: 252,
   properties: {
-    stepName: t('views.workflow.nodes.variableAssignNode.label'),
+    stepName: t('workflow.nodes.variableAssignNode.label'),
     config: {},
   },
 }
 
 export const mcpNode = {
   type: WorkflowType.McpNode,
-  text: t('views.workflow.nodes.mcpNode.text'),
-  label: t('views.workflow.nodes.mcpNode.label'),
+  text: t('workflow.nodes.mcpNode.text'),
+  label: t('workflow.nodes.mcpNode.label'),
   height: 252,
   properties: {
-    stepName: t('views.workflow.nodes.mcpNode.label'),
+    stepName: t('workflow.nodes.mcpNode.label'),
     config: {
       fields: [
         {
@@ -483,15 +483,15 @@ export const mcpNode = {
 
 export const imageGenerateNode = {
   type: WorkflowType.ImageGenerateNode,
-  text: t('views.workflow.nodes.imageGenerateNode.text'),
-  label: t('views.workflow.nodes.imageGenerateNode.label'),
+  text: t('workflow.nodes.imageGenerateNode.text'),
+  label: t('workflow.nodes.imageGenerateNode.label'),
   height: 252,
   properties: {
-    stepName: t('views.workflow.nodes.imageGenerateNode.label'),
+    stepName: t('workflow.nodes.imageGenerateNode.label'),
     config: {
       fields: [
         {
-          label: t('views.workflow.nodes.imageGenerateNode.answer'),
+          label: t('workflow.nodes.imageGenerateNode.answer'),
           value: 'answer',
         },
         {
@@ -505,11 +505,11 @@ export const imageGenerateNode = {
 
 export const speechToTextNode = {
   type: WorkflowType.SpeechToTextNode,
-  text: t('views.workflow.nodes.speechToTextNode.text'),
-  label: t('views.workflow.nodes.speechToTextNode.label'),
+  text: t('workflow.nodes.speechToTextNode.text'),
+  label: t('workflow.nodes.speechToTextNode.label'),
   height: 252,
   properties: {
-    stepName: t('views.workflow.nodes.speechToTextNode.label'),
+    stepName: t('workflow.nodes.speechToTextNode.label'),
     config: {
       fields: [
         {
@@ -522,11 +522,11 @@ export const speechToTextNode = {
 }
 export const textToSpeechNode = {
   type: WorkflowType.TextToSpeechNode,
-  text: t('views.workflow.nodes.textToSpeechNode.text'),
-  label: t('views.workflow.nodes.textToSpeechNode.label'),
+  text: t('workflow.nodes.textToSpeechNode.text'),
+  label: t('workflow.nodes.textToSpeechNode.label'),
   height: 252,
   properties: {
-    stepName: t('views.workflow.nodes.textToSpeechNode.label'),
+    stepName: t('workflow.nodes.textToSpeechNode.label'),
     config: {
       fields: [
         {
@@ -543,11 +543,11 @@ export const textToSpeechNode = {
  */
 export const toolNode = {
   type: WorkflowType.ToolLibCustom,
-  text: t('views.workflow.nodes.toolNode.text'),
-  label: t('views.workflow.nodes.toolNode.label'),
+  text: t('workflow.nodes.toolNode.text'),
+  label: t('workflow.nodes.toolNode.label'),
   height: 260,
   properties: {
-    stepName: t('views.workflow.nodes.toolNode.label'),
+    stepName: t('workflow.nodes.toolNode.label'),
     config: {
       fields: [
         {
@@ -561,11 +561,11 @@ export const toolNode = {
 
 export const intentNode = {
   type: WorkflowType.IntentNode,
-  text: t('views.workflow.nodes.intentNode.text'),
-  label: t('views.workflow.nodes.intentNode.label'),
+  text: t('workflow.nodes.intentNode.text'),
+  label: t('workflow.nodes.intentNode.label'),
   height: 260,
   properties: {
-    stepName: t('views.workflow.nodes.intentNode.label'),
+    stepName: t('workflow.nodes.intentNode.label'),
     config: {
       fields: [
         {
@@ -588,15 +588,15 @@ export const loopStartNode = {
   y: 3340,
   properties: {
     height: 364,
-    stepName: t('views.workflow.nodes.loopStartNode.label'),
+    stepName: t('workflow.nodes.loopStartNode.label'),
     config: {
       fields: [
         {
-          label: t('views.workflow.nodes.loopStartNode.loopIndex'),
+          label: t('workflow.nodes.loopStartNode.loopIndex'),
           value: 'index',
         },
         {
-          label: t('views.workflow.nodes.loopStartNode.loopItem'),
+          label: t('workflow.nodes.loopStartNode.loopItem'),
           value: 'item',
         },
       ],
@@ -609,11 +609,11 @@ export const loopStartNode = {
 export const loopNode = {
   type: WorkflowType.LoopNode,
   visible: false,
-  text: t('views.workflow.nodes.loopNode.text'),
-  label: t('views.workflow.nodes.loopNode.label'),
+  text: t('workflow.nodes.loopNode.text'),
+  label: t('workflow.nodes.loopNode.label'),
   height: 252,
   properties: {
-    stepName: t('views.workflow.nodes.loopNode.label'),
+    stepName: t('workflow.nodes.loopNode.label'),
     workflow: {
       edges: [],
       nodes: [
@@ -644,11 +644,11 @@ export const loopNode = {
 
 export const imageToVideoNode = {
   type: WorkflowType.ImageToVideoGenerateNode,
-  text: t('views.workflow.nodes.imageToVideoGenerate.text'),
-  label: t('views.workflow.nodes.imageToVideoGenerate.label'),
+  text: t('workflow.nodes.imageToVideoGenerate.text'),
+  label: t('workflow.nodes.imageToVideoGenerate.label'),
   height: 252,
   properties: {
-    stepName: t('views.workflow.nodes.imageToVideoGenerate.label'),
+    stepName: t('workflow.nodes.imageToVideoGenerate.label'),
     config: {
       fields: [
         {
@@ -662,12 +662,12 @@ export const imageToVideoNode = {
 
 export const loopBodyNode = {
   type: WorkflowType.LoopBodyNode,
-  text: t('views.workflow.nodes.loopBodyNode.text'),
-  label: t('views.workflow.nodes.loopBodyNode.label'),
+  text: t('workflow.nodes.loopBodyNode.text'),
+  label: t('workflow.nodes.loopBodyNode.label'),
   height: 1080,
   properties: {
     width: 1920,
-    stepName: t('views.workflow.nodes.loopBodyNode.label'),
+    stepName: t('workflow.nodes.loopBodyNode.label'),
     config: {
       fields: [],
     },
@@ -675,12 +675,12 @@ export const loopBodyNode = {
 }
 export const loopContinueNode = {
   type: WorkflowType.LoopContinueNode,
-  text: t('views.workflow.nodes.loopContinueNode.text'),
-  label: t('views.workflow.nodes.loopContinueNode.label'),
+  text: t('workflow.nodes.loopContinueNode.text'),
+  label: t('workflow.nodes.loopContinueNode.label'),
   height: 100,
   properties: {
     width: 600,
-    stepName: t('views.workflow.nodes.loopContinueNode.label'),
+    stepName: t('workflow.nodes.loopContinueNode.label'),
     config: {
       fields: [],
     },
@@ -689,11 +689,11 @@ export const loopContinueNode = {
 
 export const textToVideoNode = {
   type: WorkflowType.TextToVideoGenerateNode,
-  text: t('views.workflow.nodes.textToVideoGenerate.text'),
-  label: t('views.workflow.nodes.textToVideoGenerate.label'),
+  text: t('workflow.nodes.textToVideoGenerate.text'),
+  label: t('workflow.nodes.textToVideoGenerate.label'),
   height: 252,
   properties: {
-    stepName: t('views.workflow.nodes.textToVideoGenerate.label'),
+    stepName: t('workflow.nodes.textToVideoGenerate.label'),
     config: {
       fields: [
         {
@@ -707,12 +707,12 @@ export const textToVideoNode = {
 
 export const loopBreakNode = {
   type: WorkflowType.LoopBreakNode,
-  text: t('views.workflow.nodes.loopBreakNode.text'),
-  label: t('views.workflow.nodes.loopBreakNode.label'),
+  text: t('workflow.nodes.loopBreakNode.text'),
+  label: t('workflow.nodes.loopBreakNode.label'),
   height: 100,
   properties: {
     width: 600,
-    stepName: t('views.workflow.nodes.loopBreakNode.label'),
+    stepName: t('workflow.nodes.loopBreakNode.label'),
     config: {
       fields: [],
     },
@@ -729,7 +729,7 @@ export const knowledgeMenuNodes = [
     list: [documentSplitNode, knowledgeWriteNode, documentExtractNode],
   },
   {
-    label: t('views.workflow.nodes.classify.aiCapability'),
+    label: t('workflow.nodes.classify.aiCapability'),
     list: [
       aiChatNode,
       intentNode,
@@ -745,11 +745,11 @@ export const knowledgeMenuNodes = [
   },
 
   {
-    label: t('views.workflow.nodes.classify.businessLogic'),
+    label: t('workflow.nodes.classify.businessLogic'),
     list: [conditionNode, replyNode, loopNode],
   },
   {
-    label: t('views.workflow.nodes.classify.dataProcessing'),
+    label: t('workflow.nodes.classify.dataProcessing'),
     list: [
       variableAssignNode,
       variableAggregationNode,
@@ -758,14 +758,14 @@ export const knowledgeMenuNodes = [
     ],
   },
   {
-    label: t('views.workflow.nodes.classify.other'),
+    label: t('workflow.nodes.classify.other'),
     list: [mcpNode, toolNode],
   },
 ]
 
 export const menuNodes = [
   {
-    label: t('views.workflow.nodes.classify.aiCapability'),
+    label: t('workflow.nodes.classify.aiCapability'),
     list: [
       aiChatNode,
       intentNode,
@@ -791,11 +791,11 @@ export const menuNodes = [
     ],
   },
   {
-    label: t('views.workflow.nodes.classify.businessLogic'),
+    label: t('workflow.nodes.classify.businessLogic'),
     list: [conditionNode, formNode, replyNode, loopNode],
   },
   {
-    label: t('views.workflow.nodes.classify.dataProcessing'),
+    label: t('workflow.nodes.classify.dataProcessing'),
     list: [
       variableAssignNode,
       variableAggregationNode,
@@ -804,13 +804,13 @@ export const menuNodes = [
     ],
   },
   {
-    label: t('views.workflow.nodes.classify.other'),
+    label: t('workflow.nodes.classify.other'),
     list: [mcpNode, toolNode],
   },
 ]
 export const applicationLoopMenuNodes = [
   {
-    label: t('views.workflow.nodes.classify.aiCapability'),
+    label: t('workflow.nodes.classify.aiCapability'),
     list: [
       aiChatNode,
       intentNode,
@@ -829,11 +829,11 @@ export const applicationLoopMenuNodes = [
     list: [searchKnowledgeNode, searchDocumentNode, rerankerNode, documentExtractNode],
   },
   {
-    label: t('views.workflow.nodes.classify.businessLogic'),
+    label: t('workflow.nodes.classify.businessLogic'),
     list: [conditionNode, formNode, replyNode, loopContinueNode, loopBreakNode],
   },
   {
-    label: t('views.workflow.nodes.classify.dataProcessing'),
+    label: t('workflow.nodes.classify.dataProcessing'),
     list: [
       variableAssignNode,
       variableSplittingNode,
@@ -842,13 +842,13 @@ export const applicationLoopMenuNodes = [
     ],
   },
   {
-    label: t('views.workflow.nodes.classify.other'),
+    label: t('workflow.nodes.classify.other'),
     list: [mcpNode, toolNode],
   },
 ]
 export const knowledgeLoopMenuNodes = [
   {
-    label: t('views.workflow.nodes.classify.aiCapability'),
+    label: t('workflow.nodes.classify.aiCapability'),
     list: [
       aiChatNode,
       intentNode,
@@ -867,11 +867,11 @@ export const knowledgeLoopMenuNodes = [
     list: [rerankerNode, documentExtractNode],
   },
   {
-    label: t('views.workflow.nodes.classify.businessLogic'),
+    label: t('workflow.nodes.classify.businessLogic'),
     list: [conditionNode, replyNode, loopContinueNode, loopBreakNode],
   },
   {
-    label: t('views.workflow.nodes.classify.dataProcessing'),
+    label: t('workflow.nodes.classify.dataProcessing'),
     list: [
       variableAssignNode,
       variableSplittingNode,
@@ -880,7 +880,7 @@ export const knowledgeLoopMenuNodes = [
     ],
   },
   {
-    label: t('views.workflow.nodes.classify.other'),
+    label: t('workflow.nodes.classify.other'),
     list: [mcpNode, toolNode],
   },
 ]
@@ -905,11 +905,11 @@ export const getMenuNodes = (workflowMode: WorkflowMode) => {
  */
 export const toolLibNode = {
   type: WorkflowType.ToolLib,
-  text: t('views.workflow.nodes.toolNode.text'),
-  label: t('views.workflow.nodes.toolNode.label'),
+  text: t('workflow.nodes.toolNode.text'),
+  label: t('workflow.nodes.toolNode.label'),
   height: 170,
   properties: {
-    stepName: t('views.workflow.nodes.toolNode.label'),
+    stepName: t('workflow.nodes.toolNode.label'),
     config: {
       fields: [
         {
@@ -923,11 +923,11 @@ export const toolLibNode = {
 
 export const applicationNode = {
   type: WorkflowType.Application,
-  text: t('views.workflow.nodes.applicationNode.label'),
-  label: t('views.workflow.nodes.applicationNode.label'),
+  text: t('workflow.nodes.applicationNode.label'),
+  label: t('workflow.nodes.applicationNode.label'),
   height: 260,
   properties: {
-    stepName: t('views.workflow.nodes.applicationNode.label'),
+    stepName: t('workflow.nodes.applicationNode.label'),
     config: {
       fields: [
         {
@@ -940,22 +940,22 @@ export const applicationNode = {
 }
 
 export const compareList = [
-  { value: 'is_null', label: t('views.workflow.compare.is_null') },
-  { value: 'is_not_null', label: t('views.workflow.compare.is_not_null') },
-  { value: 'contain', label: t('views.workflow.compare.contain') },
-  { value: 'not_contain', label: t('views.workflow.compare.not_contain') },
-  { value: 'eq', label: t('views.workflow.compare.eq') },
-  { value: 'ge', label: t('views.workflow.compare.ge') },
-  { value: 'gt', label: t('views.workflow.compare.gt') },
-  { value: 'le', label: t('views.workflow.compare.le') },
-  { value: 'lt', label: t('views.workflow.compare.lt') },
-  { value: 'len_eq', label: t('views.workflow.compare.len_eq') },
-  { value: 'len_ge', label: t('views.workflow.compare.len_ge') },
-  { value: 'len_gt', label: t('views.workflow.compare.len_gt') },
-  { value: 'len_le', label: t('views.workflow.compare.len_le') },
-  { value: 'len_lt', label: t('views.workflow.compare.len_lt') },
-  { value: 'is_true', label: t('views.workflow.compare.is_true') },
-  { value: 'is_not_true', label: t('views.workflow.compare.is_not_true') },
+  { value: 'is_null', label: t('workflow.compare.is_null') },
+  { value: 'is_not_null', label: t('workflow.compare.is_not_null') },
+  { value: 'contain', label: t('workflow.compare.contain') },
+  { value: 'not_contain', label: t('workflow.compare.not_contain') },
+  { value: 'eq', label: t('workflow.compare.eq') },
+  { value: 'ge', label: t('workflow.compare.ge') },
+  { value: 'gt', label: t('workflow.compare.gt') },
+  { value: 'le', label: t('workflow.compare.le') },
+  { value: 'lt', label: t('workflow.compare.lt') },
+  { value: 'len_eq', label: t('workflow.compare.len_eq') },
+  { value: 'len_ge', label: t('workflow.compare.len_ge') },
+  { value: 'len_gt', label: t('workflow.compare.len_gt') },
+  { value: 'len_le', label: t('workflow.compare.len_le') },
+  { value: 'len_lt', label: t('workflow.compare.len_lt') },
+  { value: 'is_true', label: t('workflow.compare.is_true') },
+  { value: 'is_not_true', label: t('workflow.compare.is_not_true') },
   { value: 'start_with', label: 'startWith' },
   { value: 'end_with', label: 'endWith' },
 ]

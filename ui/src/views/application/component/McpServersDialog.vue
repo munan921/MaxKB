@@ -19,7 +19,7 @@
       <el-form-item>
         <el-radio-group v-model="form.mcp_source" @change="mcpSourceChange">
           <el-radio value="referencing">
-            {{ $t('views.workflow.nodes.mcpNode.reference') }}
+            {{ $t('workflow.nodes.mcpNode.reference') }}
           </el-radio>
           <el-radio value="custom">{{ $t('common.custom') }}</el-radio>
         </el-radio-group>
@@ -171,7 +171,7 @@ const submit = () => {
       try {
         JSON.parse(form.value.mcp_servers || '{}')
       } catch (e) {
-        MsgError(t('views.workflow.nodes.mcpNode.mcpServerTip'))
+        MsgError(t('workflow.nodes.mcpNode.mcpServerTip'))
         return
       }
       emit('refresh', form.value)

@@ -203,6 +203,5 @@ export default {
     selectDocument: 'Select Document',
     tip1: 'Only documents and tables are supported. Documents will be segmented based on titles, and tables will be converted to Markdown format before segmentation.',
     tip2: 'Before importing the document, it is recommended to standardize the document segmentation markers.',
-    allCheck: 'Select All',
   },
 }

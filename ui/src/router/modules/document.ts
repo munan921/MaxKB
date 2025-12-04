@@ -112,7 +112,7 @@ const DocumentRouter = {
       path: 'knowledge-workflow-setting',
       name: 'knowledgeWorkflowSetting',
       meta: {
-        title: 'views.workflow.workflow',
+        title: 'workflow.workflow',
         icon: 'app-workflow',
         activeMenu: '/knowledge',
         parentPath: '/knowledge/:id/:folderId/:type',

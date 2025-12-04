@@ -1,26 +1,25 @@
 <template>
   <div>
     <h4 class="title-decoration-1 mb-16 mt-4">
-      {{ $t('views.workflow.debug.executionResult') }}
+      {{ $t('chat.executionDetails.title') }}
     </h4>
     <div class="mb-16">
       <!-- 执行结果 -->
       <el-alert
         v-if="state == 'SUCCESS'"
-        :title="$t('views.workflow.debug.executionSuccess')"
+        :title="$t('common.success')"
         type="success"
         show-icon
         :closable="false"
       />
       <el-alert
         v-if="state == 'FAILURE'"
-        :title="$t('views.workflow.debug.executionFailed')"
+        :title="$t('common.fail')"
         type="error"
         show-icon
         :closable="false"
       />
     </div>
-    <p class="lighter mb-8">{{ $t('chat.executionDetails.title') }}</p>
     <ExecutionDetailContent :detail="detail" app-type="WORK_FLOW"></ExecutionDetailContent>
   </div>
 </template>

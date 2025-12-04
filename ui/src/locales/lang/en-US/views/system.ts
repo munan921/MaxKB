@@ -148,7 +148,6 @@ export default {
   },
   resource_management: {
     label: 'Resource Management',
-    type: 'Type',
     management: 'management',
   },
   default_login: 'Default Login Method',

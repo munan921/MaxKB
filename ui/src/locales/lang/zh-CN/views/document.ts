@@ -115,13 +115,10 @@ export default {
     name: '文件名称',
     char_length: '字符数',
     paragraph: '分段',
-    all: '全部',
     updateTime: '更新时间',
   },
   fileStatus: {
     label: '文件状态',
-    SUCCESS: '成功',
-    FAILURE: '失败',
     EMBEDDING: '索引中',
     PENDING: '排队中',
     GENERATE: '生成中',
@@ -196,7 +193,6 @@ export default {
     selectDocument: '选择文档',
     tip1: '支持文档和表格类型，包含TXT、Markdown、PDF、DOCX、HTML、XLS、XLSX、CSV、ZIP格式；',
     tip2: '导入文档前，建议规范文档的分段标识。',
-    allCheck: '全选',
     errorMessage1: '请选择文档',
   },
 }

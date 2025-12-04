@@ -1,6 +1,6 @@
 <template>
   <NodeContainer :nodeModel="nodeModel">
-    <h5 class="title-decoration-1 mb-8">{{ $t('views.workflow.nodeSetting') }}</h5>
+    <h5 class="title-decoration-1 mb-8">{{ $t('workflow.nodeSetting') }}</h5>
     <el-card shadow="never" class="card-never">
       <el-form
         @submit.prevent
@@ -15,7 +15,7 @@
         prop="document_list"
         :label="$t('common.inputContent')"
         :rules="{
-            message: $t('views.workflow.nodes.textToSpeechNode.content.label'),
+            message: $t('workflow.nodes.textToSpeechNode.content.label'),
             trigger: 'change',
             required: true,
         }"
@@ -34,7 +34,7 @@
             ref="nodeCascaderRef"
             :nodeModel="nodeModel"
             class="w-full"
-            :placeholder="$t('views.workflow.nodes.textToSpeechNode.content.label')"
+            :placeholder="$t('workflow.nodes.textToSpeechNode.content.label')"
             v-model="form_data.document_list"
           />
       </el-form-item>

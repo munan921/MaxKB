@@ -1,6 +1,6 @@
 <template>
   <NodeContainer :node-model="nodeModel">
-    <h5 class="title-decoration-1 mb-8">{{ $t('views.workflow.nodeSetting') }}</h5>
+    <h5 class="title-decoration-1 mb-8">{{ $t('workflow.nodeSetting') }}</h5>
     <el-card shadow="never" class="card-never">
       <el-form
         @submit.prevent
@@ -12,11 +12,11 @@
         hide-required-asterisk
       >
         <el-form-item
-          :label="$t('views.workflow.nodes.imageGenerateNode.model.label')"
+          :label="$t('workflow.nodes.imageGenerateNode.model.label')"
           prop="model_id"
           :rules="{
             required: true,
-            message: $t('views.workflow.nodes.imageGenerateNode.model.requiredMessage'),
+            message: $t('workflow.nodes.imageGenerateNode.model.requiredMessage'),
             trigger: 'change',
           }"
         >
@@ -24,7 +24,7 @@
             <div class="flex-between w-full">
               <div>
                 <span
-                  >{{ $t('views.workflow.nodes.imageGenerateNode.model.label')
+                  >{{ $t('workflow.nodes.imageGenerateNode.model.label')
                   }}<span class="color-danger">*</span></span
                 >
               </div>
@@ -45,7 +45,7 @@
             @wheel="wheel"
             :teleported="false"
             v-model="form_data.model_id"
-            :placeholder="$t('views.workflow.nodes.imageGenerateNode.model.requiredMessage')"
+            :placeholder="$t('workflow.nodes.imageGenerateNode.model.requiredMessage')"
             :options="modelOptions"
             showFooter
             @focus="getSelectModel"
@@ -54,7 +54,7 @@
         </el-form-item>
 
         <el-form-item
-          :label="$t('views.workflow.nodes.imageGenerateNode.prompt.label')"
+          :label="$t('workflow.nodes.imageGenerateNode.prompt.label')"
           prop="prompt"
           :rules="{
             required: true,
@@ -66,13 +66,13 @@
             <div class="flex align-center">
               <div class="mr-4">
                 <span
-                  >{{ $t('views.workflow.nodes.imageGenerateNode.prompt.label')
+                  >{{ $t('workflow.nodes.imageGenerateNode.prompt.label')
                   }}<span class="color-danger">*</span></span
                 >
               </div>
               <el-tooltip effect="dark" placement="right" popper-class="max-w-200">
                 <template #content
-                  >{{ $t('views.workflow.nodes.imageGenerateNode.prompt.tooltip') }}
+                  >{{ $t('workflow.nodes.imageGenerateNode.prompt.tooltip') }}
                 </template>
                 <AppIcon iconName="app-warning" class="app-warning-icon"></AppIcon>
               </el-tooltip>
@@ -80,14 +80,14 @@
           </template>
           <MdEditorMagnify
             @wheel="wheel"
-            :title="$t('views.workflow.nodes.imageGenerateNode.prompt.label')"
+            :title="$t('workflow.nodes.imageGenerateNode.prompt.label')"
             v-model="form_data.prompt"
             style="height: 150px"
             @submitDialog="submitDialog"
           />
         </el-form-item>
         <el-form-item
-          :label="$t('views.workflow.nodes.imageGenerateNode.negative_prompt.label')"
+          :label="$t('workflow.nodes.imageGenerateNode.negative_prompt.label')"
           prop="prompt"
           :rules="{
             required: false,
@@ -99,12 +99,12 @@
             <div class="flex align-center">
               <div class="mr-4">
                 <span>{{
-                  $t('views.workflow.nodes.imageGenerateNode.negative_prompt.label')
+                  $t('workflow.nodes.imageGenerateNode.negative_prompt.label')
                 }}</span>
               </div>
               <el-tooltip effect="dark" placement="right" popper-class="max-w-200">
                 <template #content
-                  >{{ $t('views.workflow.nodes.imageGenerateNode.negative_prompt.tooltip') }}
+                  >{{ $t('workflow.nodes.imageGenerateNode.negative_prompt.tooltip') }}
                 </template>
                 <AppIcon iconName="app-warning" class="app-warning-icon"></AppIcon>
               </el-tooltip>
@@ -112,26 +112,26 @@
           </template>
           <MdEditorMagnify
             @wheel="wheel"
-            :title="$t('views.workflow.nodes.imageGenerateNode.negative_prompt.label')"
+            :title="$t('workflow.nodes.imageGenerateNode.negative_prompt.label')"
             v-model="form_data.negative_prompt"
-            :placeholder="$t('views.workflow.nodes.imageGenerateNode.negative_prompt.placeholder')"
+            :placeholder="$t('workflow.nodes.imageGenerateNode.negative_prompt.placeholder')"
             style="height: 150px"
             @submitDialog="submitNegativeDialog"
           />
         </el-form-item>
         <el-form-item
-          :label="$t('views.workflow.nodes.aiChatNode.returnContent.label')"
+          :label="$t('workflow.nodes.aiChatNode.returnContent.label')"
           @click.prevent
           v-if="[WorkflowMode.Application, WorkflowMode.ApplicationLoop].includes(workflowMode)"
         >
           <template #label>
             <div class="flex align-center">
               <div class="mr-4">
-                <span>{{ $t('views.workflow.nodes.aiChatNode.returnContent.label') }}</span>
+                <span>{{ $t('workflow.nodes.aiChatNode.returnContent.label') }}</span>
               </div>
               <el-tooltip effect="dark" placement="right" popper-class="max-w-200">
                 <template #content>
-                  {{ $t('views.workflow.nodes.aiChatNode.returnContent.tooltip') }}
+                  {{ $t('workflow.nodes.aiChatNode.returnContent.tooltip') }}
                 </template>
                 <AppIcon iconName="app-warning" class="app-warning-icon"></AppIcon>
               </el-tooltip>
@@ -192,7 +192,7 @@ const wheel = (e: any) => {
   }
 }
 
-const defaultPrompt = `{{${t('views.workflow.nodes.startNode.label')}.question}}`
+const defaultPrompt = `{{${t('workflow.nodes.startNode.label')}.question}}`
 
 const form = {
   model_id: '',

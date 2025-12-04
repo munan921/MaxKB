@@ -71,6 +71,9 @@ export default {
     disableSuccess: 'Successful',
     published: 'Published',
     unpublished: 'Unpublished',
+    success: 'Successful',
+    fail: 'Failed',
+    all: 'All',
   },
   param: {
     outputParam: 'Output Parameters',
@@ -124,4 +127,6 @@ export default {
     placeholder: 'Please enter prompt',
   },
   variable: 'Variable',
+  allCheck: 'Select All',
+  type: 'Type',
 }

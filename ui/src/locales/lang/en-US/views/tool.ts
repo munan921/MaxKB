@@ -49,13 +49,11 @@ export default {
 
   form: {
     toolName: {
-      label: 'Name',
       name: 'Tool Name',
       placeholder: 'Please enter the tool name',
       requiredMessage: 'Please enter the tool name',
     },
     mcpName: {
-      label: 'Name',
       name: 'MCP Name',
       placeholder: 'Please enter the MCP name',
       requiredMessage: 'Please enter the MCP name',

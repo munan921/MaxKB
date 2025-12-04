@@ -1,6 +1,6 @@
 <template>
   <NodeContainer :nodeModel="nodeModel">
-    <h5 class="title-decoration-1 mb-8">{{ $t('views.workflow.nodeSetting') }}</h5>
+    <h5 class="title-decoration-1 mb-8">{{ $t('workflow.nodeSetting') }}</h5>
     <el-card shadow="never" class="card-never">
       <el-form
         ref="aiChatNodeFormRef"
@@ -28,16 +28,16 @@
           />
         </el-form-item>
         <el-form-item
-          :label="$t('views.workflow.nodes.documentSplitNode.splitStrategy.label')"
+          :label="$t('workflow.nodes.documentSplitNode.splitStrategy.label')"
           :rules="{
             required: true,
-            message: $t('views.workflow.nodes.documentSplitNode.splitStrategy.requiredMessage'),
+            message: $t('workflow.nodes.documentSplitNode.splitStrategy.requiredMessage'),
             trigger: 'change',
           }"
         >
           <el-select
             v-model="form_data.split_strategy"
-            :placeholder="$t('views.workflow.nodes.documentSplitNode.splitStrategy.placeholder')"
+            :placeholder="$t('workflow.nodes.documentSplitNode.splitStrategy.placeholder')"
           >
             <el-option :label="$t('views.document.setRules.intelligent.label')" value="auto" />
             <el-option :label="$t('views.document.setRules.advanced.label')" value="custom" />
@@ -48,18 +48,18 @@
           <template #label>
             <div class="flex-between">
               <span class="flex align-center">
-                <span>{{ $t('views.workflow.nodes.documentSplitNode.chunk_length.label') }}</span>
+                <span>{{ $t('workflow.nodes.documentSplitNode.chunk_length.label') }}</span>
                 <el-tooltip effect="dark" placement="right">
                   <template #content>
-                    {{ $t('views.workflow.nodes.documentSplitNode.chunk_length.tooltip1') }}<br />
-                    {{ $t('views.workflow.nodes.documentSplitNode.chunk_length.tooltip2') }}<br />
-                    {{ $t('views.workflow.nodes.documentSplitNode.chunk_length.tooltip3') }}
+                    {{ $t('workflow.nodes.documentSplitNode.chunk_length.tooltip1') }}<br />
+                    {{ $t('workflow.nodes.documentSplitNode.chunk_length.tooltip2') }}<br />
+                    {{ $t('workflow.nodes.documentSplitNode.chunk_length.tooltip3') }}
                   </template>
                   <AppIcon iconName="app-warning" class="app-warning-icon"></AppIcon>
                 </el-tooltip>
               </span>
               <el-select v-model="form_data.chunk_size_type" size="small" style="width: 85px">
-                <el-option :label="$t('views.workflow.variable.Referencing')" value="referencing" />
+                <el-option :label="$t('workflow.variable.Referencing')" value="referencing" />
                 <el-option :label="$t('common.custom')" value="custom" />
               </el-select>
             </div>
@@ -106,7 +106,7 @@
                 size="small"
                 style="width: 85px"
               >
-                <el-option :label="$t('views.workflow.variable.Referencing')" value="referencing" />
+                <el-option :label="$t('workflow.variable.Referencing')" value="referencing" />
                 <el-option :label="$t('common.custom')" value="custom" />
               </el-select>
             </div>
@@ -145,7 +145,7 @@
                 {{ $t('views.document.setRules.limit.label') }}
               </span>
               <el-select v-model="form_data.limit_type" size="small" style="width: 85px">
-                <el-option :label="$t('views.workflow.variable.Referencing')" value="referencing" />
+                <el-option :label="$t('workflow.variable.Referencing')" value="referencing" />
                 <el-option :label="$t('common.custom')" value="custom" />
               </el-select>
             </div>
@@ -186,7 +186,7 @@
                 </el-tooltip>
               </div>
               <el-select v-model="form_data.limit_type" size="small" style="width: 85px">
-                <el-option :label="$t('views.workflow.variable.Referencing')" value="referencing" />
+                <el-option :label="$t('workflow.variable.Referencing')" value="referencing" />
                 <el-option :label="$t('common.custom')" value="custom" />
               </el-select>
             </div>
@@ -208,13 +208,13 @@
         <el-form-item v-if="form_data.split_strategy !== 'qa'">
           <template #label>
             <div class="flex-between">
-              <span> {{ $t('views.workflow.nodes.documentSplitNode.title1') }}</span>
+              <span> {{ $t('workflow.nodes.documentSplitNode.title1') }}</span>
               <el-select
                 v-model="form_data.paragraph_title_relate_problem_type"
                 size="small"
                 style="width: 85px"
               >
-                <el-option :label="$t('views.workflow.variable.Referencing')" value="referencing" />
+                <el-option :label="$t('workflow.variable.Referencing')" value="referencing" />
                 <el-option :label="$t('common.custom')" value="custom" />
               </el-select>
             </div>
@@ -236,13 +236,13 @@
         <el-form-item>
           <template #label>
             <div class="flex-between">
-              <span>{{ $t('views.workflow.nodes.documentSplitNode.title2') }}</span>
+              <span>{{ $t('workflow.nodes.documentSplitNode.title2') }}</span>
               <el-select
                 v-model="form_data.document_name_relate_problem_type"
                 size="small"
                 style="width: 85px"
               >
-                <el-option :label="$t('views.workflow.variable.Referencing')" value="referencing" />
+                <el-option :label="$t('workflow.variable.Referencing')" value="referencing" />
                 <el-option :label="$t('common.custom')" value="custom" />
               </el-select>
             </div>

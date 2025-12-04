@@ -149,7 +149,6 @@ export default {
   },
   resource_management: {
     label: '资源管理',
-    type: '类型',
     management: '管理',
   },
   default_login: '默认登录方式',

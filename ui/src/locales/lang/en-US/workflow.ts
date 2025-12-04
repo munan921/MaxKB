@@ -82,16 +82,17 @@ export default {
   nodes: {
     knowledgeWriteNode: {
       text: 'Knowledge write',
-      label: 'Knowledge write',
+      label:
+        'Write the input paragraph list into the current knowledge base and complete vectorization processing',
     },
     dataSourceWebNode: {
       label: 'Web Site',
-      text: 'Web Site',
+      text: 'Input the root URL to automatically crawl web data (single link corresponds to a single document), output a list of documents with content',
       field_label: 'Document list',
     },
     dataSourceLocalNode: {
       label: 'Local File',
-      text: 'Local File',
+      text: 'Upload local documents, output document list (content not parsed, needs to be used with "Document Content Extraction" node to parse)',
       fileList: 'File List',
       fileFormat: {
         label: 'Supported File Formats',
@@ -262,12 +263,12 @@ You are a master of problem optimization, adept at accurately inferring user int
     },
     documentExtractNode: {
       label: 'Document Content Extraction',
-      text: 'Extract content from documents',
+      text: 'Parse input documents to output structured document content',
       content: 'Document Content',
     },
     documentSplitNode: {
       label: 'Document Splitting',
-      text: 'Split document content into smaller segments',
+      text: 'Split input document content according to the segmentation strategy, output a list of segmented texts',
       paragraphList: 'List of split segments',
       splitStrategy: {
         label: 'Splitting Strategy',
@@ -534,9 +535,6 @@ You are a master of problem optimization, adept at accurately inferring user int
   },
   SystemPromptPlaceholder: 'System Prompt, can reference variables in the system, such as',
   UserPromptPlaceholder: 'User Prompt, can reference variables in the system, such as',
-  debug: {
-    executionResult: 'Execution Result',
-    executionSuccess: 'Execution Succeeded',
-    executionFailed: 'Execution Failed',
-  },
+  ExecutionRecord: 'Execution Record',
+  debug: {},
 }

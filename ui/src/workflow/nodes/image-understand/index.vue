@@ -1,6 +1,6 @@
 <template>
   <NodeContainer :node-model="nodeModel">
-    <h5 class="title-decoration-1 mb-8">{{ $t('views.workflow.nodeSetting') }}</h5>
+    <h5 class="title-decoration-1 mb-8">{{ $t('workflow.nodeSetting') }}</h5>
     <el-card shadow="never" class="card-never">
       <el-form
         @submit.prevent
@@ -12,11 +12,11 @@
         hide-required-asterisk
       >
         <el-form-item
-          :label="$t('views.workflow.nodes.imageUnderstandNode.model.label')"
+          :label="$t('workflow.nodes.imageUnderstandNode.model.label')"
           prop="model_id"
           :rules="{
             required: true,
-            message: $t('views.workflow.nodes.imageUnderstandNode.model.requiredMessage'),
+            message: $t('workflow.nodes.imageUnderstandNode.model.requiredMessage'),
             trigger: 'change',
           }"
         >
@@ -24,7 +24,7 @@
             <div class="flex-between w-full">
               <div>
                 <span
-                  >{{ t('views.workflow.nodes.imageUnderstandNode.model.label')
+                  >{{ t('workflow.nodes.imageUnderstandNode.model.label')
                   }}<span class="color-danger">*</span></span
                 >
               </div>
@@ -44,7 +44,7 @@
             @wheel="wheel"
             :teleported="false"
             v-model="form_data.model_id"
-            :placeholder="$t('views.workflow.nodes.imageUnderstandNode.model.requiredMessage')"
+            :placeholder="$t('workflow.nodes.imageUnderstandNode.model.requiredMessage')"
             :options="modelOptions"
             showFooter
             :model-type="'IMAGE'"
@@ -79,7 +79,7 @@
             v-model="form_data.system"
             style="height: 100px"
             @submitDialog="submitSystemDialog"
-            :placeholder="`${t('views.workflow.SystemPromptPlaceholder')}{{${t('views.workflow.nodes.startNode.label')}.question}}`"
+            :placeholder="`${t('workflow.SystemPromptPlaceholder')}{{${t('workflow.nodes.startNode.label')}.question}}`"
           />
         </el-form-item>
         <el-form-item
@@ -111,7 +111,7 @@
             v-model="form_data.prompt"
             style="height: 150px"
             @submitDialog="submitDialog"
-            :placeholder="`${t('views.workflow.UserPromptPlaceholder')}{{${t('views.workflow.nodes.startNode.label')}.question}}`"
+            :placeholder="`${t('workflow.UserPromptPlaceholder')}{{${t('workflow.nodes.startNode.label')}.question}}`"
           />
         </el-form-item>
         <el-form-item>
@@ -119,8 +119,8 @@
             <div class="flex-between">
               <div>{{ $t('views.application.form.historyRecord.label') }}</div>
               <el-select v-model="form_data.dialogue_type" type="small" style="width: 100px">
-                <el-option :label="$t('views.workflow.node')" value="NODE" />
-                <el-option :label="$t('views.workflow.workflow')" value="WORKFLOW" />
+                <el-option :label="$t('workflow.node')" value="NODE" />
+                <el-option :label="$t('workflow.workflow')" value="WORKFLOW" />
               </el-select>
             </div>
           </template>
@@ -135,39 +135,39 @@
           />
         </el-form-item>
         <el-form-item
-          :label="$t('views.workflow.nodes.imageUnderstandNode.image.label')"
+          :label="$t('workflow.nodes.imageUnderstandNode.image.label')"
           :rules="{
             type: 'array',
             required: true,
-            message: $t('views.workflow.nodes.imageUnderstandNode.image.requiredMessage'),
+            message: $t('workflow.nodes.imageUnderstandNode.image.requiredMessage'),
             trigger: 'change',
           }"
         >
           <template #label
-            >{{ $t('views.workflow.nodes.imageUnderstandNode.image.label')
+            >{{ $t('workflow.nodes.imageUnderstandNode.image.label')
             }}<span class="color-danger">*</span></template
           >
           <NodeCascader
             ref="nodeCascaderRef"
             :nodeModel="nodeModel"
             class="w-full"
-            :placeholder="$t('views.workflow.nodes.imageUnderstandNode.image.requiredMessage')"
+            :placeholder="$t('workflow.nodes.imageUnderstandNode.image.requiredMessage')"
             v-model="form_data.image_list"
           />
         </el-form-item>
         <el-form-item
-          :label="$t('views.workflow.nodes.aiChatNode.returnContent.label')"
+          :label="$t('workflow.nodes.aiChatNode.returnContent.label')"
           @click.prevent
           v-if="[WorkflowMode.Application, WorkflowMode.ApplicationLoop].includes(workflowMode)"
         >
           <template #label>
             <div class="flex align-center">
               <div class="mr-4">
-                <span>{{ $t('views.workflow.nodes.aiChatNode.returnContent.label') }}</span>
+                <span>{{ $t('workflow.nodes.aiChatNode.returnContent.label') }}</span>
               </div>
               <el-tooltip effect="dark" placement="right" popper-class="max-w-200">
                 <template #content>
-                  {{ $t('views.workflow.nodes.aiChatNode.returnContent.tooltip') }}
+                  {{ $t('workflow.nodes.aiChatNode.returnContent.tooltip') }}
                 </template>
                 <AppIcon iconName="app-warning" class="app-warning-icon"></AppIcon>
               </el-tooltip>
@@ -235,7 +235,7 @@ const wheel = (e: any) => {
   }
 }
 
-const defaultPrompt = `{{${t('views.workflow.nodes.startNode.label')}.question}}`
+const defaultPrompt = `{{${t('workflow.nodes.startNode.label')}.question}}`
 
 const form = {
   model_id: '',

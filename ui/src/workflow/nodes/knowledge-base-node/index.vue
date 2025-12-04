@@ -1,6 +1,6 @@
 <template>
   <NodeContainer :nodeModel="nodeModel">
-    <h5 class="title-decoration-1 mb-8">{{ $t('views.workflow.nodeSetting') }}</h5>
+    <h5 class="title-decoration-1 mb-8">{{ $t('workflow.nodeSetting') }}</h5>
     <UserInputFieldTable ref="UserInputFieldTableFef" :node-model="nodeModel" />
 
     <h5 class="title-decoration-1 mb-8 mt-8">
@@ -16,7 +16,7 @@
           <span class="break-all">{{ item.label }} {{ '{' + item.value + '}' }}</span>
           <el-tooltip
             effect="dark"
-            :content="$t('views.workflow.setting.copyParam')"
+            :content="$t('workflow.setting.copyParam')"
             placement="top"
             v-if="showicon === index"
           >

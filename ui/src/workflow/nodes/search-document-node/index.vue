@@ -1,6 +1,6 @@
 <template>
   <NodeContainer :nodeModel="nodeModel">
-    <h5 class="title-decoration-1 mb-8">{{ $t('views.workflow.nodeSetting') }}</h5>
+    <h5 class="title-decoration-1 mb-8">{{ $t('workflow.nodeSetting') }}</h5>
     <el-card shadow="never" class="card-never">
       <el-form
         @submit.prevent
@@ -14,7 +14,7 @@
           <template #label>
             <div class="flex-between">
               <span>
-                {{ $t('views.workflow.nodes.searchDocumentNode.selectKnowledge') }}
+                {{ $t('workflow.nodes.searchDocumentNode.selectKnowledge') }}
               </span>
               <span>
                 <el-button
@@ -32,7 +32,7 @@
                   style="width: 85px"
                 >
                   <el-option
-                    :label="$t('views.workflow.variable.Referencing')"
+                    :label="$t('workflow.variable.Referencing')"
                     value="referencing"
                   />
                   <el-option :label="$t('common.custom')" value="custom" />
@@ -69,7 +69,7 @@
             <el-form-item
               prop="search_scope_reference"
               :rules="{
-                message: $t('views.workflow.variable.placeholder'),
+                message: $t('workflow.variable.placeholder'),
                 trigger: 'blur',
                 required: true,
               }"
@@ -77,7 +77,7 @@
               <template #label>
                 <div class="flex-between">
                   <span>
-                    {{ $t('views.workflow.nodes.searchDocumentNode.select_variable') }}
+                    {{ $t('workflow.nodes.searchDocumentNode.select_variable') }}
                     <span class="color-danger">*</span></span
                   >
                   <span>
@@ -89,11 +89,11 @@
                       @change="form_data.search_scope_reference = []"
                     >
                       <el-option
-                        :label="$t('views.workflow.nodes.searchDocumentNode.knowledgeList')"
+                        :label="$t('workflow.nodes.searchDocumentNode.knowledgeList')"
                         value="knowledge"
                       />
                       <el-option
-                        :label="$t('views.workflow.nodes.searchDocumentNode.documentList')"
+                        :label="$t('workflow.nodes.searchDocumentNode.documentList')"
                         value="document"
                       />
                     </el-select>
@@ -104,19 +104,19 @@
                 ref="nodeCascaderRef"
                 :nodeModel="nodeModel"
                 class="w-full"
-                :placeholder="$t('views.workflow.variable.placeholder')"
+                :placeholder="$t('workflow.variable.placeholder')"
                 v-model="form_data.search_scope_reference"
               />
             </el-form-item>
           </div>
         </el-form-item>
-        <el-form-item :label="$t('views.workflow.nodes.searchDocumentNode.searchSetting')">
+        <el-form-item :label="$t('workflow.nodes.searchDocumentNode.searchSetting')">
           <el-radio-group v-model="form_data.search_mode">
             <el-radio value="auto">
               <span class="flex align-center">
-                {{ $t('views.workflow.nodes.searchDocumentNode.auto') }}
+                {{ $t('workflow.nodes.searchDocumentNode.auto') }}
                 <el-tooltip
-                  :content="$t('views.workflow.nodes.searchDocumentNode.autoTooltip')"
+                  :content="$t('workflow.nodes.searchDocumentNode.autoTooltip')"
                   placement="top"
                 >
                   <AppIcon iconName="app-warning" class="app-warning-icon ml-4"></AppIcon>
@@ -125,10 +125,10 @@
             </el-radio>
             <el-radio value="custom" v-if="form_data.search_scope_type === 'custom'">
               <span class="flex align-center">
-                {{ $t('views.workflow.nodes.searchDocumentNode.custom') }}
+                {{ $t('workflow.nodes.searchDocumentNode.custom') }}
                 <el-tooltip
                   c
-                  :content="$t('views.workflow.nodes.searchDocumentNode.customTooltip')"
+                  :content="$t('workflow.nodes.searchDocumentNode.customTooltip')"
                   placement="top"
                 >
                   <AppIcon iconName="app-warning" class="app-warning-icon ml-4"></AppIcon>
@@ -143,7 +143,7 @@
             prop="question_reference"
             :rules="{
               message: $t(
-                'views.workflow.nodes.searchKnowledgeNode.searchQuestion.requiredMessage',
+                'workflow.nodes.searchKnowledgeNode.searchQuestion.requiredMessage',
               ),
               trigger: 'blur',
               required: true,
@@ -151,7 +151,7 @@
           >
             <template #label>
               <span>
-                {{ $t('views.workflow.nodes.searchKnowledgeNode.searchQuestion.label') }}
+                {{ $t('workflow.nodes.searchKnowledgeNode.searchQuestion.label') }}
                 <span class="color-danger">*</span></span
               >
             </template>
@@ -160,7 +160,7 @@
               :nodeModel="nodeModel"
               class="w-full"
               :placeholder="
-                $t('views.workflow.nodes.searchKnowledgeNode.searchQuestion.placeholder')
+                $t('workflow.nodes.searchKnowledgeNode.searchQuestion.placeholder')
               "
               v-model="form_data.question_reference"
             />
@@ -168,18 +168,18 @@
           <div v-else>
             <div class="flex align-center mb-8">
               <el-text type="info" class="lighter" size="small">
-                {{ $t('views.workflow.nodes.conditionNode.conditions.info') }}
+                {{ $t('workflow.nodes.conditionNode.conditions.info') }}
               </el-text>
               <el-select
                 v-model="form_data.search_condition_type"
                 size="small"
                 style="width: 60px; margin: 0 8px"
               >
-                <el-option :label="$t('views.workflow.condition.AND')" value="AND" />
-                <el-option :label="$t('views.workflow.condition.OR')" value="OR" />
+                <el-option :label="$t('workflow.condition.AND')" value="AND" />
+                <el-option :label="$t('workflow.condition.OR')" value="OR" />
               </el-select>
               <el-text type="info" class="lighter" size="small">
-                {{ $t('views.workflow.nodes.conditionNode.conditions.label') }}
+                {{ $t('workflow.nodes.conditionNode.conditions.label') }}
               </el-text>
             </div>
             <div v-for="(c, index) in form_data.search_condition_list" :key="index">
@@ -211,7 +211,7 @@
                 <el-col :span="8">
                   <el-input
                     v-model="c.value"
-                    :placeholder="$t('views.workflow.nodes.searchDocumentNode.valueMessage')"
+                    :placeholder="$t('workflow.nodes.searchDocumentNode.valueMessage')"
                   ></el-input>
                 </el-col>
                 <el-col :span="1">
@@ -223,7 +223,7 @@
             </div>
             <el-button link type="primary" @click="addCondition" class="mt-8">
               <AppIcon iconName="app-add-outlined" class="mr-4"></AppIcon>
-              {{ $t('views.workflow.nodes.conditionNode.addCondition') }}
+              {{ $t('workflow.nodes.conditionNode.addCondition') }}
             </el-button>
           </div>
         </div>
@@ -257,9 +257,9 @@ const props = defineProps<{ nodeModel: any }>()
 const nodeCascaderRef = ref()
 const nodeCascaderRef2 = ref()
 const compareList = [
-  { value: 'contain', label: t('views.workflow.compare.contain') },
-  { value: 'not_contain', label: t('views.workflow.compare.not_contain') },
-  { value: 'eq', label: t('views.workflow.compare.eq') },
+  { value: 'contain', label: t('workflow.compare.contain') },
+  { value: 'not_contain', label: t('workflow.compare.not_contain') },
+  { value: 'eq', label: t('workflow.compare.eq') },
 ]
 
 const apiType = computed(() => {

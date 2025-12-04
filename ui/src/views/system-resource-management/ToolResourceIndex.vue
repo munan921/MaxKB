@@ -16,8 +16,8 @@
             @change="search_type_change"
           >
             <el-option :label="$t('common.creator')" value="create_user" />
-            <el-option :label="$t('views.tool.form.toolName.label')" value="name" />
-            <el-option :label="$t('views.system.resource_management.type')" value="tool_type"/>
+            <el-option :label="$t('common.name')" value="name" />
+            <el-option :label="$t('common.type')" value="tool_type"/>
           </el-select>
           <el-input
             v-if="search_type === 'name'"
@@ -79,7 +79,7 @@
           </template>
         </el-table-column>
 
-        <el-table-column prop="tool_type" :label="$t('views.system.resource_management.type')">
+        <el-table-column prop="tool_type" :label="$t('common.type')">
           <template #default="scope">
             <span v-if="scope.row.tool_type === 'MCP'"> MCP </span>
             <span v-else-if="scope.row.tool_type === 'DATA_SOURCE'"> {{ $t('views.tool.dataSource.title') }} </span>

@@ -48,7 +48,7 @@
                   <template #label>
                     <div class="flex-between">
                       <span
-                        >{{ $t('views.application.form.appName.label') }}
+                        >{{ $t('common.name') }}
                         <span class="color-danger">*</span></span
                       >
                     </div>

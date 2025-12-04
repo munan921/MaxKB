@@ -16,7 +16,7 @@
         v-loading="loading"
         @submit.prevent
       >
-        <el-form-item :label="$t('views.tool.form.toolName.label')" prop="name">
+        <el-form-item :label="$t('common.name')" prop="name">
           <div class="flex w-full">
             <div
               v-if="form.id"
