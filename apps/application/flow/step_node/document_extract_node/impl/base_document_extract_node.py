@@ -57,29 +57,6 @@ class BaseDocumentExtractNode(IDocumentExtractNode):
 
         document_list = []
         for doc in document:
-            if 'file_bytes' in doc:
-                file_bytes = doc['file_bytes']
-                # 如果是字符串，转换为字节
-                if isinstance(file_bytes, str):
-                    file_bytes = ast.literal_eval(file_bytes)
-                doc['file_id'] = doc.get('file_id') or uuid.uuid7()
-                meta = {
-                    'debug': False if (application_id or knowledge_id) else True,
-                    'chat_id': chat_id,
-                    'application_id': str(application_id) if application_id else None,
-                    'knowledge_id': str(knowledge_id) if knowledge_id else None,
-                    'file_id': str(doc['file_id'])
-                }
-                new_file = File(
-                    id=doc['file_id'],
-                    file_name=doc['name'],
-                    file_size=len(file_bytes),
-                    source_type=FileSourceType.APPLICATION.value if meta[
-                        'application_id'] else FileSourceType.KNOWLEDGE.value,
-                    source_id=meta['application_id'] if meta['application_id'] else meta['knowledge_id'],
-                    meta={}
-                )
-                new_file.save(file_bytes)
             file = QuerySet(File).filter(id=doc['file_id']).first()
             buffer = io.BytesIO(file.get_bytes())
             buffer.name = doc['name']  # this is the important line
