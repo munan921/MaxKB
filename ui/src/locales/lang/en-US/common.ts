@@ -47,6 +47,7 @@ export default {
   classify: 'Classify',
   reason: 'Reason',
   removeSuccess: 'Successful',
+  publish: 'Publish',
   searchBar: {
     placeholder: 'Search by name',
   },

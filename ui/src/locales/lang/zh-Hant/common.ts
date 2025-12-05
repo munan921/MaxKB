@@ -47,6 +47,7 @@ export default {
   classify: '分類',
   reason: '理由',
   removeSuccess: '移除成功',
+  publish: '發佈',
   searchBar: {
     placeholder: '按名稱搜尋',
   },
