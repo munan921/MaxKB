@@ -12,6 +12,8 @@ from knowledge.serializers.document import default_split_handle, FileBufferHandl
 
 
 def bytes_to_uploaded_file(file_bytes, file_name="file.txt"):
+    if file_name.startswith("http"):
+        file_name = "file.txt"
     content_type, _ = mimetypes.guess_type(file_name)
     if content_type is None:
         # 如果未能识别，设置为默认的二进制文件类型
@@ -64,7 +66,7 @@ class BaseDocumentSplitNode(IDocumentSplitNode):
         for doc in file_list:
             get_buffer = FileBufferHandle().get_buffer
 
-            file_mem = bytes_to_uploaded_file(doc['content'].encode('utf-8'))
+            file_mem = bytes_to_uploaded_file(doc['content'].encode('utf-8'), doc['name'])
             if split_strategy == 'qa':
                 result = md_qa_split_handle.handle(file_mem, get_buffer, self._save_image)
             else:
