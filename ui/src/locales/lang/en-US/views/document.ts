@@ -26,6 +26,8 @@ export default {
     fileLimitCountTip1: 'Maximum upload per time',
     fileLimitCountTip2: 'files',
     fileLimitSizeTip1: 'each file must not exceed',
+    toImportDocConfirm:
+      'The workflow of the current knowledge base is not published, and documents cannot be imported. Please publish the workflow first.',
   },
   upload: {
     selectFile: 'Select File',

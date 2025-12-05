@@ -26,6 +26,7 @@ export default {
     fileLimitCountTip1: '每次最多上传',
     fileLimitCountTip2: '个文件',
     fileLimitSizeTip1: '每个文件不超过',
+    toImportDocConfirm: '当前知识库的工作流未发布，无法导入文档，请先发布工作流。',
   },
   upload: {
     selectFile: '选择文件',

@@ -402,7 +402,7 @@
           <template
             v-if="data.type === WorkflowType.ToolLib || data.type === WorkflowType.ToolLibCustom"
           >
-            <div class="card-never border-r-6 mt-8">
+            <div class="card-never border-r-6 mt-8" v-if="data.index != 0">
               <h5 class="p-8-12">{{ $t('chat.executionDetails.input') }}</h5>
               <div class="p-8-12 border-t-dashed lighter pre-wrap">
                 {{ data.params || '-' }}
@@ -1162,7 +1162,11 @@
           <!-- 知识库写入 -->
           <template v-if="data.type === WorkflowType.KnowledgeWriteNode">
             <div class="card-never border-r-6 mt-8">
-              <h5 class="p-8-12">{{ $t('chat.executionDetails.writeContent') }}</h5>
+              <h5 class="p-8-12">
+                {{ $t('chat.executionDetails.writeContent') }}（{{
+                  $t('chat.executionDetails.documentSplitTip')
+                }}）
+              </h5>
               <div class="p-8-12 border-t-dashed lighter">
                 <el-tabs v-model="currentWriteContent" class="paragraph-tabs">
                   <template v-for="(item, index) in data.write_content" :key="index">
@@ -1199,9 +1203,8 @@
                   {{ $t('views.document.form.selector.label') }}: {{ data.input_params.selector }}
                 </p>
                 <p class="mb-8 color-secondary">
-                  {{ $t('views.document.form.source_url.label') }}: {{
-                    data.input_params.source_url
-                  }}
+                  {{ $t('views.document.form.source_url.label') }}:
+                  {{ data.input_params.source_url }}
                 </p>
               </div>
             </div>
@@ -1218,7 +1221,7 @@
                     :key="index"
                     class="mb-8"
                   >
-                    <h4>{{file_content.name}}</h4>
+                    <h4>{{ file_content.name }}</h4>
                     <MdPreview
                       v-if="file_content"
                       ref="editorRef"

@@ -39,16 +39,9 @@
                   >{{ $t('views.document.importDocument') }}
                 </el-button>
                 <el-button
-                  v-if="knowledgeDetail?.type === 4 && permissionPrecise.doc_create(id)&&knowledgeDetail.is_publish"
+                  v-if="knowledgeDetail?.type === 4 && permissionPrecise.doc_create(id)"
                   type="primary"
-                  @click="
-                    router.push({
-                      path: `/knowledge/import/workflow/${folderId}`,
-                      query: {
-                        id: id,
-                      },
-                    })
-                  "
+                  @click="toImportWorkflow"
                   >{{ $t('views.document.importDocument') }}
                 </el-button>
                 <el-button
@@ -859,6 +852,25 @@ const multipleSelection = ref<any[]>([])
 const title = ref('')
 
 const selectKnowledgeDialogRef = ref()
+
+const toImportWorkflow = () => {
+  if (knowledgeDetail.value.is_publish) {
+    router.push({
+      path: `/knowledge/import/workflow/${folderId}`,
+      query: {
+        id: id,
+      },
+    })
+  } else {
+    MsgConfirm(t('common.tip'), t('views.document.tip.toImportDocConfirm'), {
+      cancelButtonText: t('common.close'),
+      showConfirmButton: false,
+      type: 'warning',
+    })
+      .then(() => {})
+      .catch(() => {})
+  }
+}
 
 const exportDocument = (document: any) => {
   loadSharedApi({ type: 'document', systemType: apiType.value })

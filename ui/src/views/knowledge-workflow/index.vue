@@ -554,14 +554,24 @@ const get_route = () => {
 }
 
 const toImportDoc = () => {
-  const newUrl = router.resolve({
-    path: `/knowledge/import/workflow/${folderId}`,
-    query: {
-      id: id,
-    },
-  }).href
+  if (detail.value.is_publish) {
+    const newUrl = router.resolve({
+      path: `/knowledge/import/workflow/${folderId}`,
+      query: {
+        id: id,
+      },
+    }).href
 
-  window.open(newUrl)
+    window.open(newUrl)
+  } else {
+    MsgConfirm(t('common.tip'), t('views.document.tip.toImportDocConfirm'), {
+      cancelButtonText: t('common.close'),
+      showConfirmButton: false,
+      type: 'warning',
+    })
+      .then(() => {})
+      .catch(() => {})
+  }
 }
 
 /**
