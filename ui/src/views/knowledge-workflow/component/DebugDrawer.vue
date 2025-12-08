@@ -30,7 +30,8 @@
         :loading="loading"
         @click="up"
       >
-        {{ $t('common.steps.prev') }}</el-button
+        {{ $t('common.steps.prev') }}
+      </el-button
       >
       <el-button
         v-if="base_form_list.length > 0 && active == 'data_source'"
@@ -48,24 +49,26 @@
         {{ $t('views.document.buttons.import') }}
       </el-button>
       <el-button v-if="active == 'result'" type="primary" @click="goDocument">{{
-        $t('views.knowledge.ResultSuccess.buttons.toDocument')
-      }}</el-button>
+          $t('views.knowledge.ResultSuccess.buttons.toDocument')
+        }}
+      </el-button>
     </template>
   </el-drawer>
 </template>
 <script setup lang="ts">
-import { computed, ref, provide, type Ref, nextTick } from 'vue'
+import {computed, ref, provide, type Ref, nextTick} from 'vue'
 import DataSource from '@/views/knowledge-workflow/component/action/DataSource.vue'
 import Result from '@/views/knowledge-workflow/component/action/Result.vue'
 import applicationApi from '@/api/application/application'
 import KnowledgeBase from '@/views/knowledge-workflow/component/action/KnowledgeBase.vue'
-import { WorkflowType } from '@/enums/application'
+import {WorkflowType} from '@/enums/application'
 
-import { loadSharedApi } from '@/utils/dynamics-api/shared-api'
+import {loadSharedApi} from '@/utils/dynamics-api/shared-api'
 import permissionMap from '@/permission'
-import { MsgError } from '@/utils/message'
-import { t } from '@/locales'
-import { useRoute, useRouter } from 'vue-router'
+import {MsgError} from '@/utils/message'
+import {t} from '@/locales'
+import {useRoute, useRouter} from 'vue-router'
+
 provide('upload', (file: any, loading?: Ref<boolean>) => {
   return applicationApi.postUploadFile(file, id, 'KNOWLEDGE', loading)
 })
@@ -73,7 +76,7 @@ const key = ref<number>(0)
 const router = useRouter()
 const route = useRoute()
 const {
-  params: { id, folderId },
+  params: {id, folderId},
   /*
   id 为 knowledge_id
   */
@@ -127,6 +130,9 @@ const up = () => {
     active.value = 'data_source'
   })
 }
+const isShared = computed(() => {
+  return folderId === 'share'
+})
 
 const permissionPrecise = computed(() => {
   return permissionMap['knowledge'][apiType.value]
@@ -136,7 +142,7 @@ const upload = () => {
   if (permissionPrecise.value.doc_create(id)) {
     ActionRef.value.validate().then(() => {
       form_data.value[active.value] = ActionRef.value.get_data()
-      loadSharedApi({ type: 'knowledge', systemType: apiType.value })
+      loadSharedApi({type: 'knowledge', isShared: isShared.value, systemType: apiType.value})
         .workflowAction(id, form_data.value, loading)
         .then((ok: any) => {
           action_id.value = ok.data.id
@@ -164,6 +170,6 @@ const goDocument = () => {
   }).href
   window.open(newUrl)
 }
-defineExpose({ close, open })
+defineExpose({close, open})
 </script>
 <style lang="scss" scoped></style>

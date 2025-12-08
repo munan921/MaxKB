@@ -24,12 +24,15 @@
                       @close="closeWrite(row)"
                     />
                     <el-tag v-if="index === 0" class="default-tag ml-4">{{
-                      $t('workflow.setting.latestRelease')
-                    }}</el-tag>
+                        $t('workflow.setting.latestRelease')
+                      }}
+                    </el-tag>
                   </h5>
                   <el-text type="info" class="color-secondary flex align-center mt-8">
                     <el-avatar :size="20" class="avatar-grey mr-4">
-                      <el-icon><UserFilled /></el-icon>
+                      <el-icon>
+                        <UserFilled/>
+                      </el-icon>
                     </el-avatar>
                     {{ row.publish_user_name }}
                   </el-text>
@@ -50,7 +53,9 @@
                           {{ $t('common.edit') }}
                         </el-dropdown-item>
                         <el-dropdown-item @click="refreshVersion(row)">
-                          <el-icon class="color-secondary"><RefreshLeft /></el-icon>
+                          <el-icon class="color-secondary">
+                            <RefreshLeft/>
+                          </el-icon>
                           {{ $t('workflow.setting.restoreCurrentVersion') }}
                         </el-dropdown-item>
                       </el-dropdown-menu>
@@ -72,17 +77,17 @@
   </div>
 </template>
 <script setup lang="ts">
-import { ref, onMounted, computed } from 'vue'
-import { useRoute } from 'vue-router'
-import { datetimeFormat } from '@/utils/time'
-import { MsgSuccess, MsgError } from '@/utils/message'
-import { t } from '@/locales'
-import { loadSharedApi } from '@/utils/dynamics-api/shared-api'
+import {ref, onMounted, computed} from 'vue'
+import {useRoute} from 'vue-router'
+import {datetimeFormat} from '@/utils/time'
+import {MsgSuccess, MsgError} from '@/utils/message'
+import {t} from '@/locales'
+import {loadSharedApi} from '@/utils/dynamics-api/shared-api'
 import permissionMap from '@/permission'
 
 const route = useRoute()
 const {
-  params: { id, folderId },
+  params: {id, folderId},
 } = route as any
 const apiType = computed(() => {
   if (route.path.includes('shared')) {
@@ -124,12 +129,16 @@ function closeWrite(item: any) {
   item['writeStatus'] = false
 }
 
+const isShared = computed(() => {
+  return folderId === 'share'
+})
+
 function editName(val: string, item: any) {
   if (val) {
     const obj = {
       name: val,
     }
-    loadSharedApi({ type: 'knowledge', systemType: apiType.value })
+    loadSharedApi({type: 'knowledge', isShared: isShared.value, systemType: apiType.value})
       .updateKnowledgeVersion(id as string, item.id, obj, loading)
       .then(() => {
         MsgSuccess(t('common.modifySuccess'))
@@ -142,7 +151,7 @@ function editName(val: string, item: any) {
 }
 
 function getList() {
-  loadSharedApi({ type: 'knowledge', systemType: apiType.value })
+  loadSharedApi({type: 'knowledge', isShared: isShared.value, systemType: apiType.value})
     .listKnowledgeVersion(id, loading)
     .then((res: any) => {
       LogData.value = res.data
@@ -161,6 +170,7 @@ onMounted(() => {
   top: 57px;
   height: calc(100vh - 57px);
   z-index: 9;
+
   .list-height {
     height: calc(100vh - 120px);
   }
