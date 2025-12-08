@@ -31,7 +31,7 @@
 
 <script setup lang="ts">
 import NodeContainer from '@/workflow/common/NodeContainer.vue'
-import { computed } from 'vue'
+import { computed, ref, onMounted } from 'vue'
 import { set } from 'lodash'
 import NodeCascader from '@/workflow/common/NodeCascader.vue'
 
@@ -56,6 +56,19 @@ const form_data = computed({
   }
 })
 
+const nodeCascaderRef = ref()
+const validate = () => {
+  return Promise.all([
+    nodeCascaderRef.value ? nodeCascaderRef.value.validate() : Promise.resolve(''),
+  ]).catch((err: any) => {
+    return Promise.reject({ node: props.nodeModel, errMessage: err })
+  })
+}
+
+onMounted(() => {
+
+  set(props.nodeModel, 'validate', validate)
+})
 </script>
 
 <style lang="scss" scoped>
