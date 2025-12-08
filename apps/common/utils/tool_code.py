@@ -82,6 +82,7 @@ class ToolExecutor:
         _exec_code = f"""
 try:
     import os, sys, json
+    from contextlib import redirect_stdout
     path_to_exclude = ['/opt/py3/lib/python3.11/site-packages', '/opt/maxkb-app/apps']
     sys.path = [p for p in sys.path if p not in path_to_exclude]
     sys.path += {python_paths}
@@ -90,18 +91,18 @@ try:
     globals_v={{}}
     {set_run_user}
     os.environ.clear()
-    exec({dedent(code_str)!a}, globals_v, locals_v)
-    f_name, f = {action_function}
-    for local in locals_v:
-        globals_v[local] = locals_v[local]
-    exec_result=f(**keywords)
+    with redirect_stdout(open(os.devnull, 'w')):
+        exec({dedent(code_str)!a}, globals_v, locals_v)
+        f_name, f = {action_function}
+        globals_v.update(locals_v)
+        exec_result=f(**keywords)
     sys.stdout.write("\\n{_id}:")
     json.dump({{'code':200,'msg':'success','data':exec_result}}, sys.stdout, default=str)
 except Exception as e:
     if isinstance(e, MemoryError): e = Exception("Cannot allocate more memory: exceeded the limit of {_process_limit_mem_mb} MB.")
     sys.stdout.write("\\n{_id}:")
     json.dump({{'code':500,'msg':str(e),'data':None}}, sys.stdout, default=str)
-sys.stdout.flush()    
+sys.stdout.flush()
 """
         maxkb_logger.debug(f"Sandbox execute code: {_exec_code}")
         with tempfile.NamedTemporaryFile(mode='w', suffix='.py', delete=True) as f:
