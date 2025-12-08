@@ -162,6 +162,7 @@ import permissionMap from '@/permission'
 import { WorkflowMode } from '@/enums/application'
 import { loadSharedApi } from '@/utils/dynamics-api/shared-api'
 import { knowledgeBaseNode } from '@/workflow/common/data'
+import { de } from 'element-plus/es/locale'
 provide('getResourceDetail', () => detail)
 provide('workflowMode', WorkflowMode.Knowledge)
 provide('loopWorkflowMode', WorkflowMode.KnowledgeLoop)
@@ -216,9 +217,8 @@ const apiInputParams = ref([])
 const urlParams = computed(() =>
   mapToUrlParams(apiInputParams.value) ? '?' + mapToUrlParams(apiInputParams.value) : '',
 )
-const shareUrl = computed(
-  () => `${window.location.origin}/chat/` + detail.value?.access_token + urlParams.value,
-)
+
+const isPublish = computed(() => detail.value?.is_publish)
 
 function back() {
   if (JSON.stringify(cloneWorkFlow.value) !== JSON.stringify(getGraphData())) {
@@ -331,6 +331,7 @@ const publish = () => {
           )
         })
         .then((ok: any) => {
+          detail.value.is_publish = true
           MsgSuccess(t('views.application.tip.publishSuccess'))
         })
         .catch((res: any) => {
@@ -554,7 +555,7 @@ const get_route = () => {
 }
 
 const toImportDoc = () => {
-  if (detail.value.is_publish) {
+  if (isPublish.value) {
     const newUrl = router.resolve({
       path: `/knowledge/import/workflow/${folderId}`,
       query: {

@@ -1,7 +1,7 @@
 <template>
   <div class="upload-document p-12-24">
     <div class="flex align-center mb-16">
-      <back-button to="-1" style="margin-left: -4px"></back-button>
+      <back-button @click="back" style="margin-left: -4px"></back-button>
       <h3 style="display: inline-block">{{ $t('views.document.importDocument') }}</h3>
     </div>
     <el-card style="--el-card-padding: 0">
@@ -65,6 +65,9 @@ import applicationApi from '@/api/application/application'
 import KnowledgeBase from '@/views/knowledge-workflow/component/action/KnowledgeBase.vue'
 import { loadSharedApi } from '@/utils/dynamics-api/shared-api'
 import { WorkflowType } from '@/enums/application'
+import { ComplexPermission, Permission } from '@/utils/permission/type'
+import { hasPermission } from '@/utils/permission'
+import { EditionConst, PermissionConst, RoleConst } from '@/utils/permission/data'
 provide('upload', (file: any, loading?: Ref<boolean>) => {
   return applicationApi.postUploadFile(file, id as string, 'KNOWLEDGE', loading)
 })
@@ -73,7 +76,7 @@ const route = useRoute()
 const key = ref<number>(0)
 const {
   params: { folderId },
-  query: { id },
+  query: { id } ,
   /*
   id为knowledgeID
   folderId 可以区分 resource-management shared还是 workspace
@@ -155,6 +158,91 @@ const goDocument = () => {
   }).href
   window.open(newUrl)
 }
+
+const back = () => {
+  if (route.path.includes('resource-management')) {
+    return router.push({ path: get_resource_management_route() })
+  } else if (route.path.includes('shared')) {
+    return router.push({ path: get_shared_route() })
+  } else {
+    return router.push({ path: get_route() })
+  }
+}
+
+const get_shared_route = () => {
+  if (hasPermission([RoleConst.ADMIN, PermissionConst.SHARED_KNOWLEDGE_DOCUMENT_READ], 'OR')) {
+    return `/knowledge/${id}/shared/4/document`
+  } else if (
+    hasPermission([RoleConst.ADMIN, PermissionConst.SHARED_KNOWLEDGE_PROBLEM_READ], 'OR')
+  ) {
+    return `/knowledge/${id}/shared/4/problem`
+  } else if (
+    hasPermission([RoleConst.ADMIN, PermissionConst.SHARED_KNOWLEDGE_HIT_TEST_READ], 'OR')
+  ) {
+    return `/knowledge/${id}/shared/4/hit-test`
+  } else if (
+    hasPermission([RoleConst.ADMIN, PermissionConst.SHARED_KNOWLEDGE_CHAT_USER_READ], 'OR')
+  ) {
+    return `/knowledge/${id}/shared/4/chat-user`
+  } else if (hasPermission([RoleConst.ADMIN, PermissionConst.SHARED_KNOWLEDGE_EDIT], 'OR')) {
+    return `/knowledge/${id}/shared/4/setting`
+  } else {
+    return `/system/shared/knowledge`
+  }
+}
+
+const get_resource_management_route = () => {
+  if (hasPermission([RoleConst.ADMIN, PermissionConst.RESOURCE_KNOWLEDGE_DOCUMENT_READ], 'OR')) {
+    return `/knowledge/${id}/resource-management/4/document`
+  } else if (
+    hasPermission([RoleConst.ADMIN, PermissionConst.RESOURCE_KNOWLEDGE_PROBLEM_READ], 'OR')
+  ) {
+    return `/knowledge/${id}/resource-management/4/problem`
+  } else if (hasPermission([RoleConst.ADMIN, PermissionConst.RESOURCE_KNOWLEDGE_HIT_TEST], 'OR')) {
+    return `/knowledge/${id}/resource-management/4/hit-test`
+  } else if (
+    hasPermission([RoleConst.ADMIN, PermissionConst.RESOURCE_KNOWLEDGE_CHAT_USER_READ], 'OR')
+  ) {
+    return `/knowledge/${id}/resource-management/4/chat-user`
+  } else if (hasPermission([RoleConst.ADMIN, PermissionConst.RESOURCE_KNOWLEDGE_EDIT], 'OR')) {
+    return `/knowledge/${id}/resource-management/4/setting`
+  } else {
+    return `/system/resource-management/knowledge`
+  }
+}
+
+const get_route = () => {
+  const checkPermission = (permissionConst: Permission) => {
+    return hasPermission(
+      [
+        new ComplexPermission(
+          [RoleConst.USER],
+          [PermissionConst.KNOWLEDGE.getKnowledgeWorkspaceResourcePermission(id as string)],
+          [],
+          'AND',
+        ),
+        RoleConst.WORKSPACE_MANAGE.getWorkspaceRole,
+        permissionConst.getWorkspacePermissionWorkspaceManageRole,
+        permissionConst.getKnowledgeWorkspaceResourcePermission(id as string),
+      ],
+      'OR',
+    )
+  }
+  if (checkPermission(PermissionConst.KNOWLEDGE_DOCUMENT_READ)) {
+    return `/knowledge/${id}/${folderId}/4/document`
+  } else if (checkPermission(PermissionConst.KNOWLEDGE_PROBLEM_READ)) {
+    return `/knowledge/${id}/${folderId}/4/problem`
+  } else if (checkPermission(PermissionConst.KNOWLEDGE_HIT_TEST_READ)) {
+    return `/knowledge/${id}/${folderId}/4/hit-test`
+  } else if (checkPermission(PermissionConst.KNOWLEDGE_CHAT_USER_READ)) {
+    return `/knowledge/${id}/${folderId}/4/chat-user`
+  } else if (checkPermission(PermissionConst.KNOWLEDGE_EDIT)) {
+    return `/knowledge/${id}/${folderId}/4/setting`
+  } else {
+    return `/knowledge`
+  }
+}
+
 onMounted(() => {
   getDetail()
 })

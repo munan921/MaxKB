@@ -12,7 +12,7 @@
         <el-divider class="ml-8 mr-8" direction="vertical" />
         <el-button
           link
-          @click="router.push({ path: '/' })"
+          @click="goHome"
           style="color: var(--el-text-color-primary)"
           v-if="
             hasPermission(
@@ -42,6 +42,12 @@ import { useRouter } from 'vue-router'
 import { hasPermission } from '@/utils/permission'
 
 const router = useRouter()
+const goHome = () => {
+  const newUrl = router.resolve({
+    path: `/`,
+  }).href
+  window.open(newUrl)
+}
 </script>
 <style lang="scss" scoped>
 .app-top-bar-container {
