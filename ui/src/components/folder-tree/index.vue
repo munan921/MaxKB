@@ -140,7 +140,7 @@ import ResourceAuthorizationDrawer from '@/components/resource-authorization-dra
 import { t } from '@/locales'
 import MoveToDialog from '@/components/folder-tree/MoveToDialog.vue'
 import { i18n_name } from '@/utils/common'
-import folderApi from '@/api/folder'
+import folderApi from '@/api/workspace/folder'
 import { EditionConst } from '@/utils/permission/data'
 import { hasPermission } from '@/utils/permission/index'
 import useStore from '@/stores'

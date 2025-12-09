@@ -646,14 +646,16 @@ function openCreateFolder() {
 
 function getFolder(bool?: boolean) {
   const params = {}
-  folder.asyncGetFolder(SourceTypeEnum.APPLICATION, params, loading).then((res: any) => {
-    folderList.value = res.data
-    if (bool) {
-      // 初始化刷新
-      folder.setCurrentFolder(res.data?.[0] || {})
-    }
-    getList()
-  })
+  folder
+    .asyncGetFolder(SourceTypeEnum.APPLICATION, params, apiType.value, loading)
+    .then((res: any) => {
+      folderList.value = res.data
+      if (bool) {
+        // 初始化刷新
+        folder.setCurrentFolder(res.data?.[0] || {})
+      }
+      getList()
+    })
 }
 
 function clickFolder(item: any) {

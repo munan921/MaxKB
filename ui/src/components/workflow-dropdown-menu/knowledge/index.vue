@@ -230,7 +230,7 @@ const toolTreeData = ref<any[]>([])
 const toolList = ref<any[]>([])
 
 async function getToolFolder() {
-  const res: any = await folder.asyncGetFolder(SourceTypeEnum.TOOL, {}, loading)
+  const res: any = await folder.asyncGetFolder(SourceTypeEnum.TOOL, {}, apiType.value, loading)
   toolTreeData.value = res.data
   folder.setCurrentFolder(res.data?.[0] || {})
 }
@@ -257,7 +257,9 @@ function folderClickHandle(row: any) {
 
 async function handleClick(val: string) {
   if (['DATA_SOURCE_TOOL', 'CUSTOM_TOOL'].includes(val)) {
-    await getToolFolder()
+    if (!route.path.includes('shared')) {
+      await getToolFolder()
+    }
     getToolList()
   }
 }

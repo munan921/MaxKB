@@ -26,7 +26,9 @@
             <el-radio-button value="">{{ $t('common.status.all') }}</el-radio-button>
             <el-radio-button value="CUSTOM">{{ $t('views.tool.title') }}</el-radio-button>
             <el-radio-button value="MCP">MCP</el-radio-button>
-            <el-radio-button value="DATA_SOURCE">{{ $t('views.tool.dataSource.title') }}</el-radio-button>
+            <el-radio-button value="DATA_SOURCE">{{
+              $t('views.tool.dataSource.title')
+            }}</el-radio-button>
           </el-radio-group>
         </el-space>
       </template>
@@ -65,7 +67,7 @@ const folderList = ref<any[]>([])
 
 function getFolder(bool?: boolean) {
   const params = {}
-  folder.asyncGetFolder(SourceTypeEnum.TOOL, params, loading).then((res: any) => {
+  folder.asyncGetFolder(SourceTypeEnum.TOOL, params, apiType.value, loading).then((res: any) => {
     folderList.value = res.data
     if (bool) {
       // 初始化刷新
