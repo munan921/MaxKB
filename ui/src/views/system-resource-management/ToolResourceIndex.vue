@@ -94,16 +94,13 @@
           <template #default="scope">
             <span v-if="scope.row.tool_type === 'MCP'"> MCP </span>
             <span v-else-if="scope.row.tool_type === 'DATA_SOURCE'"> {{ $t('views.tool.dataSource.title') }} </span>
-            <span v-else-if="scope.row.template_id">{{ $t('views.tool.toolStore.title') }}</span>
-            <span v-else>
-              {{
-                $t(
-                  ToolType[
-                    scope.row.template_id ? 'INTERNAL' : ('CUSTOM' as keyof typeof ToolType)
-                  ],
-                )
-              }}
-            </span>
+            <span v-else> {{ $t('views.tool.title') }} </span>
+          </template>
+        </el-table-column>
+        <el-table-column prop="source" :label="$t('views.tool.form.source.label')">
+          <template #default="scope">
+            <span v-if="scope.row.template_id">{{ $t('views.tool.toolStore.title') }}</span>
+            <span v-else> {{ $t( ToolType['CUSTOM'] ) }} </span>
           </template>
         </el-table-column>
         <el-table-column :label="$t('common.status.label')" width="120">
