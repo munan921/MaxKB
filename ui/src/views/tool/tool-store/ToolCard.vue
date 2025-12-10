@@ -34,7 +34,7 @@
       </el-tag>
     </template>
     <template #subTitle>
-      <el-text class="color-secondary" size="small">
+      <el-text class="color-secondary lighter" size="small">
         {{ getSubTitle(props.tool) }}
       </el-text>
     </template>

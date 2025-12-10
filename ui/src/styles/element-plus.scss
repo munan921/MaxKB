@@ -391,3 +391,9 @@
 .el-upload {
   --el-upload-dragger-padding-horizontal: 32px;
 }
+
+// el-switch
+.el-switch__core {
+  border: 1px solid var(--app-border-color-dark);
+  background: var(--app-border-color-dark);
+}
