@@ -161,7 +161,7 @@ const open = async (platform: Platform) => {
         currentPlatform.config.agent_id = currentPlatform.config.app_key
         delete currentPlatform.config.app_key
       }
-      currentPlatform.config.callback_url = `${defaultCallbackUrl}/api/wecom`
+      currentPlatform.config.callback_url = window.location.origin
       break
     case 'dingtalk':
       if (currentPlatform.config.agent_id) {
