@@ -3,10 +3,11 @@
 </template>
 
 <script lang="ts" setup>
-import { nextTick, defineProps, onBeforeUnmount } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
-import { getBrowserLang } from '@/locales'
+import {nextTick, defineProps, onBeforeUnmount} from 'vue'
+import {useRoute, useRouter} from 'vue-router'
+import {getBrowserLang} from '@/locales'
 import useStore from '@/stores'
+
 const WE_COM_ORIGIN = 'https://login.work.weixin.qq.com'
 const LOGIN_STATE = 'fit2cloud-wecom-qr'
 const props = defineProps<{
@@ -21,10 +22,10 @@ const props = defineProps<{
 
 const router = useRouter()
 const route = useRoute()
-const { chatUser } = useStore()
+const {chatUser} = useStore()
 
 const {
-  params: { accessToken },
+  params: {accessToken},
 } = route as any
 
 let iframe: HTMLIFrameElement | null = null
@@ -52,16 +53,6 @@ function getLang() {
   return lang === 'en-US' ? 'en' : 'zh'
 }
 
-async function handleLoginSuccess(code: string) {
-  await chatUser.wecomCallback(code, accessToken)
-
-  router.push({
-    name: 'chat',
-    params: { accessToken },
-    query: route.query,
-  })
-}
-
 function cleanup() {
   iframe?.remove()
   iframe = null
@@ -86,13 +77,20 @@ const init = async () => {
     `&panel_size=small` +
     `&redirect_type=self`
   iframe.addEventListener('load', (e) => {
+    console.log('load', iframe)
     if (iframe?.contentWindow) {
-      iframe?.contentWindow?.stop()
+      iframe.contentWindow.stop()
       const searchParams = new URLSearchParams(iframe.contentWindow.location.search)
       const code = searchParams.get('code')
       if (code) {
-        handleLoginSuccess(code)
-        cleanup()
+        chatUser.wecomCallback(code, accessToken).then((ok) => {
+          router.push({
+            name: 'chat',
+            params: {accessToken},
+            query: route.query,
+          })
+          cleanup()
+        })
       }
     }
   })
