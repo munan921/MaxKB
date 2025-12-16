@@ -4,7 +4,8 @@
       <el-avatar :size="30">
         <img src="@/assets/user-icon.svg" style="width: 54%" alt=""/>
       </el-avatar>
-      <span class="ml-8 color-text-primary ellipsis" :title="user.userInfo?.nick_name">{{ user.userInfo?.nick_name }}</span>
+      <span class="ml-8 color-text-primary ellipsis"
+            :title="user.userInfo?.nick_name">{{ user.userInfo?.nick_name }}</span>
       <el-icon class="el-icon--right">
         <CaretBottom/>
       </el-icon>
@@ -19,7 +20,8 @@
             </el-avatar>
           </div>
           <div style="width: 90%">
-            <p class="bold mb-4" style="font-size: 14px">{{ user.userInfo?.nick_name }} <span class="color-secondary lighter">({{ user.userInfo?.username }})</span></p>
+            <p class="bold mb-4" style="font-size: 14px">{{ user.userInfo?.nick_name }} <span
+              class="color-secondary lighter">({{ user.userInfo?.username }})</span></p>
             <template v-if="user.userInfo?.role_name && user.userInfo.role_name.length > 0">
               <TagGroup
                 size="small"
@@ -71,7 +73,7 @@
             v-if="
               hasPermission(
                 new ComplexPermission(
-                  [RoleConst.ADMIN],
+                  [RoleConst.ADMIN,RoleConst.ADMIN, RoleConst.WORKSPACE_MANAGE, RoleConst.USER],
                   [PermissionConst.SYSTEM_API_KEY_EDIT],
                   [EditionConst.IS_EE, EditionConst.IS_PE],
                   'OR',
@@ -162,7 +164,7 @@
 <script setup lang="ts">
 import {ref, onMounted, computed} from 'vue'
 import useStore from '@/stores'
-import { useRouter } from 'vue-router'
+import {useRouter} from 'vue-router'
 import {t} from "@/locales"
 import ResetPassword from './ResetPassword.vue'
 import AboutDialog from './AboutDialog.vue'
@@ -196,16 +198,16 @@ function openAPIKeyDialog() {
 const openResetPassword = () => {
   resetPasswordRef.value?.open()
 }
-const m:any = {
+const m: any = {
   "系统管理员": 'layout.about.inner_admin',
   "工作空间管理员": 'layout.about.inner_wsm',
-  "普通用户":'layout.about.inner_user'
+  "普通用户": 'layout.about.inner_user'
 }
 const role_list = computed(() => {
   if (!user.userInfo) {
-return []
+    return []
   }
- return user.userInfo?.role_name?.map(name => {
+  return user.userInfo?.role_name?.map(name => {
     const inner = m[name]
     if (inner) {
       return t(inner)
