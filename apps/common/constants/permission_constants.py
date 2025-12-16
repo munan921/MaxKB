@@ -178,10 +178,10 @@ class Operate(Enum):
     TO_CHAT = "READ+TO_CHAT"  # 去对话
     SETTING = "READ+SETTING"  # 管理
     DOWNLOAD = "READ+DOWNLOAD"  # 下载
-    AUTH = "READ+AUTH" # 资源授权
-    TAG = "READ+TAG" # 标签设置
-    REPLACE = "READ+REPLACE" # 标签设置
-    UPDATE = "READ+UPDATE" # 更新license
+    AUTH = "READ+AUTH"  # 资源授权
+    TAG = "READ+TAG"  # 标签设置
+    REPLACE = "READ+REPLACE"  # 标签设置
+    UPDATE = "READ+UPDATE"  # 更新license
 
 
 class RoleGroup(Enum):
@@ -408,6 +408,7 @@ Permission_Label = {
     Group.SYSTEM_RES_APPLICATION_CHAT_LOG.value: _("Conversation log"),
     # SystemGroup.RESOURCE.value: _("Resource"),
 }
+
 
 class Permission:
     """
@@ -1036,10 +1037,10 @@ class PermissionConstants(Enum):
                             label=_('About')
                             )
     ABOUT_UPDATE = Permission(group=Group.OTHER, operate=Operate.UPDATE,
-                            role_list=[RoleConstants.ADMIN],
-                            parent_group=[SystemGroup.OTHER],
-                            label=_('Update License')
-                            )
+                              role_list=[RoleConstants.ADMIN],
+                              parent_group=[SystemGroup.OTHER],
+                              label=_('Update License')
+                              )
     SWITCH_LANGUAGE = Permission(group=Group.OTHER, operate=Operate.EDIT,
                                  role_list=[RoleConstants.ADMIN, RoleConstants.USER],
                                  parent_group=[SystemGroup.OTHER, WorkspaceGroup.OTHER, UserGroup.OTHER],
@@ -1052,8 +1053,8 @@ class PermissionConstants(Enum):
                                  )
 
     SYSTEM_API_KEY_EDIT = Permission(group=Group.OTHER, operate=Operate.DELETE,
-                                     role_list=[RoleConstants.ADMIN],
-                                     parent_group=[SystemGroup.OTHER],
+                                     role_list=[RoleConstants.ADMIN, RoleConstants.USER],
+                                     parent_group=[SystemGroup.OTHER, WorkspaceGroup.OTHER, UserGroup.OTHER],
                                      label=_('System API Key')
                                      )
 
