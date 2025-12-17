@@ -156,6 +156,8 @@ export default {
   loginFailed: '登入失敗',
   loginFailedMessage: '次顯示驗證碼',
   display_codeTip: '值為-1時，不顯示驗證碼',
+  failedTip: '次，鎖定帳號',
+  minute: '分鐘',
   time: '次',
   setting: '登录設置',
 }

@@ -157,4 +157,6 @@ export default {
   display_codeTip: 'When the value is -1, the verification code is not displayed',
   time: 'Times',
   setting: 'Login Setting',
+  failedTip: 'Next, lock the account',
+  minute: 'Minutes',
 }

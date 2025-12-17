@@ -40,23 +40,56 @@
             ]"
             prop="max_attempts"
           >
-            <span style="font-size: 13px;">
+            <el-row :gutter="16">
+              <el-col :span="24">
+    <span style="font-size: 13px;">
       {{ $t('views.system.loginFailed') }}
     </span>
-            <el-input-number
-              style="margin-left: 8px;"
-              v-model="form.max_attempts"
-              :min="-1"
-              :max="10"
-              :step="1"
-              controls-position="right"
-            />
-            <span style="margin-left: 8px; font-size: 13px;">
+                <el-input-number
+                  style="margin-left: 8px;"
+                  v-model="form.max_attempts"
+                  :min="-1"
+                  :max="10"
+                  :step="1"
+                  controls-position="right"
+                />
+                <span style="margin-left: 8px; font-size: 13px;">
       {{ $t('views.system.loginFailedMessage') }}
     </span>
-            <span style="margin-left: 8px; color: #909399; font-size: 12px;">
+                <span style="margin-left: 8px; color: #909399; font-size: 12px;">
       ({{ $t('views.system.display_codeTip') }})
     </span>
+              </el-col>
+
+              <el-col :span="24" style="margin-top: 8px;">
+    <span style="font-size: 13px;">
+      {{ $t('views.system.loginFailed') }}
+    </span>
+                <el-input-number
+                  style="margin-left: 8px;"
+                  v-model="form.failed_attempts"
+                  :min="-1"
+                  :max="10"
+                  :step="1"
+                  controls-position="right"
+                />
+                <span style="margin-left: 8px; font-size: 13px;">
+      {{ $t('views.system.loginFailedMessage') }}
+    </span>
+                <el-input-number
+                  style="margin-left: 8px;"
+                  v-model="form.lock_time"
+                  :min="-1"
+                  :max="10"
+                  :step="1"
+                  controls-position="right"
+                />
+                <span style="margin-left: 8px; font-size: 13px;">
+      分钟
+    </span>
+              </el-col>
+            </el-row>
+
           </el-form-item>
         </el-form>
         <div style="margin-top:16px;">
@@ -93,6 +126,8 @@ const authFormRef = ref<FormInstance>();
 const form = ref<any>({
   default_value: 'LOCAL',
   max_attempts: 1,
+  failed_attempts: 5,
+  lock_time: 10,
 })
 
 const submit = async (formEl: FormInstance | undefined) => {
@@ -117,6 +152,12 @@ onMounted(() => {
   authApi.getLoginSetting().then((res) => {
     if (Object.keys(res.data).length > 0) {
       form.value = res.data;
+      if (!form.value.failed_attempts) {
+        form.value.failed_attempts = 5;
+      }
+      if (!form.value.lock_time) {
+        form.value.lock_time = 10;
+      }
       loginMethods.value = res.data.auth_types
     }
   })

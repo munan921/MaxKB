@@ -155,6 +155,8 @@ export default {
   display_code: '账号登录验证码设置',
   loginFailed: '登录失败',
   loginFailedMessage: '次显示验证码',
+  failedTip: '次，锁定账号',
+  minute: '分钟',
   display_codeTip: '值为-1时，不显示验证码',
   time: '次',
   setting: '登录设置',
