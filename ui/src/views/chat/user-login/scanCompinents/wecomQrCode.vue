@@ -72,7 +72,7 @@ const init = async () => {
     `&appid=${props.config.corp_id}` +
     `&agentid=${props.config.agent_id}` +
     `&redirect_uri=${redirectUri}` +
-    `&state=${LOGIN_STATE}` +
+    `&state=${accessToken}` +
     `&lang=${getLang()}` +
     `&panel_size=small` +
     `&redirect_type=self`
