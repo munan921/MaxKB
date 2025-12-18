@@ -86,6 +86,11 @@ static int is_sandbox_user() {
     }
     return 0;
 }
+#define RESOLVE_REAL(func)                      \
+    static typeof(func) *real_##func = NULL;    \
+    if (!real_##func) {                         \
+        real_##func = dlsym(RTLD_NEXT, #func);  \
+    }
 /**
  * 限制网络访问
  */
@@ -190,9 +195,7 @@ static int match_banned_ip(const char *ip_str, const char *rules) {
 
 // ------------------ 网络拦截 ------------------
 int connect(int sockfd, const struct sockaddr *addr, socklen_t addrlen) {
-    static int (*real_connect)(int, const struct sockaddr *, socklen_t) = NULL;
-    if (!real_connect)
-        real_connect = dlsym(RTLD_NEXT, "connect");
+    RESOLVE_REAL(connect);
     ensure_config_loaded();
     if (is_sandbox_user() && addr->sa_family == AF_UNIX) {
         struct sockaddr_un *un = (struct sockaddr_un *)addr;
@@ -227,11 +230,7 @@ int connect(int sockfd, const struct sockaddr *addr, socklen_t addrlen) {
 int getaddrinfo(const char *node, const char *service,
                 const struct addrinfo *hints,
                 struct addrinfo **res) {
-    static int (*real_getaddrinfo)(const char *, const char *,
-                                   const struct addrinfo *,
-                                   struct addrinfo **) = NULL;
-    if (!real_getaddrinfo)
-        real_getaddrinfo = dlsym(RTLD_NEXT, "getaddrinfo");
+    RESOLVE_REAL(getaddrinfo);
     ensure_config_loaded();
     if (node && is_sandbox_user()) {
         struct in_addr ip4;
@@ -263,11 +262,6 @@ static int not_supported(const char *function_name) {
     _exit(126);
     return -1;
 }
-#define RESOLVE_REAL(func)                      \
-    static typeof(func) *real_##func = NULL;    \
-    if (!real_##func) {                         \
-        real_##func = dlsym(RTLD_NEXT, #func);  \
-    }
 int execv(const char *path, char *const argv[]) {
     RESOLVE_REAL(execv);
     if (!allow_create_subprocess()) return deny();
