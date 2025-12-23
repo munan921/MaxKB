@@ -155,6 +155,7 @@ class ChatView(APIView):
         responses=None,
         tags=[_('Chat')]  # type: ignore
     )
+    @mcp_token_required  # 添加MCP令牌验证
     def post(self, request: Request, chat_id: str):
         return ChatSerializers(data={'chat_id': chat_id,
                                      'chat_user_id': request.auth.chat_user_id,
