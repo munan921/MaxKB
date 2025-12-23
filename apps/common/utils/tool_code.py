@@ -236,10 +236,11 @@ exec({dedent(code)!a})
     def get_app_mcp_config(self, api_key, name, description):
         chat_path = CONFIG.get_chat_path()
         _code = f'''
-import requests
 from typing import Optional
 
 def _get_chat_id() -> Optional[str]:
+    import requests
+
     url = f"http://127.0.0.1:8080{chat_path}/api/open"
     headers = {{
         'accept': '*/*',
@@ -254,6 +255,8 @@ def _get_chat_id() -> Optional[str]:
 
 
 def _chat_with_ai(chat_id: str, message: str) -> Optional[str]:
+    import requests
+    
     url = f"http://127.0.0.1:8080{chat_path}/api/chat_message/{{chat_id}}"
     headers = {{"Content-Type": "application/json", "Authorization": f'Bearer {api_key}'}}
     payload = {{
