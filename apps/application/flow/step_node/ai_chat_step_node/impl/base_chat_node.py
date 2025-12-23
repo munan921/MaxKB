@@ -263,7 +263,7 @@ class BaseChatNode(IChatNode):
                     else:
                         continue
                     executor = ToolExecutor()
-                    app_config = executor.get_app_mcp_config(api_key, app.name, app.desc)
+                    app_config = executor.get_app_mcp_config(api_key)
                     mcp_servers_config[str(app.id)] = app_config
 
         if len(mcp_servers_config) > 0:

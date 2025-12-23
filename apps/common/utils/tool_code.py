@@ -235,82 +235,13 @@ exec({dedent(code)!a})
         }
         return tool_config
 
-    def get_app_mcp_config(self, api_key, name, description):
-        chat_path = CONFIG.get_chat_path()
-        # 生成内部令牌(基于时间戳+密钥+api_key)
-        timestamp = int(time.time())
-        secret = CONFIG.get('MCP_INTERNAL_SECRET', 'your-secret-key')
-        token_data = f"{api_key}:{timestamp}"
-        internal_token = hmac.new(
-            secret.encode(),
-            token_data.encode(),
-            hashlib.sha256
-        ).hexdigest()
-        _code = f'''
-from typing import Optional
-
-def _get_chat_id() -> Optional[str]:
-    import requests
-
-    url = f"http://127.0.0.1:8080{chat_path}/api/open"
-    headers = {{
-        'accept': '*/*',
-        'Authorization': f'Bearer {api_key}',
-        'X-MCP-Token': '{internal_token}',  # 添加内部令牌
-        'X-MCP-Timestamp': '{timestamp}'
-    }}
-    try:
-        resp = requests.get(url, headers=headers, timeout=10)
-        resp.raise_for_status()
-        return resp.json().get("data")
-    except Exception as e:
-        raise e
-
-
-def _chat_with_ai(chat_id: str, message: str) -> Optional[str]:
-    import requests
-    
-    url = f"http://127.0.0.1:8080{chat_path}/api/chat_message/{{chat_id}}"
-    headers = {{
-        'Content-Type': 'application/json',
-        'Authorization': f'Bearer {api_key}',
-        'X-MCP-Token': '{internal_token}',  # 添加内部令牌
-        'X-MCP-Timestamp': '{timestamp}'
-    }}
-    payload = {{
-        "message": message,
-        "re_chat": False,
-        "stream": False
-    }}
-    try:
-        resp = requests.post(url, json=payload, headers=headers, timeout=600)
-        resp.raise_for_status()
-        data = resp.json()
-        return str(data.get("data", {{}}).get("content") or data.get("response"))
-    except Exception as e:
-        raise e
-
-def ai_chat(message: str) -> str:
-    chat_id = _get_chat_id()
-    reply = _chat_with_ai(chat_id, message)
-    return reply or "AI 未能生成回复"
-
-        '''
-        _code = self.generate_mcp_server_code(_code, {}, name, description)
-        # print(_code)
-        maxkb_logger.debug(f"Python code of mcp app: {_code}")
-        compressed_and_base64_encoded_code_str = base64.b64encode(gzip.compress(_code.encode())).decode()
+    def get_app_mcp_config(self, api_key):
         app_config = {
-            'command': sys.executable,
-            'args': [
-                '-c',
-                f'import base64,gzip; exec(gzip.decompress(base64.b64decode(\'{compressed_and_base64_encoded_code_str}\')).decode())',
-            ],
-            'cwd': _sandbox_path,
-            'env': {
-                'LD_PRELOAD': f'{_sandbox_path}/lib/sandbox.so',
+            'url': f'http://127.0.0.1:8080{CONFIG.get_chat_path()}/api/mcp',
+            'transport': 'streamable_http',
+            'headers': {
+                'Authorization': f'Bearer {api_key}',
             },
-            'transport': 'stdio',
         }
         return app_config
 

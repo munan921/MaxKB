@@ -276,8 +276,8 @@ class BaseChatStep(IChatStep):
                     else:
                         continue
                     executor = ToolExecutor()
-                    app_config = executor.get_app_mcp_config(api_key, app.name, app.desc)
-                    mcp_servers_config[str(app.id)] = app_config
+                    app_config = executor.get_app_mcp_config(api_key)
+                    mcp_servers_config[app.name] = app_config
 
         if len(mcp_servers_config) > 0:
             return mcp_response_generator(chat_model, message_list, json.dumps(mcp_servers_config), mcp_output_enable)
