@@ -5,6 +5,7 @@ import pickle
 from functools import reduce
 from typing import Dict, List
 
+import requests
 import uuid_utils.compat as uuid
 from django.core.cache import cache
 from django.db import transaction
@@ -25,7 +26,9 @@ from common.db.search import page_search
 from common.exception.app_exception import AppApiException
 from common.field.common import UploadedFileField
 from common.result import result
+from common.utils.common import bytes_to_uploaded_file
 from common.utils.common import restricted_loads, generate_uuid
+from common.utils.logger import maxkb_logger
 from common.utils.rsa_util import rsa_long_decrypt
 from common.utils.tool_code import ToolExecutor
 from knowledge.models import KnowledgeScope, Knowledge, KnowledgeType, KnowledgeWorkflow, KnowledgeWorkflowVersion
@@ -70,6 +73,7 @@ class KnowledgeWorkflowActionListQuerySerializer(serializers.Serializer):
     user_name = serializers.CharField(required=False, label=_('Name'), allow_blank=True, allow_null=True)
     state = serializers.CharField(required=False, label=_("State"), allow_blank=True, allow_null=True)
 
+
 class KBWFInstance:
 
     def __init__(self, knowledge_workflow: dict, function_lib_list: List[dict], version: str, tool_list: List[dict]):
@@ -80,6 +84,7 @@ class KBWFInstance:
 
     def get_tool_list(self):
         return [*(self.tool_list or []), *(self.function_lib_list or [])]
+
 
 class KnowledgeWorkflowActionSerializer(serializers.Serializer):
     workspace_id = serializers.CharField(required=True, label=_('workspace id'))
@@ -248,6 +253,24 @@ class KnowledgeWorkflowSerializer(serializers.Serializer):
 
             knowledge_workflow.save()
             save_workflow_mapping(instance.get('work_flow', {}), ResourceType.KNOWLEDGE, str(knowledge_id))
+
+            # 处理 work_flow_template
+            if instance.get('work_flow_template') is not None:
+                template_instance = instance.get('work_flow_template')
+                download_url = template_instance.get('downloadUrl')
+                # 查找匹配的版本名称
+                res = requests.get(download_url, timeout=5)
+                KnowledgeWorkflowSerializer.Import(data={
+                    'user_id': self.data.get('user_id'),
+                    'workspace_id': self.data.get('workspace_id'),
+                    'knowledge_id': str(knowledge_id),
+                }).import_({'file': bytes_to_uploaded_file(res.content, 'file.kbwf')}, is_import_tool=True)
+
+                try:
+                    requests.get(template_instance.get('downloadCallbackUrl'), timeout=5)
+                except Exception as e:
+                    maxkb_logger.error(f"callback appstore tool download error: {e}")
+
             return {**KnowledgeModelSerializer(knowledge).data, 'document_list': []}
 
     class Import(serializers.Serializer):
@@ -255,6 +278,7 @@ class KnowledgeWorkflowSerializer(serializers.Serializer):
         workspace_id = serializers.CharField(required=True, label=_('workspace id'))
         knowledge_id = serializers.UUIDField(required=True, label=_('knowledge id'))
 
+        @transaction.atomic
         def import_(self, instance: dict, is_import_tool, with_valid=True):
             if with_valid:
                 self.is_valid()
@@ -296,8 +320,10 @@ class KnowledgeWorkflowSerializer(serializers.Serializer):
                 update_tool_map,
             )
             tool_model_list = [self.to_tool(tool, workspace_id, user_id) for tool in tool_list]
-            KnowledgeWorkflow.objects.filter(workspace_id=workspace_id,knowledge_id=knowledge_id).update(
-                work_flow=work_flow
+            KnowledgeWorkflow.objects.filter(workspace_id=workspace_id, knowledge_id=knowledge_id).update_or_create(
+                knowledge_id=knowledge_id,
+                workspace_id=workspace_id,
+                defaults={'work_flow': work_flow}
             )
 
             if is_import_tool:
@@ -373,7 +399,6 @@ class KnowledgeWorkflowSerializer(serializers.Serializer):
             except Exception as e:
                 return result.error(str(e), response_status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
-
     class Operate(serializers.Serializer):
         user_id = serializers.UUIDField(required=True, label=_('user id'))
         workspace_id = serializers.CharField(required=True, label=_('workspace id'))
@@ -415,6 +440,23 @@ class KnowledgeWorkflowSerializer(serializers.Serializer):
                                                              defaults={
                                                                  'work_flow': instance.get('work_flow')
                                                              })
+                return self.one()
+            if instance.get("work_flow_template"):
+                template_instance = instance.get('work_flow_template')
+                download_url = template_instance.get('downloadUrl')
+                # 查找匹配的版本名称
+                res = requests.get(download_url, timeout=5)
+                KnowledgeWorkflowSerializer.Import(data={
+                    'user_id': self.data.get('user_id'),
+                    'workspace_id': self.data.get('workspace_id'),
+                    'knowledge_id': str(self.data.get('knowledge_id')),
+                }).import_({'file': bytes_to_uploaded_file(res.content, 'file.kbwf')}, is_import_tool=False)
+
+                try:
+                    requests.get(template_instance.get('downloadCallbackUrl'), timeout=5)
+                except Exception as e:
+                    maxkb_logger.error(f"callback appstore tool download error: {e}")
+
                 return self.one()
 
         def one(self):

@@ -11,7 +11,7 @@
     <template #header="{ titleId }">
       <div class="dialog-header flex-between mb-8">
         <h4 :id="titleId" class="medium w-240 mr-8">
-          {{ $t('views.tool.toolStore.title') }}
+          {{ $t('模版中心') }}
         </h4>
 
         <div class="flex align-center" style="margin-right: 28px">
@@ -23,7 +23,7 @@
             clearable
             @change="getList"
           />
-          <el-divider direction="vertical" />
+          <el-divider direction="vertical"/>
         </div>
       </div>
     </template>
@@ -57,14 +57,14 @@
             </h4>
             <el-row :gutter="16">
               <el-col v-for="tool in category.tools" :key="tool.id" :span="8" class="mb-16">
-                <ToolCard
+                <TemplateCard
                   :tool="tool"
                   :addLoading="addLoading"
                   :get-sub-title="getSubTitle"
                   @handleAdd="handleOpenAdd(tool)"
                   @handleDetail="handleDetail(tool)"
                 >
-                </ToolCard>
+                </TemplateCard>
               </el-col>
             </el-row>
           </div>
@@ -72,11 +72,11 @@
         <div v-else>
           <h4 class="color-text-primary medium mb-16">
             <span class="color-primary">{{ searchValue }}</span>
-            {{ t('views.tool.toolStore.searchResult', { count: filterList.length }) }}
+            {{ t('views.tool.toolStore.searchResult', {count: filterList.length}) }}
           </h4>
           <el-row :gutter="16" v-if="filterList.length">
             <el-col v-for="tool in filterList" :key="tool.id" :span="12" class="mb-16">
-              <ToolCard
+              <TemplateCard
                 :tool="tool"
                 :addLoading="addLoading"
                 :get-sub-title="getSubTitle"
@@ -85,35 +85,51 @@
               />
             </el-col>
           </el-row>
-          <el-empty v-else :description="$t('common.noData')" />
+          <el-empty v-else :description="$t('common.noData')"/>
         </div>
       </el-scrollbar>
     </LayoutContainer>
   </el-dialog>
-  <InternalDescDrawer ref="internalDescDrawerRef" @addTool="handleOpenAdd" />
-  <AddInternalToolDialog ref="addInternalToolDialogRef" @refresh="handleAdd" />
+  <InternalDescDrawer ref="internalDescDrawerRef" @addTool="handleOpenAdd"/>
+  <CreateWorkflowKnowledgeDialog ref="CreateKnowledgeDialogRef"/>
 </template>
 
 <script setup lang="ts">
-import { onBeforeMount, ref, watch } from 'vue'
+import { ref } from 'vue'
 import ToolStoreApi from '@/api/tool/store'
 import { t } from '@/locales'
-import ToolCard from './ToolCard.vue'
+import TemplateCard from './TemplateCard.vue'
 import { MsgSuccess } from '@/utils/message'
 import InternalDescDrawer from './InternalDescDrawer.vue'
-import AddInternalToolDialog from './AddInternalToolDialog.vue'
 import { loadSharedApi } from '@/utils/dynamics-api/shared-api.ts'
 import useStore from '@/stores'
-const { user } = useStore()
+import CreateWorkflowKnowledgeDialog
+  from "@/views/knowledge/create-component/CreateWorkflowKnowledgeDialog.vue";
+import { useRoute } from "vue-router";
+
+const {user} = useStore()
+const route = useRoute()
+const {
+  params: {id},
+  /*
+  folderId 可以区分 resource-management shared还是 workspace
+  */
+} = route as any
+
 interface ToolCategory {
   id: string
   title: string
   tools: any[]
 }
+
 const props = defineProps({
   apiType: {
-    type: String as () => 'workspace' | 'systemShare' | 'systemManage',
+    type: String as () => 'workspace' | 'systemShare' | 'systemManage' | 'workspaceShare',
     default: 'workspace',
+  },
+  source: {
+    type: String,
+    default: 'knowledge',
   },
 })
 const emit = defineEmits(['refresh'])
@@ -122,19 +138,7 @@ const dialogVisible = ref(false)
 const loading = ref(false)
 const searchValue = ref('')
 const folderId = ref('')
-const defaultCategories = ref<ToolCategory[]>([
-  {
-    id: 'web_search',
-    title: t('views.tool.toolStore.webSearch'),
-    tools: [],
-  },
-  {
-    id: 'database_search',
-    title: t('views.tool.toolStore.databaseQuery'),
-    tools: [],
-  },
-])
-const categories = ref<ToolCategory[]>([...defaultCategories.value])
+const categories = ref<ToolCategory[]>([])
 
 const filterList = ref<any>(null)
 
@@ -152,14 +156,14 @@ function open(id: string) {
 
 async function getList() {
   filterList.value = null
-  const [v1, v2] = await Promise.all([getInternalToolList(), getStoreToolList()])
+  const [v1] = await Promise.all([getStoreToolList()])
 
-  const merged = [...v1, ...v2].reduce((acc, category) => {
+  const merged = [...v1].reduce((acc, category) => {
     const existing = acc.find((item: any) => item.id === category.id)
     if (existing) {
       existing.tools = [...existing.tools, ...category.tools]
     } else {
-      acc.push({ ...category })
+      acc.push({...category})
     }
     return acc
   }, [] as ToolCategory[])
@@ -167,32 +171,10 @@ async function getList() {
   categories.value = merged.filter((item: any) => item.tools.length > 0)
 }
 
-async function getInternalToolList() {
-  try {
-    const categories = defaultCategories.value
-    const res = await ToolStoreApi.getInternalToolList({ name: searchValue.value }, loading)
-    if (searchValue.value.length) {
-      filterList.value = [...res.data, ...(filterList.value || [])]
-    } else {
-      filterList.value = null
-      categories.forEach((category) => {
-        // if (category.id === 'recommend') {
-        //   category.tools = res.data
-        // } else {
-        category.tools = res.data.filter((tool: any) => tool.label === category.id)
-        // }
-      })
-    }
-    return categories
-  } catch (error) {
-    console.error(error)
-    return []
-  }
-}
 
 async function getStoreToolList() {
   try {
-    const res = await ToolStoreApi.getStoreToolList({ name: searchValue.value }, loading)
+    const res = await ToolStoreApi.getStoreKBList({name: searchValue.value}, loading)
     const tags = res.data.additionalProperties.tags
     const storeTools = res.data.apps
     let categories = []
@@ -222,81 +204,44 @@ const handleClick = (e: MouseEvent) => {
 }
 
 const internalDescDrawerRef = ref<InstanceType<typeof InternalDescDrawer>>()
+
 async function handleDetail(tool: any) {
-  console.log(tool)
-  if (tool.tool_type === 'INTERNAL') {
-    const index = tool.icon.replace('icon.png', 'detail.md')
-    const response = await fetch(index)
-    const content = await response.text()
-    internalDescDrawerRef.value?.open(content, tool)
-  } else {
-    internalDescDrawerRef.value?.open(tool.readMe, tool)
-  }
+  internalDescDrawerRef.value?.open(tool.readMe, tool)
 }
 
-const addInternalToolDialogRef = ref<InstanceType<typeof AddInternalToolDialog>>()
+const CreateKnowledgeDialogRef = ref()
+
 function handleOpenAdd(data?: any, isEdit?: boolean) {
-  addInternalToolDialogRef.value?.open(data, isEdit)
+  if (props.source === 'work_flow') {
+    handleStoreAdd(data)
+  } else {
+    CreateKnowledgeDialogRef.value.open({id: folderId.value}, data)
+  }
 }
 
 const addLoading = ref(false)
-async function handleAdd(tool: any) {
-  if (tool.tool_type === 'INTERNAL') {
-    await handleInternalAdd(tool)
-  } else {
-    await handleStoreAdd(tool)
-  }
-}
 
-async function handleInternalAdd(tool: any) {
+function handleStoreAdd(tool: any) {
   try {
-    await loadSharedApi({ type: 'tool', systemType: props.apiType })
-      .addInternalTool(tool.id, { name: tool.name, folder_id: folderId.value }, addLoading)
+    loadSharedApi({type: 'knowledge', systemType: props.apiType})
+      .putKnowledgeWorkflow(id, {work_flow_template: tool})
       .then(() => {
-        return user.profile()
+        emit('refresh')
+        MsgSuccess(t('common.addSuccess'))
       })
-    emit('refresh')
-    MsgSuccess(t('common.addSuccess'))
     dialogVisible.value = false
   } catch (error) {
     console.error(error)
   }
 }
 
-async function handleStoreAdd(tool: any) {
-  try {
-    const obj = {
-      name: tool.name,
-      folder_id: folderId.value,
-      download_url: tool.downloadUrl,
-      download_callback_url: tool.downloadCallbackUrl,
-      icon: tool.icon,
-      versions: tool.versions,
-      label: tool.label,
-    }
-    await loadSharedApi({ type: 'tool', systemType: props.apiType })
-      .addStoreTool(tool.id, obj, addLoading)
-      .then(() => {
-        return user.profile()
-      })
-    emit('refresh')
-    MsgSuccess(t('common.addSuccess'))
-    dialogVisible.value = false
-  } catch (error) {
-    console.error(error)
-  }
-}
 
-function radioChange() {
-  searchValue.value = ''
-  getList()
-}
-
-defineExpose({ open })
+defineExpose({open})
 </script>
 <style lang="scss">
 .tool-store-dialog {
   padding: 0;
+
   .el-dialog__headerbtn {
     top: 7px;
   }
@@ -321,6 +266,7 @@ defineExpose({ open })
     background-color: var(--app-layout-bg-color);
     border-radius: 0 0 0 8px;
   }
+
   .layout-container__right {
     background-color: var(--app-layout-bg-color);
     border-radius: 0 0 8px 0;

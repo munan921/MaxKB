@@ -35,6 +35,13 @@
             <el-option v-for="u in user_options" :key="u.id" :value="u.id" :label="u.nick_name" />
           </el-select>
         </div>
+        <el-button
+          class="ml-8"
+          v-if="!isShared && permissionPrecise.create()"
+          @click="openTemplateStoreDialog()"
+        >
+          {{ $t('模版中心') }}
+        </el-button>
         <el-dropdown trigger="click" v-if="!isShared && permissionPrecise.create()">
           <el-button type="primary" class="ml-8">
             {{ $t('common.create') }}
@@ -305,6 +312,7 @@
     ref="ResourceAuthorizationDrawerRef"
     v-if="apiType === 'workspace'"
   />
+  <TemplateStoreDialog ref="templateStoreDialogRef" :api-type="apiType" @refresh="getList" />
 </template>
 
 <script lang="ts" setup>
@@ -329,6 +337,7 @@ import { i18n_name } from '@/utils/common'
 import { SourceTypeEnum } from '@/enums/common'
 import { loadSharedApi } from '@/utils/dynamics-api/shared-api'
 import permissionMap from '@/permission'
+import TemplateStoreDialog from "@/views/knowledge/template-store/TemplateStoreDialog.vue";
 const router = useRouter()
 const route = useRoute()
 const { folder, user, knowledge } = useStore()
@@ -539,6 +548,11 @@ function searchHandle() {
 
 function refreshFolder() {
   emit('refreshFolder')
+}
+
+const templateStoreDialogRef = ref()
+function openTemplateStoreDialog() {
+  templateStoreDialogRef.value?.open(folder.currentFolder.id)
 }
 
 onMounted(() => {
