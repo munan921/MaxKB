@@ -11,6 +11,8 @@ export default {
   },
   operation: {
     toImportDoc: 'Go to Import Documents',
+    importWorkflow: 'Import Workflow',
+    exportWorkflow: 'Export Workflow',
   },
   setting: {
     restoreVersion: 'Restore Previous Version"',

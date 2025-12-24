@@ -11,6 +11,8 @@ export default {
   },
   operation: {
     toImportDoc: '去导入文档',
+    importWorkflow: '导入工作流',
+    exportWorkflow: '导出工作流',
   },
   setting: {
     restoreVersion: '恢复版本',

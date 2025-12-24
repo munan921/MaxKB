@@ -406,13 +406,13 @@ const putKnowledgeWorkflow: (
 const exportKnowledgeWorkflow = (
   knowledge_id: string,
   knowledge_name: string,
-  loading?: Ref<boolean>
+  loading?: Ref<boolean>,
 ) => {
   return exportFile(
     knowledge_name + '.kbwf',
     `${prefix.value}/${knowledge_id}/workflow/export`,
     undefined,
-    loading
+    loading,
   )
 }
 /**
@@ -421,11 +421,10 @@ const exportKnowledgeWorkflow = (
 const importKnowledgeWorkflow: (
   knowledge_id: string,
   data: any,
-  loading?:Ref<boolean>
-) => Promise<Result<any>> = (knowledge_id, data, loading)=>{
-  return post(`${prefix.value}/${knowledge_id}/workflow/import`,data,undefined,loading)
+  loading?: Ref<boolean>,
+) => Promise<Result<any>> = (knowledge_id, data, loading) => {
+  return post(`${prefix.value}/${knowledge_id}/workflow/import`, data, undefined, loading)
 }
-
 
 const listKnowledgeVersion: (
   knowledge_id: string,
@@ -470,7 +469,12 @@ const cancelWorkflowAction: (
   knowledge_action_id: string,
   loading?: Ref<boolean>,
 ) => Promise<Result<any>> = (knowledge_id: string, knowledge_action_id, loading) => {
-  return post(`${prefix.value}/${knowledge_id}/action/${knowledge_action_id}/cancel`, {}, loading)
+  return post(
+    `${prefix.value}/${knowledge_id}/action/${knowledge_action_id}/cancel`,
+    {},
+    undefined,
+    loading,
+  )
 }
 /**
  * mcp 节点
@@ -520,5 +524,5 @@ export default {
   getWorkflowActionPage,
   cancelWorkflowAction,
   exportKnowledgeWorkflow,
-  importKnowledgeWorkflow
+  importKnowledgeWorkflow,
 }

@@ -59,13 +59,6 @@
                 <AppIcon iconName="app-to-import-doc" class="color-secondary"></AppIcon>
                 {{ $t('workflow.operation.toImportDoc') }}
               </el-dropdown-item>
-              <el-dropdown-item
-                @click.stop="exportKnowledgeWorkflow(detail.name, detail.id)"
-                v-if="permissionPrecise.workflow_export(id)"
-              >
-                <AppIcon iconName="app-export" class="color-secondary"></AppIcon>
-                {{ $t('common.export') }}
-              </el-dropdown-item>
               <el-upload
                 class="import-button"
                 ref="elUploadRef"
@@ -80,9 +73,17 @@
               >
                 <el-dropdown-item>
                   <AppIcon iconName="app-import" class="color-secondary"></AppIcon>
-                  {{ $t('common.import', '导入') }}
+                  {{ $t('workflow.operation.importWorkflow') }}
                 </el-dropdown-item>
               </el-upload>
+              <el-dropdown-item
+                @click.stop="exportKnowledgeWorkflow(detail.name, detail.id)"
+                v-if="permissionPrecise.workflow_export(id)"
+              >
+                <AppIcon iconName="app-export" class="color-secondary"></AppIcon>
+                {{ $t('workflow.operation.exportWorkflow') }}
+              </el-dropdown-item>
+
               <el-dropdown-item @click="openListAction" divided>
                 <AppIcon iconName="app-execution-record" class="color-secondary"></AppIcon>
                 {{ $t('workflow.ExecutionRecord') }}

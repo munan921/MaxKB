@@ -110,6 +110,8 @@ export default {
     documentSplitTip: 'Each document can preview only the first five segments',
     paragraphRules: 'Segmentation Rules',
     writeContent: 'Content Written',
+    cancel: 'Cancel Execution',
+    cancelExecutionTip: 'Are you sure you want to cancel the selected task? ',
   },
   KnowledgeSource: {
     title: 'Knowledge Source',

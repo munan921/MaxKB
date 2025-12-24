@@ -76,6 +76,8 @@ export default {
     fail: 'Failed',
     all: 'All',
     padding: 'Padding',
+    REVOKED: 'Cancelled',
+    REVOKE: 'Cancelling',
   },
   param: {
     outputParam: 'Output Parameters',

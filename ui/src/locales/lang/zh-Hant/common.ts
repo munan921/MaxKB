@@ -76,6 +76,8 @@ export default {
     fail: '失敗',
     all: '全部',
     padding: '執行中',
+    REVOKED: '已取消',
+    REVOKE: '取消中',
   },
   param: {
     outputParam: '輸出參數',

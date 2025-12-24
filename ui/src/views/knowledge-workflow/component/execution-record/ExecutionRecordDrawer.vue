@@ -66,11 +66,11 @@
           </el-text>
           <el-text class="color-text-primary" v-else-if="row.state === 'REVOKED'">
             <el-icon class="color-danger"><CircleCloseFilled /></el-icon>
-            {{ $t('common.status.REVOKED', '已取消') }}
+            {{ $t('common.status.REVOKED') }}
           </el-text>
           <el-text class="color-text-primary" v-else-if="row.state === 'REVOKE'">
             <el-icon class="is-loading color-primary"><Loading /></el-icon>
-            {{ $t('views.document.fileStatus.REVOKE', '取消中') }}
+            {{ $t('common.status.REVOKE') }}
           </el-text>
           <el-text class="color-text-primary" v-else>
             <el-icon class="is-loading color-primary"><Loading /></el-icon>
@@ -93,7 +93,7 @@
         </template>
       </el-table-column>
 
-      <el-table-column :label="$t('common.operation')" width="80">
+      <el-table-column :label="$t('common.operation')" width="90">
         <template #default="{ row }">
           <div class="flex">
             <el-tooltip effect="dark" :content="$t('chat.executionDetails.title')" placement="top">
@@ -103,10 +103,11 @@
             </el-tooltip>
             <el-tooltip
               effect="dark"
-              :content="$t('chat.executionDetails.cancel', '取消')"
+              :content="$t('chat.executionDetails.cancel')"
               placement="top"
+              v-if="row.state === 'PADDING'"
             >
-              <el-button type="primary" text @click.stop="cancel(row)">
+              <el-button type="danger" text @click.stop="cancelExecution(row)">
                 <el-icon><CircleCloseFilled /></el-icon>
               </el-button>
             </el-tooltip>
@@ -133,6 +134,8 @@ import { computed, ref, reactive } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { datetimeFormat } from '@/utils/time'
 import type { Dict } from '@/api/type/common'
+import { MsgError, MsgConfirm } from '@/utils/message'
+import { t } from '@/locales'
 const drawer = ref<boolean>(false)
 const route = useRoute()
 
@@ -176,10 +179,15 @@ const toDetails = (row: any) => {
   ExecutionDetailDrawerRef.value?.open()
 }
 
-const cancel = (row: any) => {
-  loadSharedApi({ type: 'knowledge', systemType: apiType.value })
-    .cancelWorkflowAction(active_knowledge_id.value, row.id, loading)
-    .then((ok: any) => {})
+const cancelExecution = (row: any) => {
+  MsgConfirm(t('common.tip'), t('chat.executionDetails.cancelExecutionTip'), {
+    confirmButtonText: t('common.confirm'),
+    confirmButtonClass: 'danger',
+  }).then(() => {
+    loadSharedApi({ type: 'knowledge', systemType: apiType.value })
+      .cancelWorkflowAction(active_knowledge_id.value, row.id, loading)
+      .then((ok: any) => {})
+  })
 }
 const changeFilterHandle = () => {
   query.value = { user_name: '', status: '' }

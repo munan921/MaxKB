@@ -108,6 +108,8 @@ export default {
     documentSplitTip: '每個文件僅能預覽前五個段落',
     paragraphRules: '分段規則',
     writeContent: '寫入內容',
+    cancel: '取消執行',
+    cancelExecutionTip: '確定取消所選的任務？',
   },
   KnowledgeSource: {
     title: '知識來源',

@@ -108,6 +108,8 @@ export default {
     documentSplitTip: '每个文档仅能预览前五个分段',
     paragraphRules: '分段规则',
     writeContent: '写入内容',
+    cancel: '取消执行',
+    cancelExecutionTip: '确定取消所选的任务？',
   },
   KnowledgeSource: {
     title: '知识来源',
