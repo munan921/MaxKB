@@ -9007,3 +9007,12 @@ msgstr "匯入知識工作流"
 
 msgid "Export knowledge workflow"
 msgstr "匯出知識工作流"
+
+msgid "Role IDs cannot be empty"
+msgstr "角色 ID 不能为空"
+
+msgid "Role IDs"
+msgstr "角色 ID"
+
+msgid "Some roles do not exist"
+msgstr "部分角色不存在"

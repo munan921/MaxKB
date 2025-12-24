@@ -247,7 +247,7 @@ class UserManage(APIView):
         @log(menu='User management', operate='Batch delete user',
              get_operation_object=lambda r, k: get_user_operation_object(k.get('user_id')))
         def post(self, request: Request):
-            return result.success(UserManageSerializer.BatchDelete(data=request.data).batch_delete(with_valid=True))
+            return result.success(UserManageSerializer.BatchDelete({'ids': request.data}).batch_delete(with_valid=True))
 
     class RePassword(APIView):
         authentication_classes = [TokenAuth]

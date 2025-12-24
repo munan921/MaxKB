@@ -578,12 +578,10 @@ class UserManageSerializer(serializers.Serializer):
         ids = serializers.ListField(required=True, label=_('User IDs'))
 
         def batch_delete(self, with_valid=True):
-            if with_valid:
-                self.is_valid(raise_exception=True)
-            ids = self.data.get('ids')
-            if not ids:
+            user_ids = self.data.get('ids')
+            if not user_ids:
                 raise AppApiException(1004, _('User IDs cannot be empty'))
-            User.objects.filter(id__in=ids).delete()
+            User.objects.filter(id__in=user_ids).exclude(id='f0dd8f71-e4ee-11ee-8c84-a8a1595801ab').delete()
             return True
 
     def get_all_user_list(self):
