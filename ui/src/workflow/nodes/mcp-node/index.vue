@@ -44,6 +44,7 @@
             v-model="form_data.mcp_tool_id"
             filterable
             @change="mcpToolSelectChange"
+            @wheel="wheel"
           >
             <el-option
               v-for="mcpTool in mcpToolSelectOptions"
@@ -85,6 +86,7 @@
             @change="changeTool"
             filterable
             :teleported="false"
+            @wheel="wheel"
           >
             <el-option
               v-for="item in form_data.mcp_tools"

@@ -458,13 +458,13 @@
           >
             <div class="card-never border-r-6 mt-8" v-if="data.index != 0">
               <h5 class="p-8-12">{{ $t('chat.executionDetails.input') }}</h5>
-              <div class="p-8-12 border-t-dashed lighter pre-wrap">
+              <div class="p-8-12 border-t-dashed lighter break-all">
                 {{ data.params || '-' }}
               </div>
             </div>
             <div class="card-never border-r-6 mt-8">
               <h5 class="p-8-12">{{ $t('chat.executionDetails.output') }}</h5>
-              <div class="p-8-12 border-t-dashed lighter pre-wrap">
+              <div class="p-8-12 border-t-dashed lighter break-all">
                 {{ data.result || '-' }}
               </div>
             </div>
@@ -999,7 +999,7 @@
               <h5 class="p-8-12">
                 {{ $t('common.param.outputParam') }}
               </h5>
-              <div class="p-8-12 border-t-dashed lighter">
+              <div class="p-8-12 border-t-dashed lighter break-all">
                 <div v-for="(f, i) in data.result" :key="i" class="mb-8">
                   <span class="color-secondary">result:</span> {{ f }}
                 </div>

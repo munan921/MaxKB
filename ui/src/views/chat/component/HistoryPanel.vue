@@ -116,7 +116,7 @@
         <template #title>{{ $t('chat.createChat') }}</template>
       </el-menu-item>
 
-      <el-sub-menu v-show="isPcCollapse" index="2" v-if="showHistory">
+      <el-sub-menu v-show="isPcCollapse" index="2" v-if="showHistory" :teleported="false">
         <template #title>
           <AppIcon iconName="app-history-outlined" />
         </template>
@@ -126,7 +126,7 @@
               <span>{{ $t('chat.history') }}</span>
               <el-tooltip effect="dark" :content="$t('chat.clearChat')" placement="right">
                 <el-button text @click.stop="clearChat">
-                  <AppIcon iconName="app-delete"></AppIcon>
+                  <AppIcon iconName="app-delete" class="color-secondary" style="font-size: 16px;"></AppIcon>
                 </el-button>
               </el-tooltip>
             </div>
@@ -280,7 +280,6 @@ function refreshFieldTitle(chatId: string, abstract: string) {
 </style>
 <style lang="scss">
 .chat-pc-popper {
-  background: #ffffff !important;
   .el-menu {
     background: var(--el-color-primary-light-06) !important;
   }
