@@ -37,6 +37,7 @@ interface ApplicationFormType {
   application_enable?: boolean
   application_ids?: string[]
   mcp_output_enable?: boolean
+  work_flow_template?: any
 }
 
 interface Chunk {

@@ -12,9 +12,12 @@ import json
 import os
 import pickle
 import re
+import tempfile
+import zipfile
 from functools import reduce
 from typing import Dict, List
 
+import requests
 import uuid_utils.compat as uuid
 from django.core import validators
 from django.db import models, transaction
@@ -37,7 +40,9 @@ from common.database_model_manage.database_model_manage import DatabaseModelMana
 from common.db.search import native_search, native_page_search
 from common.exception.app_exception import AppApiException
 from common.field.common import UploadedFileField
-from common.utils.common import get_file_content, restricted_loads, generate_uuid, _remove_empty_lines
+from common.utils.common import get_file_content, restricted_loads, generate_uuid, _remove_empty_lines, \
+    bytes_to_uploaded_file
+from common.utils.logger import maxkb_logger
 from knowledge.models import Knowledge, KnowledgeScope
 from knowledge.serializers.knowledge import KnowledgeSerializer, KnowledgeModelSerializer
 from maxkb.conf import PROJECT_DIR
@@ -182,28 +187,29 @@ class ApplicationCreateSerializer(serializers.Serializer):
                     node.get('properties')['node_data']['desc'] = application.get('desc')
                     node.get('properties')['node_data']['name'] = application.get('name')
                     node.get('properties')['node_data']['prologue'] = application.get('prologue')
-            return Application(id=uuid.uuid7(),
-                               name=application.get('name'),
-                               desc=application.get('desc'),
-                               workspace_id=workspace_id,
-                               folder_id=application.get('folder_id', application.get('workspace_id')),
-                               prologue="",
-                               dialogue_number=0,
-                               user_id=user_id, model_id=None,
-                               knowledge_setting={},
-                               model_setting={},
-                               problem_optimization=False,
-                               type=ApplicationTypeChoices.WORK_FLOW,
-                               stt_model_enable=application.get('stt_model_enable', False),
-                               stt_model_id=application.get('stt_model', None),
-                               tts_model_id=application.get('tts_model', None),
-                               tts_model_enable=application.get('tts_model_enable', False),
-                               tts_model_params_setting=application.get('tts_model_params_setting', {}),
-                               tts_type=application.get('tts_type', 'BROWSER'),
-                               file_upload_enable=application.get('file_upload_enable', False),
-                               file_upload_setting=application.get('file_upload_setting', {}),
-                               work_flow=default_workflow
-                               )
+            return Application(
+                id=uuid.uuid7(),
+                name=application.get('name'),
+                desc=application.get('desc'),
+                workspace_id=workspace_id,
+                folder_id=application.get('folder_id', application.get('workspace_id')),
+                prologue="",
+                dialogue_number=0,
+                user_id=user_id, model_id=None,
+                knowledge_setting={},
+                model_setting={},
+                problem_optimization=False,
+                type=ApplicationTypeChoices.WORK_FLOW,
+                stt_model_enable=application.get('stt_model_enable', False),
+                stt_model_id=application.get('stt_model', None),
+                tts_model_id=application.get('tts_model', None),
+                tts_model_enable=application.get('tts_model_enable', False),
+                tts_model_params_setting=application.get('tts_model_params_setting', {}),
+                tts_type=application.get('tts_type', 'BROWSER'),
+                file_upload_enable=application.get('file_upload_enable', False),
+                file_upload_setting=application.get('file_upload_setting', {}),
+                work_flow=default_workflow
+            )
 
     class SimplateRequest(serializers.Serializer):
         name = serializers.CharField(required=True, max_length=64, min_length=1,
@@ -459,8 +465,14 @@ class ApplicationSerializer(serializers.Serializer):
     workspace_id = serializers.CharField(required=True, label=_('workspace id'))
     user_id = serializers.UUIDField(required=True, label=_("User ID"))
 
+    @transaction.atomic
     def insert(self, instance: Dict):
+        work_flow_template = instance.get('work_flow_template')
         application_type = instance.get('type')
+
+        # 处理工作流模板安装逻辑
+        if work_flow_template:
+            return self.insert_template_workflow(instance)
         if 'WORK_FLOW' == application_type:
             r = self.insert_workflow(instance)
         else:
@@ -471,6 +483,35 @@ class ApplicationSerializer(serializers.Serializer):
             'auth_target_type': AuthTargetType.APPLICATION.value
         }).auth_resource(str(r.get('id')))
         return r
+
+    def insert_template_workflow(self, instance: Dict):
+        self.is_valid(raise_exception=True)
+        work_flow_template = instance.get('work_flow_template')
+        download_url = work_flow_template.get('downloadUrl')
+        # 查找匹配的版本名称
+        res = requests.get(download_url, timeout=5)
+        app = ApplicationSerializer(
+            data={'user_id': self.data.get('user_id'), 'workspace_id': self.data.get('workspace_id')}
+        ).import_({
+            'file': bytes_to_uploaded_file(res.content, 'file.mk'),
+            'folder_id': instance.get('folder_id', instance.get('workspace_id'))
+        }, True)
+        work_flow = app.get('work_flow')
+        for node in work_flow.get('nodes', []):
+            if node.get('type') == 'base-node':
+                node_data = node.get('properties').get('node_data')
+                node_data['name'] = instance.get('name')
+                node_data['desc'] = instance.get('desc')
+        QuerySet(Application).filter(id=app.get('id')).update(
+            name=instance.get('name'),
+            desc=instance.get('desc'),
+            work_flow=work_flow
+        )
+        try:
+            requests.get(work_flow_template.get('downloadCallbackUrl'), timeout=5)
+        except Exception as e:
+            maxkb_logger.error(f"callback appstore tool download error: {e}")
+        return app
 
     def insert_workflow(self, instance: Dict):
         self.is_valid(raise_exception=True)
@@ -565,7 +606,8 @@ class ApplicationSerializer(serializers.Serializer):
                     'user_id': self.data.get('user_id'),
                     'auth_target_type': AuthTargetType.TOOL.value
                 }).auth_resource_batch([t.id for t in tool_model_list])
-        return True
+
+        return ApplicationCreateSerializer.ApplicationResponse(application_model).data
 
     @staticmethod
     def to_tool(tool, workspace_id, user_id):
@@ -619,6 +661,55 @@ class ApplicationSerializer(serializers.Serializer):
                            file_upload_enable=application.get('file_upload_enable'),
                            file_upload_setting=application.get('file_upload_setting'),
                            )
+
+    class StoreApplication(serializers.Serializer):
+        user_id = serializers.UUIDField(required=True, label=_("User ID"))
+        name = serializers.CharField(required=False, label=_("tool name"), allow_null=True, allow_blank=True)
+
+        def get_appstore_templates(self):
+            self.is_valid(raise_exception=True)
+            # 下载zip文件
+            try:
+                res = requests.get('https://apps-assets.fit2cloud.com/stable/maxkb.json.zip', timeout=5)
+                res.raise_for_status()
+                # 创建临时文件保存zip
+                with tempfile.NamedTemporaryFile(delete=False, suffix='.zip') as temp_zip:
+                    temp_zip.write(res.content)
+                    temp_zip_path = temp_zip.name
+
+                try:
+                    # 解压zip文件
+                    with zipfile.ZipFile(temp_zip_path, 'r') as zip_ref:
+                        # 获取zip中的第一个文件（假设只有一个json文件）
+                        json_filename = zip_ref.namelist()[0]
+                        json_content = zip_ref.read(json_filename)
+
+                    # 将json转换为字典
+                    tool_store = json.loads(json_content.decode('utf-8'))
+                    tag_dict = {tag['name']: tag['key'] for tag in tool_store['additionalProperties']['tags']}
+                    filter_apps = []
+                    for tool in tool_store['apps']:
+                        if self.data.get('name', '') != '':
+                            if self.data.get('name').lower() not in tool.get('name', '').lower():
+                                continue
+                        if not tool['downloadUrl'].endswith('.mk'):
+                            continue
+                        versions = tool.get('versions', [])
+                        tool['label'] = tag_dict[tool.get('tags')[0]] if tool.get('tags') else ''
+                        tool['version'] = next(
+                            (version.get('name') for version in versions if
+                             version.get('downloadUrl') == tool['downloadUrl']),
+                        )
+                        filter_apps.append(tool)
+
+                    tool_store['apps'] = filter_apps
+                    return tool_store
+                finally:
+                    # 清理临时文件
+                    os.unlink(temp_zip_path)
+            except Exception as e:
+                maxkb_logger.error(f"fetch appstore tools error: {e}")
+                return {'apps': [], 'additionalProperties': {'tags': []}}
 
 
 class TextToSpeechRequest(serializers.Serializer):
@@ -772,7 +863,7 @@ class ApplicationOperateSerializer(serializers.Serializer):
         work_flow_version.save()
         access_token = hashlib.md5(
             str(uuid.uuid7()).encode()).hexdigest()[
-                       8:24]
+            8:24]
         application_access_token = QuerySet(ApplicationAccessToken).filter(
             application_id=application.id).first()
         if application_access_token is None:
@@ -828,6 +919,10 @@ class ApplicationOperateSerializer(serializers.Serializer):
         application_id = self.data.get("application_id")
 
         application = QuerySet(Application).get(id=application_id)
+        #  处理工作流模板逻辑
+        if 'work_flow_template' in instance:
+            return self.update_template_workflow(instance, application)
+
         if instance.get('model_id') is None or len(instance.get('model_id')) == 0:
             application.model_id = None
         else:
@@ -879,6 +974,80 @@ class ApplicationOperateSerializer(serializers.Serializer):
 
             self.save_application_knowledge_mapping(application_knowledge_id_list, knowledge_id_list, application_id)
         return self.one(with_valid=False)
+
+    def update_template_workflow(self, instance: Dict, app: Application):
+        self.is_valid(raise_exception=True)
+        work_flow_template = instance.get('work_flow_template')
+        download_url = work_flow_template.get('downloadUrl')
+        # 查找匹配的版本名称
+        res = requests.get(download_url, timeout=5)
+        try:
+            mk_instance = restricted_loads(res.content)
+        except Exception as e:
+            raise AppApiException(1001, _("Unsupported file format"))
+        application = mk_instance.application
+        tool_list = mk_instance.get_tool_list()
+        update_tool_map = {}
+        if len(tool_list) > 0:
+            tool_id_list = reduce(lambda x, y: [*x, *y],
+                                  [[tool.get('id'), generate_uuid((tool.get('id') + app.workspace_id or ''))]
+                                   for tool
+                                   in
+                                   tool_list], [])
+            # 存在的工具列表
+            exits_tool_id_list = [str(tool.id) for tool in
+                                  QuerySet(Tool).filter(id__in=tool_id_list, workspace_id=app.workspace_id)]
+            # 需要更新的工具集合
+            update_tool_map = {tool.get('id'): generate_uuid((tool.get('id') + app.workspace_id or '')) for tool
+                               in
+                               tool_list if
+                               not exits_tool_id_list.__contains__(
+                                   tool.get('id'))}
+
+            tool_list = [{**tool, 'id': update_tool_map.get(tool.get('id'))} for tool in tool_list if
+                         not exits_tool_id_list.__contains__(
+                             tool.get('id')) and not exits_tool_id_list.__contains__(
+                             generate_uuid((tool.get('id') + app.workspace_id or '')))]
+
+        tool_model_list = [self.to_tool(f, app.workspace_id, self.data.get('user_id')) for f in tool_list]
+        work_flow = application.get('work_flow')
+        for node in work_flow.get('nodes', []):
+            hand_node(node, update_tool_map)
+            if node.get('type') == 'loop-node':
+                for n in node.get('properties', {}).get('node_data', {}).get('loop_body', {}).get('nodes', []):
+                    hand_node(n, update_tool_map)
+        app.work_flow = work_flow
+        app.save()
+
+        if len(tool_model_list) > 0:
+            QuerySet(Tool).bulk_create(tool_model_list)
+            UserResourcePermissionSerializer(data={
+                'workspace_id': app.workspace_id,
+                'user_id': self.data.get('user_id'),
+                'auth_target_type': AuthTargetType.TOOL.value
+            }).auth_resource_batch([t.id for t in tool_model_list])
+        try:
+            requests.get(work_flow_template.get('downloadCallbackUrl'), timeout=5)
+        except Exception as e:
+            maxkb_logger.error(f"callback appstore tool download error: {e}")
+
+        return self.one(with_valid=False)
+
+    @staticmethod
+    def to_tool(tool, workspace_id, user_id):
+        return Tool(
+            id=tool.get('id'),
+            user_id=user_id,
+            name=tool.get('name'),
+            code=tool.get('code'),
+            template_id=tool.get('template_id'),
+            input_field_list=tool.get('input_field_list'),
+            init_field_list=tool.get('init_field_list'),
+            is_active=False if len((tool.get('init_field_list') or [])) > 0 else tool.get('is_active'),
+            scope=ToolScope.WORKSPACE,
+            folder_id=workspace_id,
+            workspace_id=workspace_id
+        )
 
     def one(self, with_valid=True):
         if with_valid:

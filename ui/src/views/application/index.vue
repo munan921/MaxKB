@@ -61,6 +61,14 @@
               <el-option :label="$t('common.status.unpublished')" value="unpublished" />
             </el-select>
           </div>
+          <el-button
+            class="ml-8"
+            v-if="permissionPrecise.create()"
+            @click="openTemplateStoreDialog()"
+          >
+            <AppIcon iconName="app-template-center" class="mr-4" />
+            {{ $t('workflow.setting.templateCenter') }}
+          </el-button>
           <el-dropdown trigger="click" v-if="permissionPrecise.create()">
             <el-button type="primary" class="ml-8">
               {{ $t('common.create') }}
@@ -291,6 +299,7 @@
       :type="SourceTypeEnum.APPLICATION"
       ref="ResourceAuthorizationDrawerRef"
     />
+    <TemplateStoreDialog ref="templateStoreDialogRef" :api-type="apiType" @refresh="getList" />
   </LayoutContainer>
 </template>
 
@@ -316,6 +325,7 @@ import WorkspaceApi from '@/api/workspace/workspace'
 import { hasPermission } from '@/utils/permission'
 import { ComplexPermission } from '@/utils/permission/type'
 import { EditionConst, PermissionConst, RoleConst } from '@/utils/permission/data'
+import TemplateStoreDialog from "@/views/application/template-store/TemplateStoreDialog.vue";
 
 const router = useRouter()
 
@@ -683,6 +693,11 @@ function searchHandle() {
   paginationConfig.current_page = 1
   applicationList.value = []
   getList()
+}
+
+const templateStoreDialogRef = ref()
+function openTemplateStoreDialog() {
+  templateStoreDialogRef.value?.open(folder.currentFolder.id)
 }
 
 function getList() {

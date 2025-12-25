@@ -26,6 +26,14 @@
         </el-button>
       </div>
       <div v-else>
+        <el-button
+          class="ml-8"
+          v-if="permissionPrecise.edit(id)"
+          @click="openTemplateStoreDialog()"
+        >
+          <AppIcon iconName="app-template-center" class="mr-4" />
+          {{ $t('workflow.setting.templateCenter') }}
+        </el-button>
         <el-button @click="showPopover = !showPopover">
           <AppIcon iconName="app-add-outlined" class="mr-4" />
           {{ $t('workflow.setting.addComponent') }}
@@ -137,6 +145,12 @@
       v-click-outside="clickoutsideHistory"
       @refreshVersion="refreshVersion"
     />
+     <TemplateStoreDialog
+      ref="templateStoreDialogRef"
+      :api-type="apiType"
+      source="work_flow"
+      @refresh="getDetail"
+    />
   </div>
 </template>
 <script setup lang="ts">
@@ -159,6 +173,7 @@ import { EditionConst, PermissionConst, RoleConst } from '@/utils/permission/dat
 import permissionMap from '@/permission'
 import { loadSharedApi } from '@/utils/dynamics-api/shared-api'
 import { WorkflowMode } from '@/enums/application'
+import TemplateStoreDialog from "@/views/application/template-store/TemplateStoreDialog.vue";
 provide('getResourceDetail', () => detail)
 provide('workflowMode', WorkflowMode.Application)
 provide('loopWorkflowMode', WorkflowMode.ApplicationLoop)
@@ -633,6 +648,11 @@ const closeInterval = () => {
   if (interval) {
     clearInterval(interval)
   }
+}
+
+const templateStoreDialogRef = ref()
+function openTemplateStoreDialog() {
+  templateStoreDialogRef.value?.open()
 }
 
 onMounted(() => {
