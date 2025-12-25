@@ -26,6 +26,7 @@ from application.chat_pipeline.pipeline_manage import PipelineManage
 from application.chat_pipeline.step.chat_step.i_chat_step import IChatStep, PostResponseHandler
 from application.flow.tools import Reasoning, mcp_response_generator
 from application.models import ApplicationChatUserStats, ChatUserType, Application, ApplicationApiKey
+from common.exception.app_exception import AppApiException
 from common.utils.logger import maxkb_logger
 from common.utils.rsa_util import rsa_long_decrypt
 from common.utils.tool_code import ToolExecutor
@@ -273,7 +274,10 @@ class BaseChatStep(IChatStep):
                     if app_key is not None:
                         api_key = app_key.secret_key
                     else:
-                        continue
+                        raise AppApiException(
+                            500,
+                            _('Application Key is required for application tool 【{name}】').format(name=app.name)
+                        )
                     executor = ToolExecutor()
                     app_config = executor.get_app_mcp_config(api_key)
                     mcp_servers_config[app.name] = app_config

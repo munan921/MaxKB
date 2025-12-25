@@ -13,6 +13,7 @@ from functools import reduce
 from typing import List, Dict
 
 from django.db.models import QuerySet
+from django.utils.translation import gettext as _
 from langchain.schema import HumanMessage, SystemMessage
 from langchain_core.messages import BaseMessage, AIMessage
 
@@ -20,6 +21,7 @@ from application.flow.i_step_node import NodeResult, INode
 from application.flow.step_node.ai_chat_step_node.i_chat_node import IChatNode
 from application.flow.tools import Reasoning, mcp_response_generator
 from application.models import Application, ApplicationApiKey
+from common.exception.app_exception import AppApiException
 from common.utils.rsa_util import rsa_long_decrypt
 from common.utils.tool_code import ToolExecutor
 from models_provider.models import Model
@@ -259,7 +261,10 @@ class BaseChatNode(IChatNode):
                     if app_key is not None:
                         api_key = app_key.secret_key
                     else:
-                        continue
+                        raise AppApiException(
+                            500,
+                            _('Application Key is required for application tool 【{name}】').format(name=app.name)
+                        )
                     executor = ToolExecutor()
                     app_config = executor.get_app_mcp_config(api_key)
                     mcp_servers_config[app.name] = app_config
