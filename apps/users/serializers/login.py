@@ -106,7 +106,7 @@ class LoginSerializer(serializers.Serializer):
 
         if is_license_valid:
             # 检查账户是否被锁定
-            if LoginSerializer._is_account_locked(username):
+            if LoginSerializer._is_account_locked(username, failed_attempts):
                 raise AppApiException(
                     1005,
                     _("This account has been locked for %s minutes, please try again later") % lock_time
@@ -146,8 +146,10 @@ class LoginSerializer(serializers.Serializer):
         return {'token': token}
 
     @staticmethod
-    def _is_account_locked(username: str) -> bool:
+    def _is_account_locked(username: str, failed_attempts: int) -> bool:
         """检查账户是否被锁定"""
+        if failed_attempts == -1:
+            return False
         lock_cache = cache.get(system_get_key(f'system_{username}_lock'), version=system_version)
         return bool(lock_cache)
 
