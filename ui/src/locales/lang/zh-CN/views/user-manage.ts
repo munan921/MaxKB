@@ -40,4 +40,5 @@ export default {
     lark: '飞书',
     dingtalk: '钉钉',
   },
+  settingRole: '设置角色',
 }

@@ -8361,7 +8361,7 @@ msgstr "更新平台状态"
 #: apps/xpack/views/resource_chat_user.py:28
 #: apps/xpack/views/resource_chat_user.py:29
 msgid "Get Resource chat user List"
-msgstr "获取资源聊天用户列表"
+msgstr "获取资源对话用户列表"
 
 #: apps/xpack/views/resource_chat_user.py:32
 #: apps/xpack/views/resource_chat_user.py:54
@@ -8370,19 +8370,19 @@ msgstr "获取资源聊天用户列表"
 #: apps/xpack/views/system_chat_user_group.py:45
 #: apps/xpack/views/system_chat_user_group.py:67
 msgid "Chat user"
-msgstr "聊天用户"
+msgstr "对话用户"
 
 #: apps/xpack/views/resource_chat_user.py:48
 #: apps/xpack/views/resource_chat_user.py:49
 #: apps/xpack/views/resource_chat_user.py:50
 msgid "Edit Resource chat user List"
-msgstr "编辑资源聊天用户列表"
+msgstr "编辑资源对话用户列表"
 
 #: apps/xpack/views/resource_chat_user.py:72
 #: apps/xpack/views/resource_chat_user.py:73
 #: apps/xpack/views/resource_chat_user.py:74
 msgid "Get Resource chat user page List"
-msgstr "获取资源聊天用户分页列表"
+msgstr "获取资源对话用户分页列表"
 
 #: apps/xpack/views/system_api_key.py:19 apps/xpack/views/system_api_key.py:20
 #: apps/xpack/views/system_api_key.py:21
@@ -8446,22 +8446,22 @@ msgstr "系统/用户组"
 #: apps/xpack/views/system_chat_user_group.py:20
 #: apps/xpack/views/system_chat_user_group.py:21
 msgid "Get Resource chat user group List"
-msgstr "获取资源聊天用户组列表"
+msgstr "获取资源对话用户组列表"
 
 #: apps/xpack/views/system_chat_user_group.py:39
 #: apps/xpack/views/system_chat_user_group.py:40
 #: apps/xpack/views/system_chat_user_group.py:41
 msgid "Edit Resource chat user group List"
-msgstr "编辑资源聊天用户组列表"
+msgstr "编辑资源对话用户组列表"
 
 #: apps/xpack/views/system_chat_user_group.py:62
 #: apps/xpack/views/system_chat_user_group.py:64
 msgid "Get Resource chat user group page List"
-msgstr "获取资源聊天用户组分页列表"
+msgstr "获取资源对话用户组分页列表"
 
 #: apps/xpack/views/system_chat_user_group.py:63
 msgid "Get Resource chat user page group List"
-msgstr "获取资源聊天用户分页组列表"
+msgstr "获取资源对话用户分页组列表"
 
 #: apps/xpack/views/system_params.py:22 apps/xpack/views/system_params.py:23
 #: apps/xpack/views/system_params.py:24
@@ -8546,7 +8546,7 @@ msgid "Paragraph"
 msgstr "段落"
 
 msgid "User group"
-msgstr "用戶组"
+msgstr "用户组"
 
 msgid "Remove member from user group"
 msgstr "从用户组中移除成员"
@@ -9019,6 +9019,12 @@ msgstr "获取资源的关系分页列表"
 
 msgid "Resources mapping"
 msgstr "资源映射"
+
+msgid "Batch set user roles"
+msgstr "批量设置用户角色"
+
+msgid "Role Setting cannot be empty"
+msgstr "角色设置不能为空"
 
 msgid "View related resources"
 msgstr "查看关联资源"

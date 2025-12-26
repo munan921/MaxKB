@@ -42,6 +42,7 @@ def get_user_operation_object(user_id):
     return {}
 
 
+
 def get_re_password_details(request):
     path = request.path
     body = request.data
@@ -245,7 +246,7 @@ class UserManage(APIView):
                        responses=DefaultModelResponse.get_response())
         @has_permissions(PermissionConstants.USER_DELETE, RoleConstants.ADMIN)
         @log(menu='User management', operate='Batch delete user',
-             get_operation_object=lambda r, k: get_user_operation_object(k.get('user_id')))
+             get_operation_object=lambda r, k: get_user_operation_object(r.data.get('ids', [])))
         def post(self, request: Request):
             return result.success(UserManageSerializer.BatchDelete({'ids': request.data}).batch_delete(with_valid=True))
 

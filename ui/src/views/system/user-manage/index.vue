@@ -3,12 +3,29 @@
     <h2 class="mb-16">{{ $t('views.userManage.title') }}</h2>
     <el-card class="main-calc-height">
       <div class="flex-between mb-16">
-        <el-button
-          type="primary"
-          @click="createUser"
-          v-hasPermission="[RoleConst.ADMIN, PermissionConst.USER_CREATE]"
+        <div>
+          <el-button
+            type="primary"
+            @click="createUser"
+            v-hasPermission="[RoleConst.ADMIN, PermissionConst.USER_CREATE]"
           >{{ $t('views.userManage.createUser') }}
-        </el-button>
+          </el-button>
+          <el-button
+            v-if="user.isPE() || user.isEE()"
+            :disabled="multipleSelection.length === 0"
+            @click="setUserRoles"
+            v-hasPermission="[RoleConst.ADMIN, PermissionConst.USER_EDIT]"
+          >
+            {{ $t('views.userManage.settingRole') }}
+          </el-button>
+          <el-button
+            :disabled="multipleSelection.length === 0"
+            @click="handleBatchDelete"
+            v-hasPermission="[RoleConst.ADMIN, PermissionConst.USER_DELETE]"
+          >
+            {{ $t('common.delete') }}
+          </el-button>
+        </div>
         <div class="flex-between complex-search">
           <el-select
             class="complex-search__left"
@@ -16,10 +33,10 @@
             style="width: 120px"
             @change="search_type_change"
           >
-            <el-option :label="$t('views.login.loginForm.username.label')" value="username" />
-            <el-option :label="$t('views.userManage.userForm.nick_name.label')" value="nick_name" />
-            <el-option :label="$t('views.login.loginForm.email.label')" value="email" />
-            <el-option :label="$t('common.status.label')" value="is_active" />
+            <el-option :label="$t('views.login.loginForm.username.label')" value="username"/>
+            <el-option :label="$t('views.userManage.userForm.nick_name.label')" value="nick_name"/>
+            <el-option :label="$t('views.login.loginForm.email.label')" value="email"/>
+            <el-option :label="$t('common.status.label')" value="is_active"/>
             <el-option
               v-if="user.isEE() || user.isPE()"
               :label="$t('views.userManage.source.label')"
@@ -57,8 +74,8 @@
             clearable
             style="width: 220px"
           >
-            <el-option :label="$t('common.status.enabled')" :value="true" />
-            <el-option :label="$t('common.status.disabled')" :value="false" />
+            <el-option :label="$t('common.status.enabled')" :value="true"/>
+            <el-option :label="$t('common.status.disabled')" :value="false"/>
           </el-select>
           <el-select
             v-else-if="search_type === 'source'"
@@ -68,14 +85,14 @@
             clearable
             :placeholder="$t('common.inputPlaceholder')"
           >
-            <el-option :label="$t('views.userManage.source.local')" value="LOCAL" />
-            <el-option label="CAS" value="CAS" />
-            <el-option label="LDAP" value="LDAP" />
-            <el-option label="OIDC" value="OIDC" />
-            <el-option label="OAuth2" value="OAuth2" />
-            <el-option :label="$t('views.userManage.source.wecom')" value="wecom" />
-            <el-option :label="$t('views.userManage.source.lark')" value="lark" />
-            <el-option :label="$t('views.userManage.source.dingtalk')" value="dingtalk" />
+            <el-option :label="$t('views.userManage.source.local')" value="LOCAL"/>
+            <el-option label="CAS" value="CAS"/>
+            <el-option label="LDAP" value="LDAP"/>
+            <el-option label="OIDC" value="OIDC"/>
+            <el-option label="OAuth2" value="OAuth2"/>
+            <el-option :label="$t('views.userManage.source.wecom')" value="wecom"/>
+            <el-option :label="$t('views.userManage.source.lark')" value="lark"/>
+            <el-option :label="$t('views.userManage.source.dingtalk')" value="dingtalk"/>
           </el-select>
         </div>
       </div>
@@ -86,8 +103,10 @@
         @sizeChange="handleSizeChange"
         @changePage="getList"
         v-loading="loading"
+        @selection-change="handleSelectionChange"
         :maxTableHeight="280"
       >
+        <el-table-column type="selection" width="55"/>
         <el-table-column
           prop="nick_name"
           :label="$t('views.userManage.userForm.nick_name.label')"
@@ -104,7 +123,7 @@
           <template #default="{ row }">
             <div v-if="row.is_active" class="flex align-center">
               <el-icon class="color-success mr-8" style="font-size: 16px">
-                <SuccessFilled />
+                <SuccessFilled/>
               </el-icon>
               <span class="color-text-primary">
                 {{ $t('common.status.enabled') }}
@@ -200,7 +219,7 @@
                 v-if="hasPermission([RoleConst.ADMIN, PermissionConst.USER_EDIT], 'OR')"
               />
             </span>
-            <el-divider direction="vertical" />
+            <el-divider direction="vertical"/>
             <el-tooltip effect="dark" :content="$t('common.edit')" placement="top">
               <span class="mr-8">
                 <el-button
@@ -247,25 +266,29 @@
         </el-table-column>
       </app-table>
     </el-card>
-    <UserDrawer :title="title" ref="UserDrawerRef" @refresh="refresh" />
-    <UserPwdDialog ref="UserPwdDialogRef" @refresh="refresh" />
+    <UserDrawer :title="title" ref="UserDrawerRef" @refresh="refresh"/>
+    <UserPwdDialog ref="UserPwdDialogRef" @refresh="refresh"/>
+    <SetUserRoleDialog
+      ref="setUserRoleRef"
+      @refresh="refresh"
+    />
   </div>
 </template>
 
 <script lang="ts" setup>
-import { onMounted, ref, reactive, watch } from 'vue'
+import {onMounted, ref, reactive, watch, computed, onBeforeMount} from 'vue'
 import UserDrawer from './component/UserDrawer.vue'
 import UserPwdDialog from './component/UserPwdDialog.vue'
+import SetUserRoleDialog from './component/SetUserRoleDialog.vue'
 import userManageApi from '@/api/system/user-manage'
-import { datetimeFormat } from '@/utils/time'
-import { MsgSuccess, MsgConfirm } from '@/utils/message'
-import { t } from '@/locales'
-import { ValidCount, ValidType } from '@/enums/common.ts'
+import {datetimeFormat} from '@/utils/time'
+import {MsgSuccess, MsgConfirm} from '@/utils/message'
+import {t} from '@/locales'
 import useStore from '@/stores'
-import { PermissionConst, RoleConst } from '@/utils/permission/data'
-import { hasPermission } from '@/utils/permission/index'
+import {PermissionConst, RoleConst} from '@/utils/permission/data'
+import {hasPermission} from '@/utils/permission/index'
 
-const { user, common } = useStore()
+const {user, common} = useStore()
 const search_type = ref('username')
 const search_form = ref<{
   username: string
@@ -290,11 +313,10 @@ const paginationConfig = reactive({
   page_size: 20,
   total: 0,
 })
-
 const userTableData = ref<any[]>([])
 
 const search_type_change = () => {
-  search_form.value = { username: '', nick_name: '', email: '', is_active: null }
+  search_form.value = {username: '', nick_name: '', email: '', is_active: null}
 }
 
 function handleSizeChange() {
@@ -366,7 +388,8 @@ function deleteUserManage(row: any) {
         getList()
       })
     })
-    .catch(() => {})
+    .catch(() => {
+    })
 }
 
 function editPwdUser(row: any) {
@@ -376,6 +399,35 @@ function editPwdUser(row: any) {
 function refresh() {
   getList()
 }
+
+const multipleSelection = ref<any[]>([])
+
+function handleSelectionChange(val: any[]) {
+  multipleSelection.value = val
+}
+
+function handleBatchDelete() {
+  MsgConfirm(t('views.chatUser.batchDeleteUser', {count: multipleSelection.value.length}), '', {
+    confirmButtonText: t('common.confirm'),
+    confirmButtonClass: 'danger',
+  })
+    .then(() => {
+      userManageApi.batchDelete(multipleSelection.value.map((item) => item.id), loading).then(
+        async () => {
+          MsgSuccess(t('common.deleteSuccess'))
+          await getList()
+        })
+    })
+    .catch(() => {
+    })
+}
+
+const setUserRoleRef = ref<InstanceType<typeof SetUserRoleDialog>>()
+
+function setUserRoles() {
+  setUserRoleRef.value?.open(multipleSelection.value.map((item) => item.id))
+}
+
 
 onMounted(() => {
   getList()

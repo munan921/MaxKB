@@ -96,6 +96,19 @@ const batchDelete: (
   return post(`/user_manage/batch_delete`, ids, {}, loading)
 }
 
+const batchSetRolePE: (data: any, loading?: Ref<boolean>) => Promise<Result<any>> = (
+  data,
+  loading,
+) => {
+  return post(`/user_manage/batch/add_role`, data, undefined, loading)
+}
+const batchSetRoleEE: (data: any, loading?: Ref<boolean>) => Promise<Result<any>> = (
+  data,
+  loading,
+) => {
+  return post(`/user_manage/batch/add_role_ee`, data, undefined, loading)
+}
+
 export default {
   getUserManage,
   putUserManage,
@@ -104,5 +117,7 @@ export default {
   putUserManagePassword,
   getSystemDefaultPassword,
   getValid,
-  batchDelete
+  batchDelete,
+  batchSetRolePE,
+  batchSetRoleEE
 }

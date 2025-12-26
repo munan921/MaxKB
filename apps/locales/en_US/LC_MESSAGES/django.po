@@ -8894,5 +8894,11 @@ msgstr ""
 msgid "Resources mapping"
 msgstr ""
 
+msgid "Batch set user roles"
+msgstr ""
+
+msgid "Role Setting cannot be empty"
+msgstr ""
+
 msgid "View related resources"
 msgstr ""

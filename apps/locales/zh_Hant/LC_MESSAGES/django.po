@@ -9020,5 +9020,11 @@ msgstr "獲取資源的關係分頁清單"
 msgid "Resources mapping"
 msgstr "資源映射"
 
+msgid "Batch set user roles"
+msgstr "批量設置用戶角色"
+
+msgid "Role Setting cannot be empty"
+msgstr "角色設置不能為空"
+
 msgid "View related resources"
 msgstr "查看關聯資源"

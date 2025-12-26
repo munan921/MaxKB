@@ -42,4 +42,5 @@ export default {
     lark: 'Lark',
     dingtalk: 'DingTalk',
   },
+  settingRole: 'Set Role',
 }
