@@ -27,12 +27,14 @@
 
 #define CONFIG_FILE ".sandbox.conf"
 #define KEY_BANNED_HOSTS "SANDBOX_PYTHON_BANNED_HOSTS"
-#define KEY_ALLOW_SUBPROCESS "SANDBOX_PYTHON_ALLOW_SUBPROCESS"
 #define KEY_ALLOW_DL_PATHS "SANDBOX_PYTHON_ALLOW_DL_PATHS"
+#define KEY_ALLOW_SUBPROCESS "SANDBOX_PYTHON_ALLOW_SUBPROCESS"
+#define KEY_ALLOW_SYSCALL "SANDBOX_PYTHON_ALLOW_SYSCALL"
 
 static char *banned_hosts = NULL;
-static int allow_subprocess = 0; // 默认禁止
 static char *allow_dl_paths = NULL;
+static int allow_subprocess = 0; // 默认禁止
+static int allow_syscall = 0;
 
 static void load_sandbox_config() {
     Dl_info info;
@@ -40,6 +42,7 @@ static void load_sandbox_config() {
         banned_hosts = strdup("");
         allow_dl_paths = strdup("");
         allow_subprocess = 0;
+        allow_syscall = 0;
         return;
     }
     char so_path[PATH_MAX];
@@ -53,6 +56,7 @@ static void load_sandbox_config() {
         banned_hosts = strdup("");
         allow_dl_paths = strdup("");
         allow_subprocess = 0;
+        allow_syscall = 0;
         return;
     }
     char line[512];
@@ -61,6 +65,7 @@ static void load_sandbox_config() {
     banned_hosts = strdup("");
     allow_dl_paths = strdup("");
     allow_subprocess = 0;
+    allow_syscall = 0;
     while (fgets(line, sizeof(line), fp)) {
         char *key = strtok(line, "=");
         char *value = strtok(NULL, "\n");
@@ -79,6 +84,8 @@ static void load_sandbox_config() {
             allow_dl_paths = strdup(value);  // 逗号分隔字符串
         } else if (strcmp(key, KEY_ALLOW_SUBPROCESS) == 0) {
             allow_subprocess = atoi(value);
+        } else if (strcmp(key, KEY_ALLOW_SYSCALL) == 0) {
+            allow_syscall = atoi(value);
         }
     }
     fclose(fp);
@@ -427,6 +434,10 @@ pid_t __forkpty(int *amaster, char *name, const struct termios *termp, const str
     return forkpty(amaster, name, termp, winp);
 }
 /* syscall wrapper to intercept syscalls that directly create processes */
+static int allow_access_syscall() {
+    ensure_config_loaded();
+    return allow_syscall || !is_sandbox_user();
+}
 long (*real_syscall)(long, ...) = NULL;
 long syscall(long number, ...) {
     RESOLVE_REAL(syscall);
@@ -456,9 +467,6 @@ long syscall(long number, ...) {
 #ifdef SYS_posix_spawnp
         case SYS_posix_spawnp:
 #endif
-            if (!allow_create_subprocess()) return deny();
-    }
-    switch (number) {
         case SYS_socket:
         case SYS_connect:
         case SYS_bind:
@@ -496,11 +504,12 @@ long syscall(long number, ...) {
         case SYS_shmget:
         case SYS_shmctl:
         case SYS_prctl:
-            if (is_sandbox_user()) {
+            if (!allow_access_syscall()) {
                 fprintf(stderr, "Permission denied to access syscall %ld.\n", number);
+                errno = EACCES;
                 _exit(126);
                 return -1;
-            }
+             }
     }
     return real_syscall(number, a1, a2, a3, a4, a5, a6);
 }
