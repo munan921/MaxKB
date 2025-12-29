@@ -11,6 +11,8 @@ const applicationRouter = {
       PermissionConst.APPLICATION_READ.getWorkspacePermissionWorkspaceManageRole,
       PermissionConst.APPLICATION_READ.getWorkspacePermission,
     ],
+    icon: 'app-agent',
+    iconActive: 'app-agent-active',
     group: 'workspace',
     order: 1,
   },

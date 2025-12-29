@@ -1,14 +1,16 @@
 <template>
   <div
-    class="menu-item-container h-full"
+    class="menu-item-container h-full border-r-6"
     :class="isActive ? 'active' : ''"
     @click="router.push({ name: menu.name })"
   >
-    <!-- <div class="icon">
-      <AppIcon :iconName="menu.meta ? (menu.meta.icon as string) : '404'" />
-    </div> -->
-    <div class="title">
-      {{ $t(menu.meta?.title as string) }}
+    <div class="title flex align-center color-secondary">
+      <AppIcon
+        :iconName="isActive ? menu.meta?.iconActive || menu.meta?.icon : menu?.meta?.icon"
+        style="font-size: 16px"
+        class="mr-4"
+      />
+      <span> {{ $t(menu.meta?.title as string) }}</span>
     </div>
   </div>
 </template>
@@ -29,10 +31,11 @@ const isActive = computed(() => {
 </script>
 <style lang="scss" scoped>
 .menu-item-container {
-  margin-right: 28px;
+  margin-right: 8px;
   cursor: pointer;
-  font-size: 16px;
+  font-size: 14px;
   position: relative;
+  padding: 6px 12px;
 
   .icon {
     font-size: 15px;
@@ -43,19 +46,11 @@ const isActive = computed(() => {
   &:hover {
     color: var(--el-color-primary);
   }
-}
-
-.active {
-  color: var(--el-color-primary);
-
-  &::after {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    height: 2px;
-    content: '';
-    background-color: var(--el-color-primary-light-9);
-    border-bottom: 3px solid var(--el-color-primary);
+  &.active {
+    background-color: #ffffff;
+    .title {
+      color: var(--el-color-primary) !important;
+    }
   }
 }
 </style>

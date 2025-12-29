@@ -24,7 +24,6 @@
     </el-button>
     <el-table
       :data="apiKey"
-      class="mb-16"
       :loading="loading"
       style="min-height: 300px"
       :max-height="420"
