@@ -12,6 +12,7 @@ export default {
   workflowPlaceholder:
     'Suitable for advanced users to build complex logic AI assistants using low-code drag-and-drop',
   appTest: 'Debug Preview',
+  skill: 'Skill',
   operation: {
     addModel: 'Add Model',
     toChat: 'Chat',
@@ -20,7 +21,8 @@ export default {
     confirmTitle: 'Are you sure you want to delete this agent: ',
     confirmMessage:
       'Deleting this agent will no longer provide its services. Please proceed with caution.',
-    resourceCountMessage: 'This agent is associated with {count} resources, and will be unavailable after deletion. Please proceed with caution.',
+    resourceCountMessage:
+      'This agent is associated with {count} resources, and will be unavailable after deletion. Please proceed with caution.',
   },
   tip: {
     publishSuccess: 'Published successfully',
@@ -126,7 +128,7 @@ export default {
       start: 'Start',
       end: 'End',
     },
-    mcp_output_enable: 'Output MCP/Tool Execution Process',
+    mcp_output_enable: 'Output Execution Process',
   },
   generateDialog: {
     label: 'Generate',

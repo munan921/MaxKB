@@ -8,19 +8,6 @@
     <template #title>
       <span :title="props.tool?.name" class="ellipsis"> {{ props.tool?.name }}</span>
     </template>
-    <!-- <template #tag>
-      <el-tag type="info" v-if="props.tool?.label === 'knowledge_template'" class="info-tag">
-        {{ $t('知识库') }}
-      </el-tag>
-      <el-tag type="info" class="info-tag" v-else>
-        {{ $t('views.tool.title') }}
-      </el-tag>
-    </template> -->
-    <!-- <template #subTitle>
-      <el-text class="color-secondary lighter" size="small">
-        {{ getSubTitle(props.tool) }}
-      </el-text>
-    </template> -->
     <template #footer>
       <span class="card-footer-left color-secondary flex align-center" v-if="props.tool?.downloads != undefined">
         <AppIcon iconName="app-download" class="mr-4" />

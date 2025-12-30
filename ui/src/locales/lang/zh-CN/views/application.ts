@@ -11,6 +11,7 @@ export default {
   simplePlaceholder: '适用于初级用户使用表单设置构建AI对话助手',
   workflowPlaceholder: '适用于高级用户使用低代码拖拉拽方式构建复杂逻辑的AI对话助手',
   appTest: '调试预览',
+  skill: '技能',
 
   operation: {
     addModel: '添加模型',
@@ -118,7 +119,7 @@ export default {
       start: '开始',
       end: '结束',
     },
-    mcp_output_enable: '输出 MCP/ 工具执行过程',
+    mcp_output_enable: '输出执行过程',
   },
   generateDialog: {
     label: '生成',
