@@ -59,6 +59,17 @@ def record_login_fail(username: str, expire: int = 600):
         cache.incr(fail_key, 1, version=system_version)
 
 
+def record_login_fail_lock(username: str, expire: int = 600):
+    if not username:
+        return
+    fail_key = system_get_key(f'system_{username}_lock_count')
+    fail_count = cache.get(fail_key, version=system_version)
+    if fail_count is None:
+        cache.set(fail_key, 1, timeout=expire * 60, version=system_version)
+    else:
+        cache.incr(fail_key, 1, version=system_version)
+
+
 class LoginSerializer(serializers.Serializer):
 
     @staticmethod
@@ -181,11 +192,12 @@ class LoginSerializer(serializers.Serializer):
     def _handle_failed_login(username: str, is_license_valid: bool, failed_attempts: int, lock_time: int) -> None:
         """处理登录失败"""
         record_login_fail(username)
+        record_login_fail_lock(username, lock_time)
 
         if not is_license_valid or failed_attempts <= 0:
             return
 
-        fail_count = cache.get(system_get_key(f'system_{username}'), version=system_version) or 0
+        fail_count = cache.get(system_get_key(f'system_{username}_lock_count'), version=system_version) or 0
         remain_attempts = failed_attempts - fail_count
 
         if remain_attempts > 0:
