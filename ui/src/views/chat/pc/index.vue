@@ -552,7 +552,7 @@ function closeExecutionDetail() {
 
   &__left {
     position: relative;
-    z-index: 1;
+    z-index: 11;
 
     .pc-collapse {
       position: absolute;

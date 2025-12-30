@@ -120,49 +120,58 @@
         <template #title>
           <AppIcon iconName="app-history-outlined" />
         </template>
-        <el-menu-item-group v-loading="leftLoading">
-          <template #title>
-            <div class="flex-between w-full">
-              <span>{{ $t('chat.history') }}</span>
-              <el-tooltip effect="dark" :content="$t('chat.clearChat')" placement="right">
-                <el-button text @click.stop="clearChat">
-                  <AppIcon iconName="app-delete" class="color-secondary" style="font-size: 16px;"></AppIcon>
-                </el-button>
-              </el-tooltip>
-            </div>
-          </template>
-          <el-menu-item
-            v-for="row in chatLogData"
-            :index="row.id"
-            :key="row.id"
-            @click="handleClickList(row)"
-            @mouseenter="mouseenter(row)"
-            @mouseleave="mouseId = ''"
-          >
-            <div class="flex-between w-full lighter">
-              <span :title="row.abstract" class="ellipsis">
-                {{ row.abstract }}
-              </span>
-              <div @click.stop class="flex" v-show="mouseId === row.id && row.id !== 'new'">
-                <el-dropdown trigger="click" :teleported="false">
-                  <AppIcon iconName="app-more" class="mt-4 lighter"></AppIcon>
-                  <template #dropdown>
-                    <el-dropdown-menu>
-                      <el-dropdown-item @click.stop="editLogTitle(row)">
-                        <AppIcon iconName="app-edit" class="color-secondary"></AppIcon>
-                        {{ $t('common.edit') }}
-                      </el-dropdown-item>
-                      <el-dropdown-item @click.stop="deleteChatLog(row)">
-                        <AppIcon iconName="app-delete" class="color-secondary"></AppIcon>
-                        {{ $t('common.delete') }}
-                      </el-dropdown-item>
-                    </el-dropdown-menu>
-                  </template>
-                </el-dropdown>
-              </div>
-            </div>
-          </el-menu-item>
-        </el-menu-item-group>
+        <div class="left-height">
+          <el-scrollbar>
+            <el-menu-item-group v-loading="leftLoading">
+              <template #title>
+                <div class="flex-between w-full">
+                  <span>{{ $t('chat.history') }}</span>
+                  <el-tooltip effect="dark" :content="$t('chat.clearChat')" placement="right">
+                    <el-button text @click.stop="clearChat">
+                      <AppIcon
+                        iconName="app-delete"
+                        class="color-secondary"
+                        style="font-size: 16px"
+                      ></AppIcon>
+                    </el-button>
+                  </el-tooltip>
+                </div>
+              </template>
+
+              <el-menu-item
+                v-for="row in chatLogData"
+                :index="row.id"
+                :key="row.id"
+                @click="handleClickList(row)"
+                @mouseenter="mouseenter(row)"
+                @mouseleave="mouseId = ''"
+              >
+                <div class="flex-between w-full lighter">
+                  <span :title="row.abstract" class="ellipsis">
+                    {{ row.abstract }}
+                  </span>
+                  <div @click.stop class="flex" v-show="mouseId === row.id && row.id !== 'new'">
+                    <el-dropdown trigger="click" :teleported="false">
+                      <AppIcon iconName="app-more" class="mt-4 lighter"></AppIcon>
+                      <template #dropdown>
+                        <el-dropdown-menu>
+                          <el-dropdown-item @click.stop="editLogTitle(row)">
+                            <AppIcon iconName="app-edit" class="color-secondary"></AppIcon>
+                            {{ $t('common.edit') }}
+                          </el-dropdown-item>
+                          <el-dropdown-item @click.stop="deleteChatLog(row)">
+                            <AppIcon iconName="app-delete" class="color-secondary"></AppIcon>
+                            {{ $t('common.delete') }}
+                          </el-dropdown-item>
+                        </el-dropdown-menu>
+                      </template>
+                    </el-dropdown>
+                  </div>
+                </div>
+              </el-menu-item>
+            </el-menu-item-group>
+          </el-scrollbar>
+        </div>
         <div v-if="!chatLogData?.length" class="text-center">
           <el-text type="info">{{ $t('chat.noHistory') }}</el-text>
         </div>

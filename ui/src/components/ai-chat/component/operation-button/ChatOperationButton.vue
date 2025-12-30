@@ -19,7 +19,7 @@
             :disabled="!data?.write_ed"
             @click="audioManage?.pause(true)"
           >
-            <AppIcon iconName="app-video-pause"></AppIcon>
+            <AppIcon class="color-secondary" iconName="app-video-pause"></AppIcon>
           </el-button>
         </el-tooltip>
         <el-tooltip effect="dark" :content="$t('chat.operation.play')" placement="top" v-else>
@@ -33,7 +33,7 @@
               }
             "
           >
-            <AppIcon iconName="app-video-play"></AppIcon>
+            <AppIcon class="color-secondary" iconName="app-video-play"></AppIcon>
           </el-button>
         </el-tooltip>
 
@@ -42,7 +42,7 @@
       <span v-if="type == 'ai-chat' || type == 'log'">
         <el-tooltip effect="dark" :content="$t('common.copy')" placement="top">
           <el-button text @click="copy(data)">
-            <AppIcon iconName="app-copy"></AppIcon>
+            <AppIcon class="color-secondary" iconName="app-copy"></AppIcon>
           </el-button>
         </el-tooltip>
         <el-divider direction="vertical" />
@@ -68,7 +68,7 @@
                 v-if="buttonData?.vote_status === '-1'"
               >
                 <el-button text :disabled="loading">
-                  <AppIcon iconName="app-like"></AppIcon>
+                  <AppIcon class="color-secondary" iconName="app-like"></AppIcon>
                 </el-button>
               </el-tooltip>
             </span>
@@ -91,7 +91,7 @@
           v-if="buttonData?.vote_status === '0'"
         >
           <el-button text @click="cancelVoteHandle('-1')" :disabled="loading">
-            <AppIcon iconName="app-like-color"></AppIcon>
+            <AppIcon class="color-secondary" iconName="app-like-color"></AppIcon>
           </el-button>
         </el-tooltip>
         <el-divider direction="vertical" v-if="buttonData?.vote_status === '-1'" />
@@ -111,7 +111,7 @@
                 v-if="buttonData?.vote_status === '-1'"
               >
                 <el-button text :disabled="loading">
-                  <AppIcon iconName="app-oppose"></AppIcon>
+                  <AppIcon class="color-secondary" iconName="app-oppose"></AppIcon>
                 </el-button>
               </el-tooltip>
             </span>
@@ -133,7 +133,7 @@
           v-if="buttonData?.vote_status === '1'"
         >
           <el-button text @click="cancelVoteHandle('-1')" :disabled="loading">
-            <AppIcon iconName="app-oppose-color"></AppIcon>
+            <AppIcon class="color-secondary" iconName="app-oppose-color"></AppIcon>
           </el-button>
         </el-tooltip>
       </span>
@@ -627,6 +627,6 @@ onBeforeUnmount(() => {
 }
 .vote-popover {
   padding: 20px 24px !important;
-  color: var(--el-text-color-primary) !important;;
+  color: var(--el-text-color-primary) !important;
 }
 </style>
