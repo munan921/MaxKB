@@ -111,7 +111,15 @@
         min-width="120"
         show-overflow-tooltip
         :label="$t('common.type')"
-      />
+      >
+        <template #default="{ row }">
+          {{
+            row.source_type === 'APPLICATION'
+              ? $t('views.application.title')
+              : $t('views.knowledge.title')
+          }}
+        </template>
+      </el-table-column>
       <el-table-column
         prop="username"
         min-width="120"

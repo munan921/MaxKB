@@ -2,14 +2,17 @@
   <CardBox :title="props.tool.name" :description="props.tool.desc" class="cursor tool-card">
     <template #icon>
       <el-avatar shape="square" :size="32" style="background: none">
-        <img src="@/assets/knowledge/icon_basic_template.svg" alt="" />
+        <img :src="resetUrl(props.tool?.icon, resetUrl('./favicon.ico'))" alt="" />
       </el-avatar>
     </template>
     <template #title>
       <span :title="props.tool?.name" class="ellipsis"> {{ props.tool?.name }}</span>
     </template>
     <template #footer>
-      <span class="card-footer-left color-secondary flex align-center" v-if="props.tool?.downloads != undefined">
+      <span
+        class="card-footer-left color-secondary flex align-center"
+        v-if="props.tool?.downloads != undefined"
+      >
         <AppIcon iconName="app-download" class="mr-4" />
         <span> {{ numberFormat(props.tool.downloads || 0) }} </span>
       </span>
