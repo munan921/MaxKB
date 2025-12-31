@@ -55,7 +55,7 @@
           :placeholder="$t('common.search')"
           style="width: 220px"
           clearable
-          @keyup.enter="pageResouceMapping()"
+          @keyup.enter="pageResourceMapping()"
         />
         <el-input
           v-if="searchType === 'user_name'"
@@ -63,12 +63,12 @@
           :placeholder="$t('common.search')"
           style="width: 220px"
           clearable
-          @keyup.enter="pageResouceMapping()"
+          @keyup.enter="pageResourceMapping()"
         />
         <el-select
           v-else-if="searchType === 'source_type'"
           v-model="query.source_type"
-          @change="pageResouceMapping()"
+          @change="pageResourceMapping()"
           filterable
           clearable
           multiple
@@ -89,7 +89,7 @@
       :data="tableData"
       :pagination-config="paginationConfig"
       @sizeChange="handleSizeChange"
-      @changePage="pageResouceMapping"
+      @changePage="pageResourceMapping"
       :maxTableHeight="200"
       :row-key="(row: any) => row.id"
       v-loading="loading"
@@ -205,7 +205,7 @@ const currentSourceName = computed(() => {
   }
 })
 
-const pageResouceMapping = () => {
+const pageResourceMapping = () => {
   const workspaceId = user.getWorkspaceId() || 'default'
   const params: any = {}
   if (query.value[searchType.value]) {
@@ -228,7 +228,7 @@ const pageResouceMapping = () => {
 
 function handleSizeChange() {
   paginationConfig.current_page = 1
-  pageResouceMapping()
+  pageResourceMapping()
 }
 
 const currentSourceType = ref<string>()
@@ -239,7 +239,7 @@ const open = (source: string, data: any) => {
   currentSourceType.value = source
   currentSourceId.value = data.id
   currentSource.value = data
-  pageResouceMapping()
+  pageResourceMapping()
   if (currentSourceType.value === 'MODEL') {
     getProvider()
   }
