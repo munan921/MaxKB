@@ -13,6 +13,7 @@ from django.db.models import QuerySet
 from django.utils.translation import gettext_lazy as _
 from rest_framework import serializers
 
+from common.database_model_manage.database_model_manage import DatabaseModelManage
 from common.db.search import native_page_search, get_dynamics_model
 from common.result import Page
 from common.utils.common import get_file_content
@@ -49,10 +50,17 @@ class ResourceMappingSerializer(serializers.Serializer):
             queryset = queryset.filter(**{'rm.source_type__in': self.data.get('source_type')})
         return queryset
 
+    @staticmethod
+    def is_x_pack_ee():
+        workspace_model = DatabaseModelManage.get_model("workspace_model")
+        return workspace_model is not None
+
     def page(self, current_page, page_size):
+        is_x_pack_ee = self.is_x_pack_ee()
         return native_page_search(current_page, page_size, self.get_query_set(), get_file_content(
             os.path.join(PROJECT_DIR, "apps", "system_manage",
-                         'sql', 'list_resource_mapping.sql')), with_table_name=False)
+                         'sql', 'list_resource_mapping_ee.sql' if is_x_pack_ee else 'list_resource_mapping.sql')),
+                                  with_table_name=False)
 
     def get_resource_count(self, result_list):
         """
@@ -86,4 +94,3 @@ class ResourceMappingSerializer(serializers.Serializer):
                         model['resource_count'] = count_dict.get(model_id, 0)
 
         return result_list
-
