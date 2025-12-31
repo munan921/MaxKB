@@ -356,10 +356,8 @@
                     <div
                       class="w-full mb-16"
                       v-if="
-                        ((applicationForm.mcp_tool_ids &&
-                          applicationForm.mcp_tool_ids.length > 0) ||
-                          (applicationForm.mcp_servers &&
-                            applicationForm.mcp_servers.length > 0)) &&
+                        applicationForm.mcp_tool_ids &&
+                        applicationForm.mcp_tool_ids.length > 0 &&
                         toolPermissionPrecise.read() &&
                         collapseData.MCP
                       "
@@ -402,6 +400,32 @@
                           </el-button>
                         </div>
                       </template>
+                    </div>
+                    <div
+                      class="w-full mb-16"
+                      v-if="
+                        applicationForm.mcp_servers &&
+                        applicationForm.mcp_servers.length > 0 &&
+                        toolPermissionPrecise.read() &&
+                        collapseData.MCP
+                      "
+                    >
+                      <div
+                        class="flex-between border border-r-6 white-bg mb-4"
+                        style="padding: 5px 8px"
+                      >
+                        <div class="flex align-center" style="line-height: 20px">
+                          <ToolIcon type="MCP" class="mr-8" :size="20"/>
+                          <div class="ellipsis">
+                            {{ $t('common.custom') + ' MCP' }}
+                          </div>
+                        </div>
+                        <el-button text @click="applicationForm.mcp_servers=''">
+                          <el-icon>
+                            <Close/>
+                          </el-icon>
+                        </el-button>
+                      </div>
                     </div>
                   </div>
 
