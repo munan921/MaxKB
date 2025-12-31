@@ -512,6 +512,79 @@ def save_workflow_mapping(workflow, source_type, source_id, other_resource_mappi
             {(str(item.target_type) + str(item.target_id)): item for item in resource_mapping_list}.values())
 
 
+def save_simple_mapping(application, source_type, source_id):
+    """
+    保存应用资源映射关系
+
+    Args:
+        application: 应用对象
+        source_type: 源类型
+        source_id: 源ID
+    """
+    from system_manage.models.resource_mapping import ResourceMapping
+    from django.db.models import QuerySet
+    from application.models import ApplicationKnowledgeMapping  # 假设模型在此处定义
+    from system_manage.models.resource_mapping import ResourceType
+    # 删除原有映射关系
+    QuerySet(ResourceMapping).filter(source_type=source_type, source_id=source_id).delete()
+
+    # 构建资源映射列表
+    resource_mapping_list = []
+
+    # 定义模型ID字段映射
+    model_fields = ['model_id', 'tts_model_id', 'stt_model_id']
+    for field in model_fields:
+        model_id = getattr(application, field, None)
+        if model_id:
+            resource_mapping_list.append(ResourceMapping(
+                source_type=source_type,
+                target_type=ResourceType.MODEL,
+                source_id=source_id,
+                target_id=model_id
+            ))
+
+    # 定义工具ID字段映射
+    tool_fields = ['mcp_tool_ids', 'tool_ids']
+    for field in tool_fields:
+        tool_ids = getattr(application, field, []) or []
+        resource_mapping_list.extend([
+            ResourceMapping(
+                source_type=source_type,
+                target_type=ResourceType.TOOL,
+                source_id=source_id,
+                target_id=tool_id
+            ) for tool_id in tool_ids if tool_id
+        ])
+
+    # 处理知识库映射
+    knowledge_mappings = ApplicationKnowledgeMapping.objects.filter(
+        application_id=application.id
+    )
+    resource_mapping_list.extend([
+        ResourceMapping(
+            source_type=source_type,
+            target_type=ResourceType.KNOWLEDGE,
+            source_id=source_id,
+            target_id=km.knowledge_id
+        ) for km in knowledge_mappings
+    ])
+
+    # 处理应用ID映射
+    application_ids = getattr(application, 'application_ids', []) or []
+    resource_mapping_list.extend([
+        ResourceMapping(
+            source_type=source_type,
+            target_type=ResourceType.APPLICATION,
+            source_id=source_id,
+            target_id=app_id
+        ) for app_id in application_ids if app_id
+    ])
+
+    # 批量创建资源映射
+    if resource_mapping_list:
+        QuerySet(ResourceMapping).bulk_create(resource_mapping_list)
+
+
 def get_tool_id_list(workflow):
     _result = []
     for node in workflow.get('nodes', []):

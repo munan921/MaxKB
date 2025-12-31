@@ -13,6 +13,7 @@ from django.db.models import QuerySet
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
+from application.flow.tools import save_simple_mapping
 from application.models import Application, ChatRecord, Chat, ApplicationVersion, ChatUserType, ApplicationTypeChoices, \
     ApplicationKnowledgeMapping
 from application.serializers.application_chat import ChatCountSerializer
@@ -347,5 +348,4 @@ def update_resource_mapping_by_application(application_id: str):
                               instance_mapping)
         return
     else:
-        save_workflow_mapping({}, ResourceType.APPLICATION, str(application_id),
-                              instance_mapping)
+        save_simple_mapping(application, ResourceType.APPLICATION, str(application_id))
