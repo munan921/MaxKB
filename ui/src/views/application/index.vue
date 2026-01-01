@@ -107,9 +107,9 @@
                       />
                     </el-avatar>
                     <div class="pre-wrap ml-8">
-                      <div class="lighter">{{ $t('views.application.workflow') }}</div>
+                      <div class="lighter">{{ $t('views.application.AdvancedAgent') }}</div>
                       <el-text type="info" size="small"
-                        >{{ $t('views.application.workflowPlaceholder') }}
+                        >{{ $t('views.application.advancedPlaceholder') }}
                       </el-text>
                     </div>
                   </div>

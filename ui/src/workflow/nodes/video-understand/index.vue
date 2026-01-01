@@ -142,23 +142,23 @@
           />
         </el-form-item>
         <el-form-item
-          :label="$t('workflow.nodes.videoUnderstandNode.image.label')"
+  
           :rules="{
             type: 'array',
             required: true,
-            message: $t('workflow.nodes.videoUnderstandNode.image.requiredMessage'),
+            message: $t('workflow.nodes.videoUnderstandNode.video.requiredMessage'),
             trigger: 'change',
           }"
         >
           <template #label
-            >{{ $t('workflow.nodes.videoUnderstandNode.image.label')
+            >{{ $t('workflow.nodes.videoUnderstandNode.video.label')
             }}<span class="color-danger">*</span></template
           >
           <NodeCascader
             ref="nodeCascaderRef"
             :nodeModel="nodeModel"
             class="w-full"
-            :placeholder="$t('workflow.nodes.videoUnderstandNode.image.requiredMessage')"
+            :placeholder="$t('workflow.nodes.videoUnderstandNode.video.requiredMessage')"
             v-model="form_data.video_list"
           />
         </el-form-item>

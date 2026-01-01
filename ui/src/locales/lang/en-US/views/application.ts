@@ -4,12 +4,12 @@ export default {
   createWorkFlowApplication: 'Create Workflow Agent',
   importApplication: 'Import Agent',
   copyApplication: 'Copy Agent',
-  workflow: 'WORKFLOW',
   simple: 'SIMPLE',
   senior: 'WORKFLOW',
-  simpleAgent: 'SIMPLE',
+  simpleAgent: 'Simple Agent',
+  AdvancedAgent: 'Advanced Agent',
   simplePlaceholder: 'Suitable for beginners to create assistant using form settings',
-  workflowPlaceholder:
+  advancedPlaceholder:
     'Suitable for advanced users to build complex logic AI assistants using low-code drag-and-drop',
   appTest: 'Debug Preview',
   skill: 'Skill',

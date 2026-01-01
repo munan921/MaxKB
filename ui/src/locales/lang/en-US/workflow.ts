@@ -329,7 +329,7 @@ You are a master of problem optimization, adept at accurately inferring user int
       editGroup: 'Edit Group',
     },
     mcpNode: {
-      label: 'MCP Node',
+      label: 'MCP Call',
       text: 'Call external MCP services to process data',
       getToolsSuccess: 'Tools fetched successfully',
       getTool: 'Fetch Tools',
@@ -450,7 +450,7 @@ You are a master of problem optimization, adept at accurately inferring user int
       label: 'Agent Node',
     },
     loopNode: {
-      label: 'Loop Node',
+      label: 'Loop',
       text: 'Repeat a series of tasks by setting the number of loops and logic',
       loopType: {
         label: 'Loop Type',
