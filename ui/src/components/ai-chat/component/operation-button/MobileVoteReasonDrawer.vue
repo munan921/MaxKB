@@ -1,5 +1,11 @@
 <template>
-  <el-drawer v-model="visible" direction="btt" size="-" footer-class="mobile-vote-drawer-footer" :modal="true">
+  <el-drawer
+    v-model="visible"
+    direction="btt"
+    size="-"
+    footer-class="mobile-vote-drawer-footer"
+    :modal="true"
+  >
     <template #header>
       <h4 class="text-center">{{ title }}</h4>
     </template>
@@ -28,8 +34,8 @@
     </template>
     <template #footer>
       <el-space fill wrap :fill-ratio="40" style="width: 100%">
-        <el-button @click="visible = false"> {{ $t('common.cancel') }}</el-button>
-        <el-button :disabled="isSubmitDisabled" type="primary" @click="voteHandle()">
+        <el-button @click="visible = false" size="large"> {{ $t('common.cancel') }}</el-button>
+        <el-button :disabled="isSubmitDisabled" type="primary" size="large" @click="voteHandle()">
           {{ $t('common.submit') }}</el-button
         >
       </el-space>
@@ -122,6 +128,6 @@ defineExpose({ open })
 <style lang="scss">
 .mobile-vote-drawer-footer {
   padding: 0 24px 32px 24px;
-  border: none!important;
+  border: none !important;
 }
 </style>

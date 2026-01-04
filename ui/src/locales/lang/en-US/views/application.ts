@@ -8,9 +8,9 @@ export default {
   senior: 'WORKFLOW',
   simpleAgent: 'Simple Agent',
   AdvancedAgent: 'Advanced Agent',
-  simplePlaceholder: 'Suitable for beginners to create assistant using form settings',
+  simplePlaceholder: 'Quickly build intelligent agents with basic functions through form settings',
   advancedPlaceholder:
-    'Suitable for advanced users to build complex logic AI assistants using low-code drag-and-drop',
+    'Using low-code drag-and-drop methods, flexibly orchestrate complex logic and feature-rich agents',
   appTest: 'Debug Preview',
   skill: 'Skill',
   operation: {

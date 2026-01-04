@@ -8,8 +8,8 @@ export default {
   simpleAgent: '簡易智能體',
   simple: '簡易',
   senior: '進階',
-  simplePlaceholder: '適用於初級用戶使用表單設定構建AI對話助手',
-  advancedPlaceholder: '適用於高階用戶使用低代碼拖拉拽方式構建複雜邏輯的AI對話助手',
+  simplePlaceholder: '通過表單設置方式，快速搭建基礎功能的智能體',
+  advancedPlaceholder: '使用低代碼拖拉拽方式，靈活編排複雜邏輯、功能豐富的智能體',
   appTest: '調試預覽',
   skill: '技能',
   operation: {

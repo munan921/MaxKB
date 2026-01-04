@@ -269,13 +269,14 @@
                     </div>
 
                     <div>
-                      <el-button type="primary" link @click="openParamSettingDialog">
-                        <AppIcon iconName="app-setting" class="mr-4"></AppIcon>
-                        {{ $t('common.paramSetting') }}
-                      </el-button>
+                      <span class="mr-4">
+                        <el-button type="primary" link @click="openParamSettingDialog">
+                          <AppIcon iconName="app-setting"></AppIcon>
+                        </el-button>
+                      </span>
+
                       <el-button type="primary" link @click="openKnowledgeDialog">
-                        <AppIcon iconName="app-add-outlined" class="mr-4"></AppIcon>
-                        {{ $t('common.add') }}
+                        <AppIcon iconName="app-add-outlined"></AppIcon>
                       </el-button>
                     </div>
                   </div>
@@ -349,7 +350,6 @@
                           @refreshForm="refreshParam"
                         >
                           <AppIcon iconName="app-add-outlined" class="mr-4"></AppIcon>
-                          {{ $t('common.add') }}
                         </el-button>
                       </div>
                     </div>
@@ -415,14 +415,14 @@
                         style="padding: 5px 8px"
                       >
                         <div class="flex align-center" style="line-height: 20px">
-                          <ToolIcon type="MCP" class="mr-8" :size="20"/>
+                          <ToolIcon type="MCP" class="mr-8" :size="20" />
                           <div class="ellipsis">
                             {{ $t('common.custom') + ' MCP' }}
                           </div>
                         </div>
-                        <el-button text @click="applicationForm.mcp_servers=''">
+                        <el-button text @click="applicationForm.mcp_servers = ''">
                           <el-icon>
-                            <Close/>
+                            <Close />
                           </el-icon>
                         </el-button>
                       </div>
@@ -452,7 +452,6 @@
                           @refreshForm="refreshParam"
                         >
                           <AppIcon iconName="app-add-outlined" class="mr-4"></AppIcon>
-                          {{ $t('common.add') }}
                         </el-button>
                       </div>
                     </div>
@@ -527,7 +526,6 @@
                           @refreshForm="refreshParam"
                         >
                           <AppIcon iconName="app-add-outlined" class="mr-4"></AppIcon>
-                          {{ $t('common.add') }}
                         </el-button>
                       </div>
                     </div>
@@ -1054,6 +1052,7 @@ function submitMcpServersDialog(config: any) {
   applicationForm.value.mcp_servers = config.mcp_servers
   applicationForm.value.mcp_tool_ids = config.mcp_tool_ids
   applicationForm.value.mcp_source = config.mcp_source
+  collapseData.MCP = true
 }
 
 const toolDialogRef = ref()
@@ -1063,6 +1062,7 @@ function openToolDialog() {
 
 function submitToolDialog(config: any) {
   applicationForm.value.tool_ids = config.tool_ids
+  collapseData.tool = true
 }
 
 const applicationDialogRef = ref()
@@ -1072,6 +1072,7 @@ function openApplicationDialog() {
 
 function submitApplicationDialog(config: any) {
   applicationForm.value.application_ids = config.application_ids
+  collapseData.agent = true
 }
 
 const applicationSelectOptions = ref<any[]>([])

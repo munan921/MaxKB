@@ -583,6 +583,7 @@ function submitMcpServersDialog(config: any) {
   set(props.nodeModel.properties.node_data, 'mcp_servers', config.mcp_servers)
   set(props.nodeModel.properties.node_data, 'mcp_tool_ids', config.mcp_tool_ids)
   set(props.nodeModel.properties.node_data, 'mcp_source', config.mcp_source)
+  collapseData.MCP = true
 }
 
 const toolDialogRef = ref()
@@ -591,6 +592,7 @@ function openToolDialog() {
 }
 function submitToolDialog(config: any) {
   set(props.nodeModel.properties.node_data, 'tool_ids', config.tool_ids)
+  collapseData.tool = true
 }
 function removeTool(id: any) {
   const list = props.nodeModel.properties.node_data.tool_ids.filter((v: any) => v !== id)
@@ -663,6 +665,7 @@ function openApplicationDialog() {
 
 function submitApplicationDialog(config: any) {
   set(props.nodeModel.properties.node_data, 'application_ids', config.application_ids)
+  collapseData.agent = true
 }
 function removeApplication(id: any) {
   if (chat_data.value.application_ids) {

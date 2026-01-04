@@ -1,6 +1,9 @@
 <template>
   <!-- 问题内容 -->
-  <div @mouseenter.stop="showIcon = true" @mouseleave.stop="showIcon = false">
+  <div
+    @mouseenter.stop="showIcon = true"
+    @mouseleave.stop="showIcon = false"
+  >
     <div class="question-content item-content lighter">
       <div v-if="!isReQuestion" class="content p-12-16 border-r-8" :class="getClassName">
         <div class="text break-all pre-wrap">
@@ -104,12 +107,12 @@
           placement="top"
           v-if="props.isLast && props.type !== 'log'"
         >
-          <el-button text @click="handleEdit(chatRecord)">
+          <el-button text @click.stop="handleEdit(chatRecord)">
             <AppIcon class="color-secondary" iconName="app-edit"></AppIcon>
           </el-button>
         </el-tooltip>
         <el-tooltip effect="dark" :content="$t('common.copy')" placement="top">
-          <el-button text @click="copyClick(chatRecord?.problem_text)">
+          <el-button text @click.stop="copyClick(chatRecord?.problem_text)">
             <AppIcon class="color-secondary" iconName="app-copy"></AppIcon>
           </el-button>
         </el-tooltip>
