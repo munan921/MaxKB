@@ -73,4 +73,4 @@ class ZhiPuTextToImage(MaxKBBaseModel, BaseTextToImage):
 
             return file_urls
         except Exception as e:
-            raise Exception(e)
+            raise e

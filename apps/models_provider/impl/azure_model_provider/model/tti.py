@@ -61,6 +61,6 @@ class AzureOpenAITextToImage(MaxKBBaseModel, BaseTextToImage):
                 file_urls.append(url)
             return file_urls
         except Exception as e:
-            raise Exception(e)
+            raise e
 
 

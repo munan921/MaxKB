@@ -58,4 +58,4 @@ class SiliconCloudTextToImage(MaxKBBaseModel, BaseTextToImage):
                 file_urls.append(url)
             return file_urls
         except Exception as e:
-            raise Exception(f"{e}")
+            raise e

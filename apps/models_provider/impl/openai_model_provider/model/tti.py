@@ -58,4 +58,4 @@ class OpenAITextToImage(MaxKBBaseModel, BaseTextToImage):
                 file_urls.append(url)
             return file_urls
         except Exception as e:
-            raise Exception(f"OpenAI generate image error: {e}")
+            raise f"OpenAI generate image error: {e}"
