@@ -22,7 +22,7 @@
         style="background: none"
         class="mr-12"
       >
-        <img :src="resetUrl(currentSource?.icon, resetUrl('./favicon.ico'))" alt=""/>
+        <img :src="resetUrl(currentSource?.icon, resetUrl('./favicon.ico'))" alt="" />
       </el-avatar>
       <ToolIcon
         v-else-if="currentSourceType === 'TOOL'"
@@ -45,9 +45,9 @@
     <div class="flex-between mb-16">
       <div class="flex-between complex-search">
         <el-select class="complex-search__left" v-model="searchType" style="width: 100px">
-          <el-option :label="$t('common.name')" value="resource_name"/>
-          <el-option :label="$t('common.creator')" value="user_name"/>
-          <el-option :label="$t('common.type')" value="source_type"/>
+          <el-option :label="$t('common.name')" value="resource_name" />
+          <el-option :label="$t('common.creator')" value="user_name" />
+          <el-option :label="$t('common.type')" value="source_type" />
         </el-select>
         <el-input
           v-if="searchType === 'resource_name'"
@@ -76,9 +76,10 @@
           collapse-tags
           collapse-tags-tooltip
           style="width: 220px"
+          :placeholder="$t('common.search')"
         >
-          <el-option :label="$t('views.application.title')" value="APPLICATION"/>
-          <el-option :label="$t('views.knowledge.title')" value="KNOWLEDGE"/>
+          <el-option :label="$t('views.application.title')" value="APPLICATION" />
+          <el-option :label="$t('views.knowledge.title')" value="KNOWLEDGE" />
         </el-select>
       </div>
     </div>
@@ -111,7 +112,7 @@
                 style="background: none"
                 class="mr-8"
               >
-                <img :src="resetUrl(row?.icon, resetUrl('./favicon.ico'))" alt=""/>
+                <img :src="resetUrl(row?.icon, resetUrl('./favicon.ico'))" alt="" />
               </el-avatar>
 
               <span>{{ row.name }}</span>
@@ -158,7 +159,7 @@
                   @click="workspaceVisible = !workspaceVisible"
                 >
                   <el-icon>
-                    <Filter/>
+                    <Filter />
                   </el-icon>
                 </el-button>
               </template>
@@ -184,16 +185,16 @@
                         />
                       </el-checkbox-group>
                     </el-scrollbar>
-                    <el-empty v-else :description="$t('common.noData')"/>
+                    <el-empty v-else :description="$t('common.noData')" />
                   </div>
                 </div>
               </div>
               <div class="text-right">
                 <el-button size="small" @click="filterWorkspaceChange('clear')"
-                >{{ $t('common.clear') }}
+                  >{{ $t('common.clear') }}
                 </el-button>
                 <el-button type="primary" @click="filterWorkspaceChange" size="small"
-                >{{ $t('common.confirm') }}
+                  >{{ $t('common.confirm') }}
                 </el-button>
               </div>
             </el-popover>
@@ -210,18 +211,18 @@
   </el-drawer>
 </template>
 <script setup lang="ts">
-import {ref, reactive, computed, onMounted, watch} from 'vue'
-import {useRoute, useRouter} from 'vue-router'
-import {loadSharedApi} from '@/utils/dynamics-api/shared-api'
-import {isAppIcon, resetUrl} from '@/utils/common'
+import { ref, reactive, computed, onMounted, watch } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+import { loadSharedApi } from '@/utils/dynamics-api/shared-api'
+import { isAppIcon, resetUrl } from '@/utils/common'
 import useStore from '@/stores'
-import {t} from '@/locales'
-import type {Provider} from '@/api/type/model'
-import {loadPermissionApi} from '@/utils/dynamics-api/permission-api.ts'
+import { t } from '@/locales'
+import type { Provider } from '@/api/type/model'
+import { loadPermissionApi } from '@/utils/dynamics-api/permission-api.ts'
 
 const route = useRoute()
 const router = useRouter()
-const {model, user} = useStore()
+const { model, user } = useStore()
 const searchType = ref<string>('resource_name')
 const query = ref<any>({
   resource_name: '',
@@ -267,7 +268,7 @@ const pageResourceMapping = () => {
   if (workspaceArr.value.length > 0) {
     params.workspace_ids = JSON.stringify(workspaceArr.value)
   }
-  loadSharedApi({type: 'resourceMapping', systemType: apiType.value})
+  loadSharedApi({ type: 'resourceMapping', systemType: apiType.value })
     .getResourceMapping(
       workspaceId,
       currentSourceType.value,
@@ -385,7 +386,7 @@ watch(
       v.label.toLowerCase().includes(filterText.value.toLowerCase()),
     )
   },
-  {immediate: true},
+  { immediate: true },
 )
 
 defineExpose({

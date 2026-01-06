@@ -220,6 +220,9 @@
   tr.highlight {
     background: var(--el-table-current-row-bg-color);
   }
+  .cell.el-tooltip {
+    max-width: 500px;
+  }
 }
 
 // dialog
