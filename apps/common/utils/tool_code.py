@@ -14,11 +14,11 @@ import sys
 import tempfile
 import time
 from contextlib import contextmanager
+from contextlib import suppress
 from textwrap import dedent
 
 import uuid_utils.compat as uuid
 from django.utils.translation import gettext_lazy as _
-
 from common.utils.logger import maxkb_logger
 from maxkb.const import BASE_DIR, CONFIG
 from maxkb.const import PROJECT_DIR
@@ -242,6 +242,10 @@ exec({dedent(code)!a})
         kwargs = {'cwd': BASE_DIR, 'env': {
             'LD_PRELOAD': f'{_sandbox_path}/lib/sandbox.so',
         }}
+        def _set_resource_limit():
+            if not _enable_sandbox or not sys.platform.startswith("linux"): return
+            with suppress(Exception): resource.setrlimit(resource.RLIMIT_AS, (_process_limit_mem_mb * 1024 * 1024,) * 2)
+            with suppress(Exception): os.sched_setaffinity(0, set(random.sample(list(os.sched_getaffinity(0)), _process_limit_cpu_cores)))
         try:
             subprocess_result = subprocess.run(
                 [sys.executable, execute_file],
@@ -249,10 +253,7 @@ exec({dedent(code)!a})
                 text=True,
                 capture_output=True,
                 **kwargs,
-                preexec_fn=(lambda: None if (not _enable_sandbox or not sys.platform.startswith("linux")) else (
-                    resource.setrlimit(resource.RLIMIT_AS, (_process_limit_mem_mb * 1024 * 1024,) * 2),
-                    os.sched_setaffinity(0, set(random.sample(list(os.sched_getaffinity(0)), _process_limit_cpu_cores)))
-                ))
+                preexec_fn=_set_resource_limit
             )
             return subprocess_result
         except subprocess.TimeoutExpired:
