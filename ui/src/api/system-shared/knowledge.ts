@@ -443,6 +443,15 @@ const listKnowledgeVersion: (
   return get(`${prefix}/${knowledge_id}/knowledge_version`, {}, loading)
 }
 
+
+const getMcpTools: (
+  knowledge_id: string,
+  mcp_servers: any,
+  loading?: Ref<boolean>,
+) => Promise<Result<any>> = (knowledge_id, mcp_servers, loading) => {
+  return post(`${prefix}/${knowledge_id}/mcp_tools`, { mcp_servers }, {}, loading)
+}
+
 export default {
   getKnowledgeList,
   getKnowledgeListPage,
@@ -478,6 +487,7 @@ export default {
   getWorkflowActionPage,
   exportKnowledgeWorkflow,
   importKnowledgeWorkflow,
+  getMcpTools
 } as {
   [key: string]: any
 }

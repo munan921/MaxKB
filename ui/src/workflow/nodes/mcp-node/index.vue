@@ -284,7 +284,9 @@ const workflow_mode: WorkflowMode = inject('workflowMode') || WorkflowMode.Appli
 const resource = getResourceDetail()
 
 const apiType = computed(() => {
-  if (route.path.includes('resource-management')) {
+  if (route.path.includes('shared')) {
+    return 'systemShare'
+  } else if (route.path.includes('resource-management')) {
     return 'systemManage'
   } else if (route.path.includes('shared')) {
     return 'systemShare'
@@ -369,6 +371,11 @@ function getTools() {
 }
 
 function _getTools(mcp_servers: any) {
+  console.log({ type: [WorkflowMode.Application, WorkflowMode.ApplicationLoop].includes(workflow_mode)
+      ? 'application'
+      : 'knowledge',
+    systemType: apiType.value
+  })
   loadSharedApi({
     type: [WorkflowMode.Application, WorkflowMode.ApplicationLoop].includes(workflow_mode)
       ? 'application'
