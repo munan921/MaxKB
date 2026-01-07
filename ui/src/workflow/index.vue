@@ -112,7 +112,11 @@ const renderGraphData = (data?: any) => {
     })
 
     setTimeout(() => {
-      lf.value?.fitView()
+      if (lf.value.graphModel?.nodes.length > 1) {
+        lf.value?.fitView()
+      } else {
+        lf.value?.translateCenter()
+      }
     }, 500)
   }
 }
