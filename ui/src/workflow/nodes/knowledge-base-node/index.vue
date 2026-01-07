@@ -65,7 +65,4 @@ const resource = getResourceDetail()
 onMounted(() => {})
 </script>
 <style lang="scss" scoped>
-:deep(.el-form-item__label) {
-  display: block;
-}
 </style>

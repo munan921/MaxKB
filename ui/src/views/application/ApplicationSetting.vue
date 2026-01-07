@@ -1330,7 +1330,4 @@ onMounted(() => {
   height: 150px;
 }
 
-:deep(.el-form-item__label) {
-  display: block;
-}
 </style>

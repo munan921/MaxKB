@@ -220,9 +220,6 @@
   tr.highlight {
     background: var(--el-table-current-row-bg-color);
   }
-  .cell.el-tooltip {
-    max-width: 500px;
-  }
 }
 
 // dialog
@@ -264,6 +261,7 @@
   }
 }
 .el-form-item__label {
+  display: block;
   font-weight: 400;
   width: 100% !important;
   color: var(--el-text-color-primary);

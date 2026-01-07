@@ -94,6 +94,9 @@
       :maxTableHeight="200"
       :row-key="(row: any) => row.id"
       v-loading="loading"
+      :tooltip-options="{
+        popperClass: 'max-w-350',
+      }"
     >
       <el-table-column prop="name" :label="$t('common.name')" min-width="130" show-overflow-tooltip>
         <template #default="{ row }">
