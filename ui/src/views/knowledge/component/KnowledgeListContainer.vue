@@ -61,7 +61,7 @@
                     <div class="lighter">
                       {{ $t('views.knowledge.knowledgeType.generalKnowledge') }}
                     </div>
-                    <el-text type="info" size="small"
+                    <el-text type="info" size="small" class="color-secondary"
                       >{{ $t('views.knowledge.knowledgeType.generalInfo') }}
                     </el-text>
                   </div>
@@ -76,7 +76,7 @@
                     <div class="lighter">
                       {{ $t('views.knowledge.knowledgeType.webKnowledge') }}
                     </div>
-                    <el-text type="info" size="small"
+                    <el-text type="info" size="small" class="color-secondary"
                       >{{ $t('views.knowledge.knowledgeType.webInfo') }}
                     </el-text>
                   </div>
@@ -99,7 +99,7 @@
                     <div class="lighter">
                       {{ $t('views.knowledge.knowledgeType.larkKnowledge') }}
                     </div>
-                    <el-text type="info" size="small"
+                    <el-text type="info" size="small" class="color-secondary"
                       >{{ $t('views.knowledge.knowledgeType.larkInfo') }}
                     </el-text>
                   </div>
@@ -114,7 +114,7 @@
                     <div class="lighter">
                       {{ $t('views.knowledge.knowledgeType.workflowKnowledge') }}
                     </div>
-                    <el-text type="info" size="small"
+                    <el-text type="info" size="small" class="color-secondary"
                       >{{ $t('views.knowledge.knowledgeType.workflowInfo') }}
                     </el-text>
                   </div>

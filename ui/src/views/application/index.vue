@@ -91,7 +91,7 @@
                       <div class="lighter">
                         {{ $t('views.application.simpleAgent') }}
                       </div>
-                      <el-text type="info" size="small"
+                      <el-text type="info" size="small" class="color-secondary"
                         >{{ $t('views.application.simplePlaceholder') }}
                       </el-text>
                     </div>
@@ -108,7 +108,7 @@
                     </el-avatar>
                     <div class="pre-wrap ml-8">
                       <div class="lighter">{{ $t('views.application.AdvancedAgent') }}</div>
-                      <el-text type="info" size="small"
+                      <el-text type="info" size="small" class="color-secondary"
                         >{{ $t('views.application.advancedPlaceholder') }}
                       </el-text>
                     </div>
