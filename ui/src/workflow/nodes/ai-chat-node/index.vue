@@ -280,8 +280,8 @@
             </div>
           </div>
 
-          <!-- 应用       -->
-          <div>
+          <!-- 应用 没有共享应用，在共享知识库工作流不显示这个      -->
+          <div v-if="apiType !== 'systemShare'">
             <div class="flex-between" @click="collapseData.agent = !collapseData.agent">
               <div class="flex align-center lighter cursor">
                 <el-icon class="mr-8 arrow-icon" :class="collapseData.agent ? 'rotate-90' : ''">
