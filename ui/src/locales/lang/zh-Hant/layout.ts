@@ -36,6 +36,8 @@ export default {
     neverExpires: '永不过期',
     minutesLater: '分鐘後过期',
     expiringSoon: '即將到期',
+    neverExpires: '永不過期',
+    daysValid: '天有效',
   },
   copyright: '版權所有 © 2014-2026 杭州飛致雲信息科技有限公司',
   userManualUrl: 'https://maxkb.cn/docs/v2/',

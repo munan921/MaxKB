@@ -37,9 +37,8 @@ export default {
     expiringSoon: '即将到期',
     neverExpires: '永不过期',
     daysValid: '天有效',
-
   },
   copyright: '版权所有 © 2014-2026 杭州飞致云信息科技有限公司',
   userManualUrl: 'https://maxkb.cn/docs/v2/',
-  forumUrl: 'https://bbs.fit2cloud.com/c/mk/11'
+  forumUrl: 'https://bbs.fit2cloud.com/c/mk/11',
 }
