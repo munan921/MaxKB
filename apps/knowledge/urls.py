@@ -25,6 +25,7 @@ urlpatterns = [
     path('workspace/<str:workspace_id>/knowledge/<str:knowledge_id>/hit_test', views.KnowledgeView.HitTest.as_view()),
     path('workspace/<str:workspace_id>/knowledge/<str:knowledge_id>/export', views.KnowledgeView.Export.as_view()),
     path('workspace/<str:workspace_id>/knowledge/<str:knowledge_id>/export_zip', views.KnowledgeView.ExportZip.as_view()),
+    path('workspace/<str:workspace_id>/knowledge/<str:knowledge_id>/transform_workflow', views.KnowledgeView.TransformWorkflow.as_view()),
     path('workspace/<str:workspace_id>/knowledge/<str:knowledge_id>/tags', views.KnowledgeTagView.as_view()),
     path('workspace/<str:workspace_id>/knowledge/<str:knowledge_id>/tags/batch_delete', views.KnowledgeTagView.BatchDelete.as_view()),
     path('workspace/<str:workspace_id>/knowledge/<str:knowledge_id>/tags/<str:tag_id>', views.KnowledgeTagView.Operate.as_view()),
