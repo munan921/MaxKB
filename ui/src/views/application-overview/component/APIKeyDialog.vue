@@ -89,7 +89,7 @@
       <el-table-column :label="$t('common.operation')" align="left" width="130">
         <template #default="{ row }">
           <span @click.stop>
-            <el-switch size="small" v-model="row.is_active" @change="changeState($event, row)" />
+            <el-switch size="small" v-model="row.is_active" @change="changeState(row)" />
           </span>
           <el-divider direction="vertical" />
           <span class="mr-4">
