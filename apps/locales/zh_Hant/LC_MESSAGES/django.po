@@ -9052,3 +9052,30 @@ msgstr "密鑰無效"
 
 msgid "Secret key is expired"
 msgstr "密鑰已過期"
+
+msgid "Online Usage"
+msgstr "線上使用"
+
+msgid "API Call"
+msgstr "API 調用"
+
+msgid "Enterprise WeChat"
+msgstr "企業微信應用"
+
+msgid "WeChat Public Account"
+msgstr "微信公眾號"
+
+msgid "Lark"
+msgstr "飛書應用"
+
+msgid "DingTalk"
+msgstr "釘釘應用"
+
+msgid "Enterprise WeChat Robot"
+msgstr "企業微信機器人"
+
+msgid "Trigger"
+msgstr "觸發器"
+
+msgid "Slack"
+msgstr "Slack 應用"
