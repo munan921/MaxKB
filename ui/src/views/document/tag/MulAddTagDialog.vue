@@ -140,7 +140,7 @@ const optionLoading = ref<boolean>(false)
 const FormRef = ref()
 const dialogVisible = ref<boolean>(false)
 const tagList = ref<Array<any>>([])
-const keyOptions = ref([])
+const keyOptions = ref<Array<any>>([])
 const allKeyOptions = ref([])
 
 const add = () => {
