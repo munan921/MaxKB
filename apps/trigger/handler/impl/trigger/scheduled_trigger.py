@@ -1,5 +1,4 @@
 # coding=utf-8
-from __future__ import annotations
 
 import random
 
@@ -37,7 +36,7 @@ def _get_active_trigger_tasks(trigger_id: str) -> list[dict]:
     )
 
 
-def _deploy_daily(trigger: dict, trigger_tasks: list[dict], setting: dict, trigger_id: str, func) -> None:
+def _deploy_daily(trigger: dict, trigger_tasks: list[dict], setting: dict, trigger_id: str) -> None:
     from common.job import scheduler
 
     times = setting.get("time") or []
@@ -51,17 +50,17 @@ def _deploy_daily(trigger: dict, trigger_tasks: list[dict], setting: dict, trigg
         for task in trigger_tasks:
             job_id = f"trigger:{trigger_id}:task:{task['id']}:daily:{hour:02d}{minute:02d}"
             scheduler.add_job(
-                func,
+                ScheduledTrigger.execute,
                 trigger="cron",
                 hour=str(hour),
                 minute=str(minute),
                 id=job_id,
-                kwargs={"trigger": trigger, "trigger_tasks": trigger_tasks},
+                kwargs={"trigger": trigger, "trigger_task": task},
                 replace_existing=True,
             )
 
 
-def _deploy_weekly(trigger: dict, trigger_tasks: list[dict], setting: dict, trigger_id: str, func) -> None:
+def _deploy_weekly(trigger: dict, trigger_tasks: list[dict], setting: dict, trigger_id: str) -> None:
     from common.job import scheduler
 
     times = setting.get("time") or []
@@ -87,18 +86,18 @@ def _deploy_weekly(trigger: dict, trigger_tasks: list[dict], setting: dict, trig
             for task in trigger_tasks:
                 job_id = f"trigger:{trigger_id}:task:{task['id']}:weekly:{dow}:{hour:02d}{minute:02d}"
                 scheduler.add_job(
-                    func,
+                    ScheduledTrigger.execute,
                     trigger="cron",
                     day_of_week=dow,
                     hour=str(hour),
                     minute=str(minute),
                     id=job_id,
-                    kwargs={"trigger": trigger, "trigger_tasks": trigger_tasks},
+                    kwargs={"trigger": trigger, "trigger_task": task},
                     replace_existing=True,
                 )
 
 
-def _deploy_monthly(trigger: dict, trigger_tasks: list[dict], setting: dict, trigger_id: str, func) -> None:
+def _deploy_monthly(trigger: dict, trigger_tasks: list[dict], setting: dict, trigger_id: str) -> None:
     from common.job import scheduler
 
     times = setting.get("time") or []
@@ -126,18 +125,18 @@ def _deploy_monthly(trigger: dict, trigger_tasks: list[dict], setting: dict, tri
             for task in trigger_tasks:
                 job_id = f"trigger:{trigger_id}:task:{task['id']}:monthly:{dom:02d}:{hour:02d}{minute:02d}"
                 scheduler.add_job(
-                    func,
+                    ScheduledTrigger.execute,
                     trigger="cron",
                     day=str(dom),
                     hour=str(hour),
                     minute=str(minute),
                     id=job_id,
-                    kwargs={"trigger": trigger, "trigger_tasks": trigger_tasks},
+                    kwargs={"trigger": trigger, "trigger_task": task},
                     replace_existing=True,
                 )
 
 
-def _deploy_interval(trigger: dict, trigger_tasks: list[dict], setting: dict, trigger_id: str, func) -> None:
+def _deploy_interval(trigger: dict, trigger_tasks: list[dict], setting: dict, trigger_id: str) -> None:
     from common.job import scheduler
 
     unit = (setting.get("interval_unit") or "").strip()
@@ -158,10 +157,10 @@ def _deploy_interval(trigger: dict, trigger_tasks: list[dict], setting: dict, tr
     for task in trigger_tasks:
         job_id = f"trigger:{trigger_id}:task:{task['id']}:interval:{unit}:{value_i}"
         scheduler.add_job(
-            func,
+            ScheduledTrigger.execute,
             trigger="interval",
             id=job_id,
-            kwargs={"trigger": trigger, "trigger_tasks": trigger_tasks},
+            kwargs={"trigger": trigger, "trigger_task": task},
             replace_existing=True,
             **{unit: value_i},
         )
@@ -179,9 +178,9 @@ def _remove_trigger_jobs(trigger_id: str) -> None:
                 maxkb_logger.warning(f"remove job failed, job_id={job.id}, err={e}")
 
 
-@celery_app.task(name='celery:deploy_scheduled_trigger')
-def deploy_scheduled_trigger(trigger: dict, trigger_tasks: list[dict], setting: dict, schedule_type: str, func) -> None:
-    _remove_trigger_jobs(trigger['id'])
+@celery_app.task(name="celery:deploy_scheduled_trigger")
+def deploy_scheduled_trigger(trigger: dict, trigger_tasks: list[dict], setting: dict, schedule_type: str) -> None:
+    _remove_trigger_jobs(trigger["id"])
 
     deployers = {
         "daily": _deploy_daily,
@@ -194,7 +193,7 @@ def deploy_scheduled_trigger(trigger: dict, trigger_tasks: list[dict], setting: 
         maxkb_logger.warning(f"unsupported schedule_type={schedule_type}, trigger_id={trigger['id']}")
         return
 
-    fn(trigger, trigger_tasks, setting, trigger['id'], func)
+    fn(trigger, trigger_tasks, setting, trigger["id"])
 
 
 class ScheduledTrigger(BaseTrigger):
@@ -205,6 +204,23 @@ class ScheduledTrigger(BaseTrigger):
     @staticmethod
     def execute(trigger, **kwargs):
         n = random.randint(1, 1_000_000_000)
+        trigger_task = kwargs.get("trigger_task")
+        if not trigger_task:
+            maxkb_logger.warning(f"unsupported task={trigger_task}")
+            return
+        source_type = trigger_task["source_type"]
+
+        if source_type == "APPLICATION":
+            from trigger.handler.impl.task.application_task import ApplicationTask
+
+            ApplicationTask.execute(trigger_task, **kwargs)
+        elif source_type == "TOOL":
+            from trigger.handler.impl.task.tool_task import ToolTask
+
+            ToolTask.execute(trigger_task, **kwargs)
+        else:
+            maxkb_logger.warning(f"unsupported source_type={source_type}, task_id={trigger_task['id']}")
+            return
 
         maxkb_logger.info(f"scheduled trigger execute, trigger={n}")
 
@@ -233,8 +249,7 @@ class ScheduledTrigger(BaseTrigger):
 
         try:
             maxkb_logger.debug(f"get lock {lock_key}")
-            deploy_scheduled_trigger.delay(trigger, trigger_tasks, setting, schedule_type, self.execute)
-
+            deploy_scheduled_trigger.delay(trigger, trigger_tasks, setting, schedule_type)
         finally:
             rlock.un_lock(lock_key)
 
