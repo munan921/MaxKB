@@ -100,7 +100,7 @@ const openEditTriggerDrawer = (trigger: any) => {
 
 function getTriggerList() {
   loadSharedApi({ type: 'trigger', systemType: apiType.value })
-    .getResourceTriggerList('APPLICATION', toolId.value, loading)
+    .getResourceTriggerList('TOOL', toolId.value, loading)
     .then((res: any) => {
       triggerList.value = res.data
     })
@@ -112,7 +112,7 @@ function refreshTrigger() {
 
 function removeTrigger(trigger: any) {
   loadSharedApi({ type: 'trigger', systemType: apiType.value })
-    .deleteResourceTrigger('APPLICATION', toolId.value, trigger.id, loading)
+    .deleteResourceTrigger('TOOL', toolId.value, trigger.id, loading)
     .then((res: any) => {
       getTriggerList()
     })
