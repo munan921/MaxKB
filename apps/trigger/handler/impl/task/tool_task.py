@@ -73,7 +73,7 @@ class ToolTask(BaseTriggerTask):
 
         TaskRecord(
             id=task_record_id,
-            trigger_id=trigger_task.get('trigger_id'),
+            trigger_id=trigger_task.get('trigger'),
             trigger_task_id=trigger_task.get('id'),
             source_type="TOOL",
             source_id=tool_id,

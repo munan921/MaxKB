@@ -1,7 +1,5 @@
 # coding=utf-8
 
-import random
-
 from django.db.models import QuerySet
 
 from common.utils.lock import RedisLock
@@ -32,7 +30,7 @@ def _get_active_trigger_tasks(trigger_id: str) -> list[dict]:
     return list(
         QuerySet(TriggerTask)
         .filter(trigger_id=trigger_id, is_active=True)
-        .values("id", "source_type", "source_id", "parameter")
+        .values("id", "source_type", "source_id", "parameter", "trigger")
     )
 
 
@@ -203,7 +201,6 @@ class ScheduledTrigger(BaseTrigger):
 
     @staticmethod
     def execute(trigger, **kwargs):
-        n = random.randint(1, 1_000_000_000)
         trigger_task = kwargs.get("trigger_task")
         if not trigger_task:
             maxkb_logger.warning(f"unsupported task={trigger_task}")
@@ -220,9 +217,6 @@ class ScheduledTrigger(BaseTrigger):
             ToolTask.execute(trigger_task, **kwargs)
         else:
             maxkb_logger.warning(f"unsupported source_type={source_type}, task_id={trigger_task['id']}")
-            return
-
-        maxkb_logger.info(f"scheduled trigger execute, trigger={n}")
 
     def support(self, trigger, **kwargs):
         return trigger.get("trigger_type") == "SCHEDULED"
