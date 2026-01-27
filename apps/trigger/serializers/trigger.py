@@ -25,7 +25,6 @@ from common.utils.common import get_file_content
 from knowledge.serializers.common import BatchSerializer
 from maxkb.conf import PROJECT_DIR
 from tools.models import Tool
-from trigger.handler.simple_tools import deploy, undeploy
 from trigger.models import TriggerTypeChoices, Trigger, TriggerTaskTypeChoices, TriggerTask, TaskRecord
 
 
@@ -397,6 +396,8 @@ class TriggerSerializer(serializers.Serializer):
 
         @transaction.atomic
         def batch_delete(self, instance: Dict, with_valid=True):
+            from trigger.handler.simple_tools import deploy, undeploy
+
             if with_valid:
                 BatchSerializer(data=instance).is_valid(model=Trigger, raise_exception=True)
                 self.is_valid(raise_exception=True)
@@ -414,6 +415,8 @@ class TriggerSerializer(serializers.Serializer):
 
         @transaction.atomic
         def batch_switch(self, instance: Dict, with_valid=True):
+            from trigger.handler.simple_tools import deploy, undeploy
+
             if with_valid:
                 BatchActiveSerializer(data=instance).is_valid(model=Trigger, raise_exception=True)
                 self.is_valid(raise_exception=True)
@@ -450,6 +453,8 @@ class TriggerOperateSerializer(serializers.Serializer):
 
     @transaction.atomic
     def edit(self, instance: Dict, with_valid=True):
+        from trigger.handler.simple_tools import deploy, undeploy
+
         if with_valid:
             self.is_valid()
             TriggerEditRequest(data=instance).is_valid(raise_exception=True)
@@ -488,6 +493,8 @@ class TriggerOperateSerializer(serializers.Serializer):
         return self.one(with_valid=False)
 
     def delete(self):
+        from trigger.handler.simple_tools import deploy, undeploy
+
         self.is_valid(raise_exception=True)
         trigger_id = self.data.get('trigger_id')
         trigger = QuerySet(Trigger).filter(workspace_id=self.data.get('workspace_id'), id=trigger_id).first()
