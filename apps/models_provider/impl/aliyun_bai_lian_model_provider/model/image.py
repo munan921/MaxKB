@@ -36,8 +36,22 @@ class QwenVLChatModel(MaxKBBaseModel, BaseChatOpenAI):
         return chat_tong_yi
 
     def check_auth(self, api_key):
-        chat = ChatTongyi(api_key=api_key, model_name='qwen-max')
-        chat.invoke([HumanMessage([{"type": "text", "text": gettext('Hello')}])])
+        from openai import OpenAI
+
+        client = OpenAI(
+            # 若没有配置环境变量，请用百炼API Key将下行替换为：api_key="sk-xxx"
+            api_key=api_key,
+            base_url=self.openai_api_base,
+        )
+        client.chat.completions.create(
+            # 模型列表：https://help.aliyun.com/zh/model-studio/getting-started/models
+            model="qwen-max",
+            messages=[
+                {"role": "system", "content": "You are a helpful assistant."},
+                {"role": "user", "content": gettext('Hello')},
+            ]
+
+        )
 
     def get_upload_policy(self, api_key, model_name):
         """获取文件上传凭证"""
