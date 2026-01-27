@@ -6,10 +6,13 @@
     @date：2026/1/14 19:14
     @desc:
 """
+import time
+import traceback
 
 import uuid_utils.compat as uuid
 from django.db.models import QuerySet
 
+from common.utils.logger import maxkb_logger
 from common.utils.tool_code import ToolExecutor
 from knowledge.models.knowledge_action import State
 from tools.models import Tool
@@ -35,10 +38,50 @@ def get_field_value(value, kwargs):
         return get_reference(value.get('value'), kwargs)
 
 
-def get_tool_execute_parameters(parameter_setting, kwargs):
+def _coerce_by_type(field_type, raw):
+    if raw is None:
+        return None
+    t = (field_type or "").lower()
+
+    if t in ("string", "str", "text"):
+        return str(raw)
+    if t in ("int", "integer"):
+        return int(raw)
+    if t in ("float", "number", "double"):
+        return float(raw)
+    if t in ("bool", "boolean"):
+        if isinstance(raw, bool):
+            return raw
+        if isinstance(raw, (int, float)):
+            return bool(raw)
+        if isinstance(raw, str):
+            v = raw.strip().lower()
+            if v in ("true", "1", "yes", "y", "on"):
+                return True
+            if v in ("false", "0", "no", "n", "off"):
+                return False
+        raise ValueError(f"Cannot coerce {raw!r} to bool")
+    if t in ("list", "array"):
+        if isinstance(raw, list):
+            return raw
+        if isinstance(raw, tuple):
+            return list(raw)
+        raise ValueError(f"Cannot coerce {raw!r} to list")
+    if t in ("dict", "object", "json"):
+        if isinstance(raw, dict):
+            return raw
+        raise ValueError(f"Cannot coerce {raw!r} to dict")
+
+    return raw
+
+
+def get_tool_execute_parameters(input_field_list, parameter_setting, kwargs):
+    type_map = {f.get("name"): f.get("type") for f in (input_field_list or []) if f.get("name")}
+
     parameters = {}
     for key, value in parameter_setting.items():
-        parameters[key] = get_field_value(value, kwargs)
+        raw = get_field_value(value, kwargs)
+        parameters[key] = _coerce_by_type(type_map.get(key), raw)
     return parameters
 
 
@@ -67,7 +110,6 @@ class ToolTask(BaseTriggerTask):
 
     def execute(self, trigger_task, **kwargs):
         parameter_setting = trigger_task.get('parameter')
-        parameters = get_tool_execute_parameters(parameter_setting, kwargs)
         tool_id = trigger_task.get('source_id')
         task_record_id = uuid.uuid7()
 
@@ -82,14 +124,22 @@ class ToolTask(BaseTriggerTask):
             state=State.STARTED
         ).save()
 
+        start_time = time.time()
         try:
             tool = QuerySet(Tool).filter(id=tool_id).first()
-            executor = ToolExecutor()
-            # executor.exec_code(tool.code, parameters)
-            print(tool)
-            print(parameters)
+            parameters = get_tool_execute_parameters(tool.input_field_list, parameter_setting, kwargs)
 
-            QuerySet(TaskRecord).filter(id=task_record_id).update(state=State.SUCCESS, run_time=0)
+            executor = ToolExecutor()
+            result = executor.exec_code(tool.code, parameters)
+            maxkb_logger.info(f"Tool execution result: {result}")
+
+            QuerySet(TaskRecord).filter(id=task_record_id).update(
+                state=State.SUCCESS,
+                run_time=time.time() - start_time
+            )
         except Exception as e:
-            state = State.FAILURE
-            QuerySet(TaskRecord).filter(id=task_record_id).update(state=state, run_time=0)
+            maxkb_logger.error(f"Tool execution error: {traceback.format_exc()}")
+            QuerySet(TaskRecord).filter(id=task_record_id).update(
+                state=State.FAILURE,
+                run_time=time.time() - start_time
+            )
