@@ -327,6 +327,8 @@ class TriggerSerializer(serializers.Serializer):
 
     @transaction.atomic
     def insert(self, instance, with_valid=True):
+        from trigger.handler.simple_tools import deploy
+
         if with_valid:
             self.is_valid(raise_exception=True)
         serializer = TriggerCreateRequest(data=instance)
@@ -370,6 +372,9 @@ class TriggerSerializer(serializers.Serializer):
         else:
             raise AppApiException(500, _('Trigger task can not be empty'))
 
+        if trigger_model.is_active:
+
+            deploy(TriggerModelSerializer(trigger_model).data, **{})
         return TriggerResponse(trigger_model).data
 
     @staticmethod
