@@ -75,23 +75,15 @@
             v-if="form.trigger_type === 'SCHEDULED'"
             shadow="never"
             class="card-never mt-16 w-full"
-            ><div>
-              <el-row style="font-size: 14px" class="mb-8 w-full" :gutter="10">
-                <el-col :span="24" class="w-full">
-                  <span class="w-full">{{ $t('views.trigger.triggerCycle.title') }}</span>
-                </el-col>
-              </el-row>
-              <el-row style="width: 100%" class="mb-8">
-                <el-col :span="24">
-                  <el-cascader
-                    v-model="scheduled"
-                    :options="options"
-                    @change="handleChange"
-                    style="width: 100%"
-                  />
-                </el-col>
-              </el-row>
-            </div>
+          >
+            <p style="margin-top: -8px">{{ $t('views.trigger.triggerCycle.title') }}</p>
+
+            <el-cascader
+              v-model="scheduled"
+              :options="triggerCycleOptions"
+              @change="handleChange"
+              style="width: 100%"
+            />
           </el-card>
         </el-card>
         <el-card
@@ -474,9 +466,10 @@ import ToolDialog from '@/views/application/component/ToolDialog.vue'
 import applicationAPI from '@/api/application/application'
 import triggerAPI from '@/api/trigger/trigger'
 import toolAPI from '@/api/tool/tool'
-import ToolParameter from './ToolParameter.vue'
-import ApplicationParameter from './ApplicationParameter.vue'
+import ToolParameter from '@/views/trigger/component/ToolParameter.vue'
+import ApplicationParameter from '@/views/trigger/component/ApplicationParameter.vue'
 import { resetUrl } from '@/utils/common.ts'
+import { triggerCycleOptions } from '@/utils/trigger.ts'
 import { t } from '@/locales'
 import { type FormInstance } from 'element-plus'
 import Result from '@/request/Result'
@@ -622,56 +615,7 @@ const openToolDialog = () => {
   toolDialogRef.value?.open(tool_id_list)
 }
 const drawer = ref<boolean>(false)
-const times = Array.from({ length: 24 }, (_, i) => {
-  const time = i.toString().padStart(2, '0') + ':00'
-  return { label: time, value: time }
-})
-const days = Array.from({ length: 31 }, (_, i) => {
-  i = i + 1
-  const day = i.toString() + t('views.trigger.triggerCycle.days')
-  return { label: day, value: i.toString(), children: times }
-})
-const hours = Array.from({ length: 24 }, (_, i) => {
-  i = i + 1
-  const time = i.toString().padStart(2, '0')
-  return { label: time, value: i }
-})
-const minutes = Array.from({ length: 60 }, (_, i) => {
-  i = i + 1
-  const time = i.toString().padStart(2, '0')
-  return { label: time, value: i }
-})
 
-const options = [
-  {
-    value: 'daily',
-    label: t('views.trigger.triggerCycle.daily'),
-    multiple: true,
-    children: times,
-  },
-  {
-    value: 'weekly',
-    label: t('views.trigger.triggerCycle.weekly'),
-    children: [
-      { label: t('views.trigger.triggerCycle.sunday'), value: 7, children: times },
-      { label: t('views.trigger.triggerCycle.monday'), value: 1, children: times },
-      { label: t('views.trigger.triggerCycle.tuesday'), value: 2, children: times },
-      { label: t('views.trigger.triggerCycle.wednesday'), value: 3, children: times },
-      { label: t('views.trigger.triggerCycle.thursday'), value: 4, children: times },
-      { label: t('views.trigger.triggerCycle.friday'), value: 5, children: times },
-      { label: t('views.trigger.triggerCycle.saturday'), value: 6, children: times },
-    ],
-  },
-  { value: 'monthly', label: t('views.trigger.triggerCycle.monthly'), children: days },
-  {
-    value: 'interval',
-    label: t('views.trigger.triggerCycle.interval'),
-    children: [
-      { label: t('views.trigger.triggerCycle.hours'), value: 'hours', children: hours },
-      { label: t('views.trigger.triggerCycle.minutes'), value: 'minutes', children: minutes },
-    ],
-  },
-]
 const scheduled = computed({
   get: () => {
     const schedule_type = form.value.trigger_setting.schedule_type

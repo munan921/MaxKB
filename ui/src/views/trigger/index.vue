@@ -322,7 +322,7 @@ import WorkspaceApi from '@/api/workspace/workspace'
 import { resetUrl } from '@/utils/common'
 import { loadSharedApi } from '@/utils/dynamics-api/shared-api'
 import type { TriggerData } from '@/api/type/trigger'
-import TriggerDrawer from '@/views/trigger/component/TriggerDrawer.vue'
+import TriggerDrawer from '@/views/trigger/TriggerDrawer.vue'
 import { hasPermission } from '@/utils/permission'
 import { PermissionConst, RoleConst } from '@/utils/permission/data'
 

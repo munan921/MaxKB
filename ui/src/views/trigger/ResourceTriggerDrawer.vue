@@ -16,9 +16,12 @@
     <div v-if="triggerList.length > 0" class="w-full" v-loading="loading">
       <template v-for="(item, index) in triggerList" :key="index">
         <div class="flex-between border border-r-6 white-bg mb-8" style="padding: 2px 8px">
-          <div class="flex align-center">
+          <div class="flex align-center w-180">
             <TriggerIcon :type="item.trigger_type" class="mr-8" :size="20" />
-            <span class="ellipsis-1"> {{ item.name }}</span>
+            <span class="ellipsis-1" :title="item.name"> {{ item.name }}</span>
+          </div>
+          <div class="w-180">
+            {{ getTriggerCycleLabel(item.trigger_setting) }}
           </div>
           <div>
             <span class="mr-4">
@@ -50,8 +53,9 @@
 import { ref, computed } from 'vue'
 import { useRoute } from 'vue-router'
 import { loadSharedApi } from '@/utils/dynamics-api/shared-api'
-import TriggerDrawer from '@/views/trigger/component/TriggerDrawer.vue'
+import TriggerDrawer from '@/views/trigger/TriggerDrawer.vue'
 import triggerAPI from '@/api/trigger/trigger'
+import { getTriggerCycleLabel } from '@/utils/trigger'
 const route = useRoute()
 
 const props = defineProps<{
