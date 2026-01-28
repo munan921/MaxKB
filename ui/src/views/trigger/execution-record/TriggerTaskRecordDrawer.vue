@@ -96,7 +96,7 @@
           {{
             row.source_type === 'APPLICATION'
               ? $t('views.application.title')
-              : $t('views.knowledge.title')
+              : $t('views.tool.title')
           }}
         </template>
       </el-table-column>
