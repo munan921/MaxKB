@@ -211,6 +211,9 @@ function getDetail() {
   //   .then((ok) => {
   //     detail.value = Object.values(ok.data.details)
   //   })
+  if (!props.currentContent) {
+    return
+  }
   loadSharedApi({type: 'tool', systemType: apiType.value})
     .getToolRecordDetail(props.currentContent?.tool_id, props.currentContent?.id, loading)
     .then((ok: any) => {
