@@ -12,7 +12,7 @@
           <AppIcon :iconName="sortIconName"></AppIcon>
         </el-button>
         <template #dropdown>
-          <el-dropdown-menu class="w-180">
+          <el-dropdown-menu style="width: 220px">
             <template v-for="(group, index) in SORT_MENU_CONFIG" :key="index">
               <el-dropdown-item
                 v-for="obj in group.items"
