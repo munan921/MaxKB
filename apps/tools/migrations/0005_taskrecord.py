@@ -25,6 +25,7 @@ class Migration(migrations.Migration):
                 ('state', models.CharField(choices=[('PENDING', 'Pending'), ('STARTED', 'Started'), ('SUCCESS', 'Success'), ('FAILURE', 'Failure'), ('REVOKE', 'Revoke'), ('REVOKED', 'Revoked')], default='STARTED', max_length=20, verbose_name='状态')),
                 ('run_time', models.FloatField(default=0, verbose_name='运行时长')),
                 ('tool', models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to='tools.tool')),
+                ('workspace_id', models.CharField(db_index=True, default='default', max_length=64, verbose_name='工作空间id')),
             ],
             options={
                 'db_table': 'tool_record',

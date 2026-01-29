@@ -72,6 +72,7 @@ class Tool(AppModelMixin):
 class ToolRecord(AppModelMixin):
     id = models.UUIDField(primary_key=True, max_length=128, default=uuid.uuid7, editable=False, verbose_name="主键id")
     tool = models.ForeignKey(Tool, on_delete=models.SET_NULL, null=True)
+    workspace_id = models.CharField(max_length=64, verbose_name="工作空间id", default="default", db_index=True)
     source_type = models.CharField(verbose_name="触发器任务类型", choices=ToolTaskTypeChoices.choices,
                                    default=ToolTaskTypeChoices.APPLICATION, max_length=256)
     source_id = models.UUIDField(verbose_name="资源id")
