@@ -9,7 +9,6 @@
 import json
 import time
 import traceback
-from typing import Any
 
 import uuid_utils.compat as uuid
 from django.db.models import QuerySet
@@ -106,6 +105,16 @@ def get_workflow_state(details):
         return State.FAILURE
     return State.SUCCESS
 
+def _get_result_detail(result):
+    if isinstance(result, dict):
+        result_dict = {k: (str(v)[:500] if len(str(v)) > 500 else v) for k, v in result.items()}
+    elif isinstance(result, list):
+        result_dict = [str(item)[:500] if len(str(item)) > 500 else item for item in result]
+    elif isinstance(result, str):
+        result_dict = result[:500] if len(result) > 500 else result
+    else:
+        result_dict = result
+    return result_dict
 
 class ToolTask(BaseTriggerTask):
     def support(self, trigger_task, **kwargs):
@@ -140,7 +149,7 @@ class ToolTask(BaseTriggerTask):
             executor = ToolExecutor()
             result = executor.exec_code(tool.code, all_params)
 
-            result_dict = self.get_result_detail(result)
+            result_dict = _get_result_detail(result)
 
             maxkb_logger.debug(f"Tool execution result: {result}")
 
@@ -156,13 +165,3 @@ class ToolTask(BaseTriggerTask):
                 run_time=time.time() - start_time
             )
 
-    def get_result_detail(self, result) -> dict[Any, str | Any]:
-        if isinstance(result, dict):
-            result_dict = {k: (str(v)[:500] if len(str(v)) > 500 else v) for k, v in result.items()}
-        elif isinstance(result, list):
-            result_dict = [str(item)[:500] if len(str(item)) > 500 else item for item in result]
-        elif isinstance(result, str):
-            result_dict = result[:500] if len(result) > 500 else result
-        else:
-            result_dict = result
-        return result_dict
