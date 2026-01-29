@@ -23,6 +23,9 @@
           <h4
             v-show="!isPcCollapse"
             :style="{ color: applicationDetail?.custom_theme?.header_font_color }"
+            class="ellipsis"
+            style="max-width: 185px"
+            :title="applicationDetail?.name"
           >
             {{ applicationDetail?.name }}
           </h4>

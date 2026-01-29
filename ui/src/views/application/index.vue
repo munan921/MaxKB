@@ -215,17 +215,22 @@
                   </template>
                   <template #mouseEnter>
                     <div @click.stop>
+                      <el-tooltip
+                        effect="dark"
+                        :content="$t('views.application.operation.toChat')"
+                        placement="top"
+                      >
+                        <el-button text @click.stop="toChat(item)">
+                          <AppIcon iconName="app-create-chat" class="color-secondary"></AppIcon>
+                        </el-button>
+                      </el-tooltip>
+                      <el-divider direction="vertical" />
                       <el-dropdown trigger="click">
                         <el-button text @click.stop>
                           <AppIcon iconName="app-more"></AppIcon>
                         </el-button>
                         <template #dropdown>
                           <el-dropdown-menu>
-                            <el-dropdown-item @click.stop="toChat(item)">
-                              <AppIcon iconName="app-create-chat" class="color-secondary"></AppIcon>
-                              {{ $t('views.application.operation.toChat') }}
-                            </el-dropdown-item>
-
                             <el-dropdown-item
                               @mousedown.stop="settingApplication($event, item)"
                               v-if="permissionPrecise.edit(item.id)"

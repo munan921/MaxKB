@@ -48,7 +48,7 @@
         <el-divider direction="vertical" />
         <el-tooltip effect="dark" :content="$t('chat.operation.regeneration')" placement="top">
           <el-button :disabled="chat_loading" text @click="regeneration">
-            <AppIcon iconName="app-refresh"></AppIcon>
+            <AppIcon iconName="app-refresh" class="color-secondary"></AppIcon>
           </el-button>
         </el-tooltip>
         <el-divider direction="vertical" />

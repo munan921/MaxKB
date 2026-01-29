@@ -177,6 +177,8 @@ export default {
     title: '移動位置',
     moveUp: '上移',
     moveDown: '下移',
+    MoveTop: '頭部',
+    MoveBottom: '末尾',
   },
   generateQuestion: {
     title: '生成問題',

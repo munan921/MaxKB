@@ -186,6 +186,8 @@ export default {
     title: 'Move position',
     moveUp: 'Move up',
     moveDown: 'Move down',
+    moveTop: 'Move top',
+    moveBottom: 'Move bottom',
   },
   generateQuestion: {
     title: 'Generate Questions',
