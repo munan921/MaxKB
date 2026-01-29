@@ -17,7 +17,7 @@ from common.utils.logger import maxkb_logger
 from common.utils.rsa_util import rsa_long_decrypt
 from common.utils.tool_code import ToolExecutor
 from knowledge.models.knowledge_action import State
-from tools.models import Tool
+from tools.models import Tool, ToolRecord, ToolTaskTypeChoices
 from trigger.handler.base_task import BaseTriggerTask
 from trigger.models import TaskRecord
 
@@ -145,6 +145,15 @@ class ToolTask(BaseTriggerTask):
                 meta={'input': parameter_setting, 'output': {}},
                 state=State.STARTED
             ).save()
+            ToolRecord(
+                id=task_record_id,
+                workspace_id=tool.workspace_id,
+                tool_id=tool.id,
+                source_type=ToolTaskTypeChoices.TRIGGER,
+                source_id=trigger_task.get('trigger'),
+                meta={'input': parameter_setting, 'output': {}},
+                state=State.STARTED
+            ).save()
 
             parameters = get_tool_execute_parameters(tool.input_field_list, parameter_setting, kwargs)
             init_params_default_value = {i["field"]: i.get('default_value') for i in tool.init_field_list}
@@ -165,9 +174,19 @@ class ToolTask(BaseTriggerTask):
                 run_time=time.time() - start_time,
                 meta={'input': parameter_setting, 'output': result_dict}
             )
+            QuerySet(ToolRecord).filter(id=task_record_id).update(
+                state=State.SUCCESS,
+                run_time=time.time() - start_time,
+                meta={'input': all_params, 'output': result_dict}
+            )
         except Exception as e:
             maxkb_logger.error(f"Tool execution error: {traceback.format_exc()}")
             QuerySet(TaskRecord).filter(id=task_record_id).update(
                 state=State.FAILURE,
                 run_time=time.time() - start_time
             )
+            QuerySet(ToolRecord).filter(id=task_record_id).update(
+                state=State.FAILURE,
+                run_time=time.time() - start_time
+            )
+
