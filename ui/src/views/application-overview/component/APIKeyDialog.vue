@@ -205,6 +205,7 @@ function createApiKey() {
   loadSharedApi({type: 'applicationKey', systemType: apiType.value})
     .postAPIKey(id as string, loading)
     .then(() => {
+      MsgSuccess(t('common.createSuccess'))
       getApiKeyList()
     })
 }
