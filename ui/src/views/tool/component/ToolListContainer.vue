@@ -312,6 +312,17 @@
                             {{ $t('views.system.resourceMapping.title') }}
                           </el-dropdown-item>
                           <el-dropdown-item
+                            text
+                            @click.stop="openToolRecordDrawer(item)"
+                            v-if="apiType === 'workspace' && item.tool_type === 'CUSTOM'"
+                          >
+                            <AppIcon
+                              iconName="app-schedule-report"
+                              class="color-secondary"
+                            ></AppIcon>
+                            {{ $t('查看执行记录') }}
+                          </el-dropdown-item>
+                          <el-dropdown-item
                             @click.stop="openMoveToDialog(item)"
                             v-if="permissionPrecise.copy(item.id) && apiType === 'workspace'"
                           >
@@ -386,6 +397,7 @@
     ref="resourceTriggerDrawerRef"
     :source="SourceTypeEnum.TOOL"
   ></ResourceTriggerDrawer>
+  <ToolRecordDrawer ref="toolRecordDrawerRef"/>
 </template>
 
 <script lang="ts" setup>
@@ -417,6 +429,7 @@ import ToolStoreDescDrawer from '@/views/tool/component/ToolStoreDescDrawer.vue'
 
 import bus from '@/bus'
 import ResourceMappingDrawer from '@/components/resource_mapping/index.vue'
+import ToolRecordDrawer from "@/views/tool/component/ToolRecordDrawer.vue";
 
 const route = useRoute()
 
@@ -472,6 +485,11 @@ const ResourceAuthorizationDrawerRef = ref()
 
 function openAuthorization(item: any) {
   ResourceAuthorizationDrawerRef.value.open(item.id)
+}
+
+const toolRecordDrawerRef = ref<InstanceType<typeof ToolRecordDrawer>>()
+const openToolRecordDrawer = (data: any) => {
+  toolRecordDrawerRef.value?.open(data)
 }
 
 const InitParamDrawerRef = ref()
