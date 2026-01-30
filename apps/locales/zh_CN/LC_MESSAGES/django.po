@@ -9250,3 +9250,12 @@ msgstr "删除触发器"
 
 msgid "Execute record"
 msgstr "执行记录"
+
+msgid "ADMIN"
+msgstr "系统管理员"
+
+msgid "WORKSPACE_MANAGE"
+msgstr "空间管理员"
+
+msgid "USER"
+msgstr "普通用户"

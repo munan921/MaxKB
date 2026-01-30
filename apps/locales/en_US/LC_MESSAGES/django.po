@@ -9130,3 +9130,12 @@ msgstr ""
 
 msgid "Execute record"
 msgstr ""
+
+msgid "ADMIN"
+msgstr "System Administrator"
+
+msgid "WORKSPACE_MANAGE"
+msgstr "Workspace Manager"
+
+msgid "USER"
+msgstr "Regular User"

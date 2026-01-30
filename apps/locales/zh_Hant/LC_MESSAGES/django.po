@@ -9250,3 +9250,12 @@ msgstr "刪除觸發器"
 
 msgid "Execute record"
 msgstr "執行記錄"
+
+msgid "ADMIN"
+msgstr "系統管理員"
+
+msgid "WORKSPACE_MANAGE"
+msgstr "空間管理員"
+
+msgid "USER"
+msgstr "普通用戶"
