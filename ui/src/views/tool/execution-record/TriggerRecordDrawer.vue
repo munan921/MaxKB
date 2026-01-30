@@ -73,9 +73,6 @@
       :maxTableHeight="200"
       :row-key="(row: any) => row.id"
       v-loading="loading"
-      :tooltip-options="{
-        popperClass: 'max-w-350',
-      }"
     >
       <el-table-column
         prop="name"
@@ -85,20 +82,13 @@
       >
         <template #default="{ row }">
           <div class="flex align-center">
-            <el-avatar shape="square" :size="22" style="background: none" class="mr-8">
-              <img
-                v-if="row.source_type === 'KNOWLEDGE'"
-                :src="resetUrl(row?.source_icon, resetUrl('./favicon.ico'))"
-                alt=""
-              />
-              <img
-                v-if="row.source_type === 'APPLICATION'"
-                :src="resetUrl(row?.source_icon, resetUrl('./favicon.ico'))"
-                alt=""
-              />
+            <KnowledgeIcon :size="22" v-if="row.source_type === 'KNOWLEDGE'" :type="4" />
+            <TriggerIcon v-if="row.source_type === 'TRIGGER'" :type="row.trigger_type" :size="22" />
+            <el-avatar shape="square" :size="22" style="background: none" v-else>
+              <img :src="resetUrl(row?.source_icon, resetUrl('./favicon.ico'))" alt="" />
             </el-avatar>
 
-            <span>{{ row.source_name }}</span>
+            <span class="ml-8">{{ row.source_name }}</span>
           </div>
         </template>
       </el-table-column>
@@ -264,7 +254,6 @@ const getList = (isLoading?: boolean) => {
         tableData.value = ok.data.records
         paginationConfig.total = ok.data.total
       })
-
   } else return Promise.resolve()
 }
 

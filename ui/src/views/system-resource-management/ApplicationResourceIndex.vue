@@ -15,10 +15,10 @@
             style="width: 120px"
             @change="search_type_change"
           >
-            <el-option :label="$t('common.creator')" value="create_user"/>
+            <el-option :label="$t('common.creator')" value="create_user" />
 
-            <el-option :label="$t('common.name')" value="name"/>
-            <el-option :label="$t('common.type')" value="type"/>
+            <el-option :label="$t('common.name')" value="name" />
+            <el-option :label="$t('common.type')" value="type" />
           </el-select>
           <el-input
             v-if="search_type === 'name'"
@@ -36,7 +36,7 @@
             filterable
             style="width: 220px"
           >
-            <el-option v-for="u in user_options" :key="u.id" :value="u.id" :label="u.nick_name"/>
+            <el-option v-for="u in user_options" :key="u.id" :value="u.id" :label="u.nick_name" />
           </el-select>
           <el-select
             v-else-if="search_type === 'type'"
@@ -46,7 +46,7 @@
             filterable
             style="width: 220px"
           >
-            <el-option v-for="u in type_options" :key="u.id" :value="u.value" :label="u.label"/>
+            <el-option v-for="u in type_options" :key="u.id" :value="u.value" :label="u.label" />
           </el-select>
         </div>
       </div>
@@ -60,23 +60,19 @@
       >
         <!-- <el-table-column type="selection" width="55" /> -->
         <el-table-column width="220" :label="$t('common.name')" show-overflow-tooltip>
-          <template #default="scope">
-            <div class="table-name flex align-center">
-              <el-icon size="24" class="mr-8">
-                <el-avatar shape="square" :size="24" style="background: none" class="mr-8">
-                  <img :src="resetUrl(scope.row?.icon)" alt=""/>
-                </el-avatar>
-              </el-icon>
-              {{ scope.row.name }}
-            </div>
+          <template #default="{ row }">
+            <el-space :size="8">
+              <el-avatar shape="square" :size="24" style="background: none">
+                <img :src="resetUrl(row?.icon)" alt="" />
+              </el-avatar>
+              <span class="ellipsis" style="max-width: 160px">
+                {{ row.name }}
+              </span>
+            </el-space>
           </template>
         </el-table-column>
 
-        <el-table-column
-          prop="tool_type"
-          :label="$t('common.type')"
-          width="160"
-        >
+        <el-table-column prop="tool_type" :label="$t('common.type')" width="100">
           <template #default="scope">
             <el-tag class="warning-tag" v-if="isWorkFlow(scope.row.type)">
               {{ $t('views.application.senior') }}
@@ -104,7 +100,7 @@
                     @click="statusVisible = !statusVisible"
                   >
                     <el-icon>
-                      <Filter/>
+                      <Filter />
                     </el-icon>
                   </el-button>
                 </template>
@@ -127,10 +123,10 @@
                 </div>
                 <div class="text-right">
                   <el-button size="small" @click="filterStatusChange('clear')"
-                  >{{ $t('common.clear') }}
+                    >{{ $t('common.clear') }}
                   </el-button>
                   <el-button type="primary" @click="filterStatusChange" size="small"
-                  >{{ $t('common.confirm') }}
+                    >{{ $t('common.confirm') }}
                   </el-button>
                 </div>
               </el-popover>
@@ -139,7 +135,7 @@
           <template #default="scope">
             <div v-if="scope.row.is_publish" class="flex align-center">
               <el-icon class="color-success mr-8" style="font-size: 16px">
-                <SuccessFilled/>
+                <SuccessFilled />
               </el-icon>
               <span class="color-text-primary">
                 {{ $t('common.status.published') }}
@@ -172,7 +168,7 @@
                     @click="workspaceVisible = !workspaceVisible"
                   >
                     <el-icon>
-                      <Filter/>
+                      <Filter />
                     </el-icon>
                   </el-button>
                 </template>
@@ -198,16 +194,16 @@
                           />
                         </el-checkbox-group>
                       </el-scrollbar>
-                      <el-empty v-else :description="$t('common.noData')"/>
+                      <el-empty v-else :description="$t('common.noData')" />
                     </div>
                   </div>
                 </div>
                 <div class="text-right">
                   <el-button size="small" @click="filterWorkspaceChange('clear')"
-                  >{{ $t('common.clear') }}
+                    >{{ $t('common.clear') }}
                   </el-button>
                   <el-button type="primary" @click="filterWorkspaceChange" size="small"
-                  >{{ $t('common.confirm') }}
+                    >{{ $t('common.confirm') }}
                   </el-button>
                 </div>
               </el-popover>
@@ -215,7 +211,7 @@
           </template>
         </el-table-column>
 
-        <el-table-column prop="nick_name" :label="$t('common.creator')" show-overflow-tooltip/>
+        <el-table-column prop="nick_name" :label="$t('common.creator')" show-overflow-tooltip />
         <el-table-column :label="$t('views.application.publishTime')" width="180">
           <template #default="{ row }">
             {{ datetimeFormat(row.update_time) }}
@@ -310,24 +306,24 @@
 </template>
 
 <script lang="ts" setup>
-import {onMounted, ref, reactive, computed, watch} from 'vue'
-import {useRouter, useRoute} from 'vue-router'
+import { onMounted, ref, reactive, computed, watch } from 'vue'
+import { useRouter, useRoute } from 'vue-router'
 import ApplicationResourceApi from '@/api/system-resource-management/application'
 import ResourceAuthorizationDrawer from '@/components/resource-authorization-drawer/index.vue'
-import {t} from '@/locales'
-import {isAppIcon, resetUrl} from '@/utils/common'
+import { t } from '@/locales'
+import { isAppIcon, resetUrl } from '@/utils/common'
 import useStore from '@/stores'
-import {datetimeFormat} from '@/utils/time'
-import {loadPermissionApi} from '@/utils/dynamics-api/permission-api.ts'
-import {isWorkFlow} from '@/utils/application.ts'
+import { datetimeFormat } from '@/utils/time'
+import { loadPermissionApi } from '@/utils/dynamics-api/permission-api.ts'
+import { isWorkFlow } from '@/utils/application.ts'
 import UserApi from '@/api/user/user.ts'
 import permissionMap from '@/permission'
-import {MsgSuccess, MsgConfirm, MsgError} from '@/utils/message'
-import {SourceTypeEnum} from '@/enums/common'
+import { MsgSuccess, MsgConfirm, MsgError } from '@/utils/message'
+import { SourceTypeEnum } from '@/enums/common'
 
 const router = useRouter()
 const route = useRoute()
-const {user, application} = useStore()
+const { user, application } = useStore()
 
 const permissionPrecise = computed(() => {
   return permissionMap['application']['systemManage']
@@ -365,20 +361,20 @@ function toChat(row: any) {
     .map((v: any) => {
       apiInputParams.value = v.properties.api_input_field_list
         ? v.properties.api_input_field_list.map((v: any) => {
-          return {
-            name: v.variable,
-            value: v.default_value,
-          }
-        })
+            return {
+              name: v.variable,
+              value: v.default_value,
+            }
+          })
         : v.properties.input_field_list
           ? v.properties.input_field_list
-            .filter((v: any) => v.assignment_method === 'api_input')
-            .map((v: any) => {
-              return {
-                name: v.variable,
-                value: v.default_value,
-              }
-            })
+              .filter((v: any) => v.assignment_method === 'api_input')
+              .map((v: any) => {
+                return {
+                  name: v.variable,
+                  value: v.default_value,
+                }
+              })
           : []
     })
   const apiParams = mapToUrlParams(apiInputParams.value)
@@ -402,7 +398,9 @@ function mapToUrlParams(map: any[]) {
 function deleteApplication(row: any) {
   MsgConfirm(
     `${t('views.application.delete.confirmTitle')}${row.name} ?`,
-    row.resource_count > 0 ? t('views.application.delete.resourceCountMessage', row.resource_count) : '',
+    row.resource_count > 0
+      ? t('views.application.delete.resourceCountMessage', row.resource_count)
+      : '',
     {
       confirmButtonText: t('common.confirm'),
       cancelButtonText: t('common.cancel'),
@@ -416,8 +414,7 @@ function deleteApplication(row: any) {
         MsgSuccess(t('common.deleteSuccess'))
       })
     })
-    .catch(() => {
-    })
+    .catch(() => {})
 }
 
 const exportApplication = (application: any) => {
@@ -484,7 +481,7 @@ watch(
       v.label.toLowerCase().includes(filterText.value.toLowerCase()),
     )
   },
-  {immediate: true},
+  { immediate: true },
 )
 
 function filterWorkspaceChange(val: string) {
@@ -515,7 +512,7 @@ async function getWorkspaceList() {
 }
 
 const search_type_change = () => {
-  search_form.value = {name: '', create_user: '', type: ''}
+  search_form.value = { name: '', create_user: '', type: '' }
 }
 
 function getList() {

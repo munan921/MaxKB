@@ -60,12 +60,12 @@
         <!-- <el-table-column type="selection" width="55" /> -->
         <el-table-column width="220" :label="$t('common.name')" show-overflow-tooltip>
           <template #default="{ row }">
-            <div class="flex align-center">
+            <el-space :size="8">
               <KnowledgeIcon :type="row.type" :size="24" />
-              <span class="ml-8">
+              <span class="ellipsis" style="max-width: 160px">
                 {{ row.name }}
               </span>
-            </div>
+            </el-space>
           </template>
         </el-table-column>
 

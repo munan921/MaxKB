@@ -253,7 +253,7 @@
                 <ApplicationParameter
                   class="mt-8 mb-8"
                   ref="applicationParameterRef"
-                  v-if="applicationDetailsDict[item.source_id]"
+                  v-if="showTast === 'agent' + index && applicationDetailsDict[item.source_id]"
                   :application="applicationDetailsDict[item.source_id]"
                   :trigger="form"
                   v-model="item.parameter"

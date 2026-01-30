@@ -15,10 +15,10 @@
             style="width: 120px"
             @change="search_type_change"
           >
-            <el-option :label="$t('common.creator')" value="create_user"/>
-            <el-option :label="$t('common.name')" value="name"/>
-            <el-option :label="$t('common.type')" value="tool_type"/>
-            <el-option :label="$t('views.tool.form.source.label')" value="source"/>
+            <el-option :label="$t('common.creator')" value="create_user" />
+            <el-option :label="$t('common.name')" value="name" />
+            <el-option :label="$t('common.type')" value="tool_type" />
+            <el-option :label="$t('views.tool.form.source.label')" value="source" />
           </el-select>
           <el-input
             v-if="search_type === 'name'"
@@ -36,7 +36,7 @@
             clearable
             style="width: 220px"
           >
-            <el-option v-for="u in user_options" :key="u.id" :value="u.id" :label="u.nick_name"/>
+            <el-option v-for="u in user_options" :key="u.id" :value="u.id" :label="u.nick_name" />
           </el-select>
           <el-select
             v-else-if="search_type === 'tool_type'"
@@ -46,7 +46,7 @@
             filterable
             style="width: 220px"
           >
-            <el-option v-for="u in type_options" :key="u.id" :value="u.value" :label="u.label"/>
+            <el-option v-for="u in type_options" :key="u.id" :value="u.value" :label="u.label" />
           </el-select>
           <el-select
             v-else-if="search_type === 'source'"
@@ -56,7 +56,7 @@
             filterable
             style="width: 220px"
           >
-            <el-option v-for="u in source_options" :key="u.id" :value="u.value" :label="u.label"/>
+            <el-option v-for="u in source_options" :key="u.id" :value="u.value" :label="u.label" />
           </el-select>
         </div>
       </div>
@@ -71,31 +71,27 @@
         <!-- <el-table-column type="selection" width="55" /> -->
         <el-table-column width="220" :label="$t('common.name')" show-overflow-tooltip>
           <template #default="{ row }">
-            <div class="table-name flex align-center">
-              <el-icon size="24" class="mr-8">
-                <el-avatar
-                  v-if="row?.icon"
-                  shape="square"
-                  :size="24"
-                  style="background: none"
-                  class="mr-8"
-                >
-                  <img :src="resetUrl(row?.icon)" alt=""/>
+            <el-space :size="8">
+              <el-icon size="24">
+                <el-avatar v-if="row?.icon" shape="square" :size="24" style="background: none">
+                  <img :src="resetUrl(row?.icon)" alt="" />
                 </el-avatar>
 
-                <ToolIcon v-else :size="24" :type="row?.tool_type"/>
+                <ToolIcon v-else :size="24" :type="row?.tool_type" />
               </el-icon>
-              {{ row.name }}
-            </div>
+              <span class="ellipsis" style="max-width: 160px">
+                {{ row.name }}
+              </span>
+            </el-space>
           </template>
         </el-table-column>
 
         <el-table-column prop="tool_type" :label="$t('common.type')">
           <template #default="scope">
             <span v-if="scope.row.tool_type === 'MCP'"> MCP </span>
-            <span v-else-if="scope.row.tool_type === 'DATA_SOURCE'"> {{
-                $t('views.tool.dataSource.title')
-              }} </span>
+            <span v-else-if="scope.row.tool_type === 'DATA_SOURCE'">
+              {{ $t('views.tool.dataSource.title') }}
+            </span>
             <span v-else> {{ $t('views.tool.title') }} </span>
           </template>
         </el-table-column>
@@ -109,7 +105,7 @@
           <template #default="{ row }">
             <div v-if="row.is_active" class="flex align-center">
               <el-icon class="color-success mr-8" style="font-size: 16px">
-                <SuccessFilled/>
+                <SuccessFilled />
               </el-icon>
               <span class="color-text-primary">
                 {{ $t('common.status.enabled') }}
@@ -142,7 +138,7 @@
                     @click="workspaceVisible = !workspaceVisible"
                   >
                     <el-icon>
-                      <Filter/>
+                      <Filter />
                     </el-icon>
                   </el-button>
                 </template>
@@ -168,23 +164,23 @@
                           />
                         </el-checkbox-group>
                       </el-scrollbar>
-                      <el-empty v-else :description="$t('common.noData')"/>
+                      <el-empty v-else :description="$t('common.noData')" />
                     </div>
                   </div>
                 </div>
                 <div class="text-right">
                   <el-button size="small" @click="filterWorkspaceChange('clear')"
-                  >{{ $t('common.clear') }}
+                    >{{ $t('common.clear') }}
                   </el-button>
                   <el-button type="primary" @click="filterWorkspaceChange" size="small"
-                  >{{ $t('common.confirm') }}
+                    >{{ $t('common.confirm') }}
                   </el-button>
                 </div>
               </el-popover>
             </div>
           </template>
         </el-table-column>
-        <el-table-column prop="nick_name" :label="$t('common.creator')" show-overflow-tooltip/>
+        <el-table-column prop="nick_name" :label="$t('common.creator')" show-overflow-tooltip />
         <el-table-column :label="$t('views.document.table.updateTime')" width="180">
           <template #default="{ row }">
             {{ datetimeFormat(row.update_time) }}
@@ -206,7 +202,7 @@
                 v-if="permissionPrecise.switch()"
               />
             </span>
-            <el-divider direction="vertical"/>
+            <el-divider direction="vertical" />
 
             <el-tooltip
               effect="dark"
@@ -320,16 +316,16 @@
                   </el-dropdown-item>
 
                   <el-dropdown-item
-                    v-if="
-                      !row.template_id && permissionPrecise.export()
-                    "
+                    v-if="!row.template_id && permissionPrecise.export()"
                     @click.stop="exportTool(row)"
                   >
                     <AppIcon iconName="app-export" class="color-secondary"></AppIcon>
                     {{ $t('common.export') }}
                   </el-dropdown-item>
-                  <el-dropdown-item v-if="row.tool_type === 'MCP' && permissionPrecise.edit()"
-                                    @click.stop="showMcpConfig(row)">
+                  <el-dropdown-item
+                    v-if="row.tool_type === 'MCP' && permissionPrecise.edit()"
+                    @click.stop="showMcpConfig(row)"
+                  >
                     <AppIcon iconName="app-operate-log" class="color-secondary"></AppIcon>
                     {{ $t('views.tool.mcpConfig') }}
                   </el-dropdown-item>
@@ -365,22 +361,25 @@
       </app-table>
     </el-card>
 
-    <InitParamDrawer ref="InitParamDrawerRef" @refresh="refresh"/>
-    <ToolFormDrawer ref="ToolFormDrawerRef" @refresh="refresh" :title="ToolDrawertitle"/>
-    <McpToolFormDrawer ref="McpToolFormDrawerRef" @refresh="refresh" :title="McpToolDrawertitle"/>
-    <DataSourceToolFormDrawer ref="DataSourceToolFormDrawerRef" @refresh="refresh"
-                              :title="DataSourceToolDrawertitle"/>
-    <AddInternalToolDialog ref="AddInternalToolDialogRef" @refresh="confirmAddInternalTool"/>
-    <McpToolConfigDialog ref="McpToolConfigDialogRef" @refresh="refresh"/>
-    <ResourceAuthorizationDrawer :type="SourceTypeEnum.TOOL" ref="ResourceAuthorizationDrawerRef"/>
+    <InitParamDrawer ref="InitParamDrawerRef" @refresh="refresh" />
+    <ToolFormDrawer ref="ToolFormDrawerRef" @refresh="refresh" :title="ToolDrawertitle" />
+    <McpToolFormDrawer ref="McpToolFormDrawerRef" @refresh="refresh" :title="McpToolDrawertitle" />
+    <DataSourceToolFormDrawer
+      ref="DataSourceToolFormDrawerRef"
+      @refresh="refresh"
+      :title="DataSourceToolDrawertitle"
+    />
+    <AddInternalToolDialog ref="AddInternalToolDialogRef" @refresh="confirmAddInternalTool" />
+    <McpToolConfigDialog ref="McpToolConfigDialogRef" @refresh="refresh" />
+    <ResourceAuthorizationDrawer :type="SourceTypeEnum.TOOL" ref="ResourceAuthorizationDrawerRef" />
     <ResourceMappingDrawer ref="resourceMappingDrawerRef"></ResourceMappingDrawer>
     <ToolRecordDrawer ref="toolRecordDrawerRef"/>
   </div>
 </template>
 
 <script lang="ts" setup>
-import {onMounted, ref, reactive, computed, watch} from 'vue'
-import {cloneDeep} from 'lodash'
+import { onMounted, ref, reactive, computed, watch } from 'vue'
+import { cloneDeep } from 'lodash'
 import InitParamDrawer from '@/views/tool/component/InitParamDrawer.vue'
 import ToolResourceApi from '@/api/system-resource-management/tool'
 import AddInternalToolDialog from '@/views/tool/tool-store/AddInternalToolDialog.vue'
@@ -388,21 +387,21 @@ import ToolFormDrawer from '@/views/tool/ToolFormDrawer.vue'
 import McpToolFormDrawer from '@/views/tool/McpToolFormDrawer.vue'
 import DataSourceToolFormDrawer from '@/views/tool/DataSourceToolFormDrawer.vue'
 import ResourceAuthorizationDrawer from '@/components/resource-authorization-drawer/index.vue'
-import {t} from '@/locales'
-import {SourceTypeEnum} from '@/enums/common'
-import {resetUrl} from '@/utils/common'
-import {ToolType} from '@/enums/tool'
+import { t } from '@/locales'
+import { SourceTypeEnum } from '@/enums/common'
+import { resetUrl } from '@/utils/common'
+import { ToolType } from '@/enums/tool'
 import useStore from '@/stores'
-import {datetimeFormat} from '@/utils/time'
-import {loadPermissionApi} from '@/utils/dynamics-api/permission-api.ts'
+import { datetimeFormat } from '@/utils/time'
+import { loadPermissionApi } from '@/utils/dynamics-api/permission-api.ts'
 import UserApi from '@/api/user/user.ts'
-import {MsgSuccess, MsgConfirm, MsgError} from '@/utils/message'
+import { MsgSuccess, MsgConfirm, MsgError } from '@/utils/message'
 import permissionMap from '@/permission'
 import McpToolConfigDialog from '@/views/tool/component/McpToolConfigDialog.vue'
 import ResourceMappingDrawer from "@/components/resource_mapping/index.vue";
 import ToolRecordDrawer from "@/views/tool/execution-record/TriggerRecordDrawer.vue";
 
-const {user} = useStore()
+const { user } = useStore()
 
 const search_type = ref('name')
 const search_form = ref<any>({
@@ -502,8 +501,7 @@ function deleteTool(row: any) {
         MsgSuccess(t('common.deleteSuccess'))
       })
     })
-    .catch(() => {
-    })
+    .catch(() => {})
 }
 
 function configInitParams(item: any) {
@@ -566,7 +564,9 @@ function openCreateDataSourceDialog(data?: any) {
     return
   }
 
-  DataSourceToolDrawertitle.value = data ? t('views.tool.dataSource.editDataSource') : t('views.tool.dataSource.createDataSource')
+  DataSourceToolDrawertitle.value = data
+    ? t('views.tool.dataSource.editDataSource')
+    : t('views.tool.dataSource.createDataSource')
   if (data) {
     ToolResourceApi.getToolById(data?.id, loading).then((res: any) => {
       DataSourceToolFormDrawerRef.value.open(res.data)
@@ -584,7 +584,7 @@ function addInternalTool(data?: any, isEdit?: boolean) {
 
 function confirmAddInternalTool(data?: any, isEdit?: boolean) {
   if (isEdit) {
-    ToolResourceApi.putTool(data?.id as string, {name: data.name}, loading).then((res: any) => {
+    ToolResourceApi.putTool(data?.id as string, { name: data.name }, loading).then((res: any) => {
       MsgSuccess(t('common.saveSuccess'))
       refresh()
     })
@@ -654,7 +654,7 @@ watch(
       v.label.toLowerCase().includes(filterText.value.toLowerCase()),
     )
   },
-  {immediate: true},
+  { immediate: true },
 )
 
 function filterWorkspaceChange(val: string) {
@@ -676,7 +676,7 @@ async function getWorkspaceList() {
 }
 
 const search_type_change = () => {
-  search_form.value = {name: '', create_user: ''}
+  search_form.value = { name: '', create_user: '' }
 }
 
 function getList() {

@@ -29,20 +29,20 @@
             <el-col :span="6">
               <p class="color-secondary mb-4">{{ $t('views.trigger.triggerTask') }}</p>
               <p class="flex align-center">
-                <el-avatar shape="square" :size="22" style="background: none" class="mr-8">
+                <ToolIcon
+                  v-if="
+                    props.currentContent?.source_type === 'TOOL' &&
+                    !props.currentContent?.source_icon
+                  "
+                  :size="22"
+                />
+                <el-avatar v-else shape="square" :size="22" style="background: none">
                   <img
-                    v-if="props.currentContent?.source_type === 'TOOL'"
-                    :src="resetUrl(props.currentContent?.source_icon, resetUrl('./favicon.ico'))"
-                    alt=""
-                  />
-                  <img
-                    v-if="props.currentContent?.source_type === 'APPLICATION'"
                     :src="resetUrl(props.currentContent?.source_icon, resetUrl('./favicon.ico'))"
                     alt=""
                   />
                 </el-avatar>
-
-                <span class="ellipsis-1" :title="props.currentContent?.source_name">{{
+                <span class="ellipsis-1 ml-8" :title="props.currentContent?.source_name">{{
                   props.currentContent?.source_name || '-'
                 }}</span>
               </p>

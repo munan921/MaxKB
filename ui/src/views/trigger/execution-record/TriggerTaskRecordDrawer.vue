@@ -56,9 +56,6 @@
       :maxTableHeight="200"
       :row-key="(row: any) => row.id"
       v-loading="loading"
-      :tooltip-options="{
-        popperClass: 'max-w-350',
-      }"
     >
       <el-table-column
         prop="name"
@@ -68,20 +65,11 @@
       >
         <template #default="{ row }">
           <div class="flex align-center">
-            <el-avatar shape="square" :size="22" style="background: none" class="mr-8">
-              <img
-                v-if="row.source_type === 'TOOL'"
-                :src="resetUrl(row?.source_icon, resetUrl('./favicon.ico'))"
-                alt=""
-              />
-              <img
-                v-if="row.source_type === 'APPLICATION'"
-                :src="resetUrl(row?.source_icon, resetUrl('./favicon.ico'))"
-                alt=""
-              />
+            <ToolIcon v-if="row.source_type === 'TOOL' && !row.source_icon" :size="22" />
+            <el-avatar v-else shape="square" :size="22" style="background: none">
+              <img :src="resetUrl(row?.source_icon, resetUrl('./favicon.ico'))" alt="" />
             </el-avatar>
-
-            <span>{{ row.source_name }}</span>
+            <span class="ml-8">{{ row.source_name }}</span>
           </div>
         </template>
       </el-table-column>

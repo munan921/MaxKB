@@ -29,20 +29,24 @@
             <el-col :span="6">
               <p class="color-secondary mb-4">{{ $t('views.trigger.triggerSource') }}</p>
               <p class="flex align-center">
-                <el-avatar shape="square" :size="22" style="background: none" class="mr-8">
+                <KnowledgeIcon
+                  :size="22"
+                  v-if="props.currentContent?.source_type === 'KNOWLEDGE'"
+                  :type="4"
+                />
+                <TriggerIcon
+                  v-if="props.currentContent?.source_type === 'TRIGGER'"
+                  :type="props.currentContent?.trigger_type"
+                  :size="22"
+                />
+                <el-avatar shape="square" :size="22" style="background: none" v-else>
                   <img
-                    v-if="props.currentContent?.source_type === 'TOOL'"
-                    :src="resetUrl(props.currentContent?.source_icon, resetUrl('./favicon.ico'))"
-                    alt=""
-                  />
-                  <img
-                    v-if="props.currentContent?.source_type === 'APPLICATION'"
                     :src="resetUrl(props.currentContent?.source_icon, resetUrl('./favicon.ico'))"
                     alt=""
                   />
                 </el-avatar>
 
-                <span class="ellipsis-1" :title="props.currentContent?.source_name">{{
+                <span class="ellipsis-1 ml-8" :title="props.currentContent?.source_name">{{
                   props.currentContent?.source_name || '-'
                 }}</span>
               </p>
@@ -114,12 +118,11 @@
                 shape="square"
                 :size="24"
                 style="background: none"
-                class="mr-8"
               >
                 <img :src="resetUrl(detail?.tool_icon)" alt="" />
               </el-avatar>
               <ToolIcon v-else :size="24" :type="detail?.tool_type" />
-              <h4>{{ detail?.tool_name }}</h4>
+              <h4 class="ml-8">{{ detail?.tool_name }}</h4>
             </div>
             <div class="flex align-center">
               <span class="mr-16 color-secondary" v-if="detail?.state !== 'STARTED'"

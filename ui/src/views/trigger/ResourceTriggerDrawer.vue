@@ -4,7 +4,7 @@
       <h4>{{ $t('views.trigger.title') }}</h4>
     </template>
     <div class="flex-between">
-      <h4 class="title-decoration-1 mb-16 mt-16">
+      <h4 class="title-decoration-1">
         {{ $t('views.trigger.title') }}
       </h4>
       <el-button

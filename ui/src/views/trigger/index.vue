@@ -110,25 +110,29 @@
             v-loading="loading"
             :row-key="(row: any) => row.id"
             :maxTableHeight="300"
-            :tooltip-options="{
-              popperClass: 'max-w-350',
-            }"
           >
             <el-table-column type="selection" width="55" :reserve-selection="true" />
-            <el-table-column prop="name" :label="$t('common.name')" show-overflow-tooltip>
+            <el-table-column
+              prop="name"
+              :label="$t('common.name')"
+              show-overflow-tooltip
+              width="220"
+            >
               <template #default="{ row }">
                 <div class="flex align-center">
                   <TriggerIcon :type="row.trigger_type" class="mr-8" :size="24" />
-                  {{ row.name }}
+                  <span class="ellipsis" style="max-width: 160px">
+                    {{ row.name }}
+                  </span>
                 </div>
               </template>
             </el-table-column>
-            <el-table-column prop="trigger_type" :label="$t('common.type')" min-width="80">
+            <el-table-column prop="trigger_type" :label="$t('common.type')" width="150">
               <template #default="{ row }">
                 {{ $t(TriggerType[row.trigger_type as keyof typeof TriggerType]) }}
               </template>
             </el-table-column>
-            <el-table-column prop="is_active" :label="$t('common.status.label')" min-width="90">
+            <el-table-column prop="is_active" :label="$t('common.status.label')" width="150">
               <template #default="{ row }">
                 <div v-if="row.is_active" class="flex align-center">
                   <el-icon class="color-success mr-8" style="font-size: 16px">
@@ -146,17 +150,15 @@
                 </div>
               </template>
             </el-table-column>
-            <el-table-column
-              prop="desc"
-              :label="$t('common.desc')"
-              min-width="160"
-              show-overflow-tooltip
-            >
+            <el-table-column prop="desc" :label="$t('common.desc')" show-overflow-tooltip>
             </el-table-column>
 
             <el-table-column prop="trigger_task" :label="$t('views.trigger.task')" width="180">
               <template #default="{ row }">
-                <el-popover popper-class="max-w-200">
+                <el-popover
+                  placement="top-start"
+                  :popper-style="{ width: 'auto', maxWidth: '300px' }"
+                >
                   <template #reference>
                     <div class="flex">
                       <el-tag
@@ -203,7 +205,7 @@
                         <el-avatar shape="square" :size="20" style="background: none" class="mr-8">
                           <img :src="resetUrl(item?.icon, resetUrl('./favicon.ico'))" alt="" />
                         </el-avatar>
-                        <span class="ellipsis" :title="item.name">{{ item.name }}</span>
+                        <span class="ellipsis-1" :title="item.name">{{ item.name }}</span>
                       </div>
                     </div>
                     <el-divider
@@ -236,7 +238,7 @@
                           <img :src="resetUrl(item?.icon)" alt="" />
                         </el-avatar>
                         <ToolIcon v-else :size="20" :type="item?.tool_type" class="mr-8" />
-                        <span class="ellipsis" :title="item.name">{{ item.name }}</span>
+                        <span class="ellipsis-1" :title="item.name">{{ item.name }}</span>
                       </div>
                     </div>
                   </div>
