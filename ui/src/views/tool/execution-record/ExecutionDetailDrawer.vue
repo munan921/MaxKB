@@ -51,6 +51,12 @@
                 }}</span>
               </p>
             </el-col>
+            <el-col :span="6" v-if="apiType === 'systemShare'">
+              <p class="color-secondary mb-4">{{ $t('views.workspace.title') }}</p>
+              <p class="flex align-center">
+                {{props.currentContent?.workspace_name}}
+              </p>
+            </el-col>
             <el-col :span="6">
               <p class="color-secondary mb-4">{{ $t('common.status.label') }}</p>
               <p>
