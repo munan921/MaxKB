@@ -534,6 +534,8 @@ class ToolSerializer(serializers.Serializer):
 
         @transaction.atomic
         def delete(self):
+            from trigger.handler.simple_tools import deploy
+
             self.is_valid(raise_exception=True)
             tool = QuerySet(Tool).filter(id=self.data.get('id')).first()
             if tool.template_id is None and tool.icon != '':
@@ -542,6 +544,15 @@ class ToolSerializer(serializers.Serializer):
             QuerySet(Tool).filter(id=self.data.get('id')).delete()
             ResourceMapping.objects.filter(target_id=self.data.get('id')).delete()
             QuerySet(ToolRecord).filter(tool_id=self.data.get('id')).delete()
+            trigger_ids = QuerySet(TriggerTask).filter(
+                source_type="TOOL", source_id=self.data.get('id')
+            ).values('trigger_id')
+            QuerySet(TriggerTask).filter(source_type="TOOL", source_id=self.data.get('id')).delete()
+            for trigger_id in trigger_ids:
+                trigger = Trigger.objects.filter(id=trigger_id['trigger_id']).first()
+                if trigger and trigger.is_active:
+                    deploy(trigger, **{})
+
 
         def one(self):
             self.is_one_valid(raise_exception=True)
