@@ -271,8 +271,6 @@ class BaseToolLibNodeNode(IToolLibNode):
                 meta={'input': all_params, 'output': result_dict}
             )
 
-            print(result)
-
             return result
         except Exception as e:
             maxkb_logger.error(f"Tool execution error: {traceback.format_exc()}")
