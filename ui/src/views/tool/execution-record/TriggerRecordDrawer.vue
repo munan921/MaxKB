@@ -114,7 +114,15 @@
           <span v-else>{{ $t('views.trigger.title') }}</span>
         </template>
       </el-table-column>
-
+      <el-table-column
+        v-if="apiType === 'systemShare'"
+        prop="workspace_name"
+        :label="$t('views.workspace.title')"
+      >
+        <template #default="{ row }">
+          {{ row.workspace_name }}
+        </template>
+      </el-table-column>
       <el-table-column prop="state" :label="$t('common.status.label')" width="180">
         <template #default="{ row }">
           <el-text class="color-text-primary" v-if="row.state === 'SUCCESS'">
