@@ -937,7 +937,6 @@ class ToolSerializer(serializers.Serializer):
                 lambda record: {
                     **ToolRecordModelSerializer(record).data,
                     'source_name': record.source_name,
-                    'workspace_name': record.workspace_name,
                 }
             )
 
