@@ -919,6 +919,14 @@ class ToolSerializer(serializers.Serializer):
                     default=Value(''),
                     output_field=CharField()
                 )
+            ).annotate(
+                tool_name=Subquery(
+                    Tool.objects.filter(id=OuterRef('tool_id')).values('name')[:1]
+                )
+            ).annotate(
+                tool_icon=Subquery(
+                    Tool.objects.filter(id=OuterRef('tool_id')).values('icon')[:1]
+                )
             )
             if self.data.get('source_type'):
                 query_set = query_set.filter(Q(source_type=self.data.get('source_type', '')))
@@ -937,6 +945,8 @@ class ToolSerializer(serializers.Serializer):
                 lambda record: {
                     **ToolRecordModelSerializer(record).data,
                     'source_name': record.source_name,
+                    'tool_name': record.tool_name,
+                    'tool_icon': record.tool_icon,
                 }
             )
 
