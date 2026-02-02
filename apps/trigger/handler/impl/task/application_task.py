@@ -203,13 +203,16 @@ class ApplicationTask(BaseTriggerTask):
             parameters['stream'] = True
             parameters['chat_record_id'] = chat_record_id
             message = parameters.get('message')
+            ip_address = '-'
+            if kwargs.get('body') is not None:
+                ip_address = kwargs.get('body').get('ip_address')
             Chat.objects.get_or_create(id=chat_id, defaults={
                 'application_id': application_id,
                 'abstract': message,
                 'chat_user_id': chat_user_id,
                 'chat_user_type': ChatUserType.ANONYMOUS_USER.value,
                 'asker': {'username': "游客"},
-                'ip_address': kwargs.get('body')['ip_address'],
+                'ip_address': ip_address,
                 'source': {
                     'type': ChatSourceChoices.TRIGGER.value
                 },

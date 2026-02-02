@@ -24,11 +24,12 @@ class VolcanicEngineEmbeddingModel(MaxKBBaseModel):
 
     @staticmethod
     def new_instance(model_type, model_name, model_credential: Dict[str, object], **model_kwargs):
+        optional_params = MaxKBBaseModel.filter_optional_params(model_kwargs)
         return VolcanicEngineEmbeddingModel(
             api_key=model_credential.get("api_key"),
             model=model_name,
             api_base=model_credential.get("api_base"),
-            **model_kwargs
+            **optional_params
         )
 
     def embed_query(self, text: str):
