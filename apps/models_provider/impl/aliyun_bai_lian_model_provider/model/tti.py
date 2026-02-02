@@ -61,6 +61,8 @@ class QwenTextToImageModel(MaxKBBaseModel, BaseTextToImage):
         return True
 
     def generate_image(self, prompt: str, negative_prompt: str = None):
+        import dashscope
+        dashscope.base_http_api_url = self.api_base
         if self.model_name.startswith("wan2.6") or self.model_name.startswith("z"):
             from dashscope.api_entities.dashscope_response import Message
             # 以下为北京地域url，各地域的base_url不同
@@ -75,7 +77,6 @@ class QwenTextToImageModel(MaxKBBaseModel, BaseTextToImage):
             rsp = ImageGeneration.call(
                 model=self.model_name,
                 api_key=self.api_key,
-                base_url=self.api_base,
                 messages=[message],
                 negative_prompt=negative_prompt,
                 **self.params
@@ -93,7 +94,6 @@ class QwenTextToImageModel(MaxKBBaseModel, BaseTextToImage):
         elif self.model_name.startswith("wan") or self.model_name.startswith("qwen-image-plus"):
             rsp = ImageSynthesis.call(api_key=self.api_key,
                                       model=self.model_name,
-                                      base_url=self.api_base,
                                       prompt=prompt,
                                       negative_prompt=negative_prompt,
                                       **self.params)
@@ -124,7 +124,6 @@ class QwenTextToImageModel(MaxKBBaseModel, BaseTextToImage):
                 model=self.model_name,
                 messages=messages,
                 result_format='message',
-                base_url=self.api_base,
                 stream=False,
                 negative_prompt=negative_prompt,
                 **self.params
