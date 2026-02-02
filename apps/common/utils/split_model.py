@@ -165,7 +165,11 @@ def parse_level(text, pattern: str):
     :return: 符合正则的文本
     """
     level_content_list = list(map(to_tree_obj, [r[0:255] for r in re_findall(pattern, text) if r is not None]))
-    return list(map(filter_special_symbol, level_content_list))
+    # 过滤掉空标题或只包含#和空白字符的标题
+    filtered_list = [item for item in level_content_list
+                     if item['content'].strip() and item['content'].replace('#', '').strip()]
+    return list(map(filter_special_symbol, filtered_list))
+
 
 
 def re_findall(pattern, text):
