@@ -36,11 +36,15 @@ class QwenVLChatModel(MaxKBBaseModel, BaseChatOpenAI):
         return chat_tong_yi
 
     def check_auth(self, api_key):
-        return  True
+        return True
 
     def get_upload_policy(self, api_key, model_name):
         """获取文件上传凭证"""
         url = "https://dashscope.aliyuncs.com/api/v1/uploads"
+        if 'dashscope-us' in self.openai_api_base:
+            url = "https://dashscope-us.aliyuncs.com/api/v1/uploads"
+        elif 'dashscope-intl' in self.openai_api_base:
+            url = "https://dashscope-intl.aliyuncs.com/api/v1/uploads"
         headers = {
             "Authorization": f"Bearer {api_key}",
             "Content-Type": "application/json"
