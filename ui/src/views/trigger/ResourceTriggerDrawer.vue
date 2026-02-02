@@ -4,7 +4,7 @@
       <h4>{{ $t('views.trigger.title') }}</h4>
     </template>
     <div class="flex-between">
-      <h4 class="title-decoration-1">
+      <h4 class="title-decoration-1 mb-12">
         {{ $t('views.trigger.title') }}
       </h4>
       <el-button
@@ -26,7 +26,9 @@
             <span class="ellipsis-1" :title="item.name"> {{ item.name }}</span>
           </div>
           <div class="w-180">
-            {{ getTriggerCycleLabel(item.trigger_setting) }}
+            <span v-if="item.trigger_type === 'SCHEDULED'">
+              {{ getTriggerCycleLabel(item.trigger_setting) }}</span
+            >
           </div>
           <div>
             <span class="mr-4">

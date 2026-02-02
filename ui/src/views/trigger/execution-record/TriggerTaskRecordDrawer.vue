@@ -222,23 +222,28 @@ const getList = (isLoading?: boolean) => {
   } else return Promise.resolve()
 }
 
+
 const pre_disable = computed(() => {
-  const index = tableIndexMap.value[currentId.value] - 1
-  return index < 0
+  const index = tableData.value.findIndex((item) => item.id === currentId.value)
+  return index === 0 && paginationConfig.current_page === 1
 })
 
 const next_disable = computed(() => {
-  const index = tableIndexMap.value[currentId.value] + 1
-  return index >= tableData.value.length && index >= paginationConfig.total - 1
+  const index = tableData.value.findIndex((item) => item.id === currentId.value) + 1
+  return (
+    index >= tableData.value.length &&
+    index + (paginationConfig.current_page - 1) * paginationConfig.page_size >=
+      paginationConfig.total - 1
+  )
 })
 
 /**
  * 下一页
  */
 const nextRecord = () => {
-  const index = tableIndexMap.value[currentId.value] + 1
+  const index = tableData.value.findIndex((item) => item.id === currentId.value) + 1
   if (index >= tableData.value.length) {
-    if (index >= paginationConfig.total - 1) {
+    if (paginationConfig.current_page * paginationConfig.page_size >= paginationConfig.total) {
       return
     }
     paginationConfig.current_page = paginationConfig.current_page + 1
@@ -246,6 +251,7 @@ const nextRecord = () => {
       currentId.value = tableData.value[index].id
       currentContent.value = tableData.value[index]
     })
+    return
   } else {
     currentId.value = tableData.value[index].id
     currentContent.value = tableData.value[index]
@@ -255,9 +261,17 @@ const nextRecord = () => {
  * 上一页
  */
 const preRecord = () => {
-  const index = tableIndexMap.value[currentId.value] - 1
-
-  if (index >= 0) {
+  const index = tableData.value.findIndex((item) => item.id === currentId.value) - 1
+  if (index < 0 && 1) {
+    if (paginationConfig.current_page === 1) {
+      return
+    }
+    paginationConfig.current_page = paginationConfig.current_page - 1
+    getList(true).then(() => {
+      currentId.value = tableData.value[tableData.value.length - 1].id
+      currentContent.value = tableData.value[tableData.value.length - 1]
+    })
+  } else {
     currentId.value = tableData.value[index].id
     currentContent.value = tableData.value[index]
   }

@@ -256,7 +256,7 @@ function setPosition(val: string, index: number) {
   if (val === 'top') {
     return 0
   } else if (val === 'bottom') {
-    return paragraphDetail.value.length - 1
+    return paginationConfig.total - 1
   } else if (val === 'up') {
     return index - 1
   } else if (val === 'down') {
