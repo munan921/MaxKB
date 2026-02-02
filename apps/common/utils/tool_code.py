@@ -183,7 +183,8 @@ sys.stdout.flush()
                     node.args.defaults = defaults
                 func_code = ast.unparse(node)
                 # 有些模型不支持name是中文，例如: deepseek, 其他模型未知
-                functions.append(f"@mcp.tool(description='{name} {description}')\n{func_code}\n")
+                escaped_desc = (name + ' ' + description).replace('\n', ' ').replace("'", " ")
+                functions.append(f"@mcp.tool(description='{escaped_desc}')\n{func_code}\n")
             else:
                 other_code.append(ast.unparse(node))
         # 构建完整的 MCP 服务器代码
