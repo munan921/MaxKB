@@ -21,16 +21,17 @@
     <div v-if="triggerList.length > 0" class="w-full" v-loading="loading">
       <template v-for="(item, index) in triggerList" :key="index">
         <div class="flex-between border border-r-6 white-bg mb-8" style="padding: 2px 8px">
-          <div class="flex align-center w-180">
+          <div class="flex align-center" style="width: 60%">
             <TriggerIcon :type="item.trigger_type" class="mr-8" :size="20" />
-            <span class="ellipsis-1" :title="item.name"> {{ item.name }}</span>
+            <auto-tooltip :content="item.name">
+              {{ item.name + '111' }}
+            </auto-tooltip>
           </div>
-          <div class="w-180">
-            <span v-if="item.trigger_type === 'SCHEDULED'">
+
+          <div>
+            <span v-if="item.trigger_type === 'SCHEDULED'" class="mr-8 color-secondary lighter">
               {{ getTriggerCycleLabel(item.trigger_setting) }}</span
             >
-          </div>
-          <div>
             <span class="mr-4">
               <el-button text @click="openEditTriggerDrawer(item)">
                 <AppIcon iconName="app-edit" class="color-secondary"></AppIcon>

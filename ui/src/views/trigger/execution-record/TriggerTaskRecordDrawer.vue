@@ -80,19 +80,19 @@
         show-overflow-tooltip
       >
         <template #default="{ row }">
-          <div class="flex align-center">
+          <el-space :size="8">
             <ToolIcon v-if="row.source_type === 'TOOL' && !row.source_icon" :size="22" />
             <el-avatar v-else shape="square" :size="22" style="background: none">
               <img :src="resetUrl(row?.source_icon, resetUrl('./favicon.ico'))" alt="" />
             </el-avatar>
-            <span class="ml-8">{{ row.source_name }}</span>
-          </div>
+            <span class="ellipsis">{{ row.source_name }}</span>
+          </el-space>
         </template>
       </el-table-column>
 
       <el-table-column
         prop="source_type"
-        min-width="120"
+        width="100"
         show-overflow-tooltip
         :label="$t('common.type')"
       >
@@ -105,7 +105,7 @@
         </template>
       </el-table-column>
 
-      <el-table-column prop="state" :label="$t('common.status.label')" width="180">
+      <el-table-column prop="state" :label="$t('common.status.label')" width="100">
         <template #default="{ row }">
           <el-text class="color-text-primary" v-if="row.state === 'SUCCESS'">
             <el-icon class="color-success"><SuccessFilled /></el-icon>

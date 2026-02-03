@@ -45,4 +45,6 @@ export default {
     },
   },
   requestParameter: '请求参数',
+  triggerParam: '触发器入参',
+  errorMsg: '错误信息',
 }

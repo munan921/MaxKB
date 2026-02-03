@@ -81,20 +81,23 @@
         show-overflow-tooltip
       >
         <template #default="{ row }">
-          <div class="flex align-center">
+          <el-space :size="8">
             <KnowledgeIcon :size="22" v-if="row.source_type === 'KNOWLEDGE'" :type="4" />
-            <TriggerIcon v-else-if="row.source_type === 'TRIGGER'" :type="row.trigger_type" :size="22" />
+            <TriggerIcon
+              v-else-if="row.source_type === 'TRIGGER'"
+              :type="row.trigger_type"
+              :size="22"
+            />
             <el-avatar shape="square" :size="22" style="background: none" v-else>
               <img :src="resetUrl(row?.source_icon, resetUrl('./favicon.ico'))" alt="" />
             </el-avatar>
-
-            <span class="ml-8">{{ row.source_name }}</span>
-          </div>
+            <span class="ellipsis">{{ row.source_name }}</span>
+          </el-space>
         </template>
       </el-table-column>
       <el-table-column
         prop="source_type"
-        min-width="120"
+        width="100"
         show-overflow-tooltip
         :label="$t('common.type')"
       >
@@ -104,16 +107,7 @@
           <span v-else>{{ $t('views.trigger.title') }}</span>
         </template>
       </el-table-column>
-      <el-table-column
-        v-if="apiType === 'systemShare'"
-        prop="workspace_name"
-        :label="$t('views.workspace.title')"
-      >
-        <template #default="{ row }">
-          {{ row.workspace_name }}
-        </template>
-      </el-table-column>
-      <el-table-column prop="state" :label="$t('common.status.label')" width="180">
+      <el-table-column prop="state" :label="$t('common.status.label')" width="100">
         <template #default="{ row }">
           <el-text class="color-text-primary" v-if="row.state === 'SUCCESS'">
             <el-icon class="color-success"><SuccessFilled /></el-icon>
@@ -140,6 +134,15 @@
       <el-table-column prop="run_time" :label="$t('chat.KnowledgeSource.consumeTime')">
         <template #default="{ row }">
           {{ row.run_time != undefined ? row.run_time?.toFixed(2) + 's' : '-' }}
+        </template>
+      </el-table-column>
+      <el-table-column
+        v-if="apiType === 'systemShare'"
+        prop="workspace_name"
+        :label="$t('views.workspace.title')"
+      >
+        <template #default="{ row }">
+          {{ row.workspace_name }}
         </template>
       </el-table-column>
       <el-table-column

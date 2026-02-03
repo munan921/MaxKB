@@ -71,8 +71,8 @@
                 clearable
                 style="width: 220px"
               >
-                <el-option :label="$t('common.status.enable')" value="true" />
-                <el-option :label="$t('common.status.disable')" value="false" />
+                <el-option :label="$t('common.status.enabled')" value="true" />
+                <el-option :label="$t('common.status.disabled')" value="false" />
               </el-select>
               <el-select
                 v-else-if="search_type === 'create_user'"

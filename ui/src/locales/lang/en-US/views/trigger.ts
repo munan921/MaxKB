@@ -45,4 +45,6 @@ export default {
     },
   },
   requestParameter: 'Request Parameters',
+  triggerParam: 'Trigger Input Parameters',
+  errorMsg: 'Error Message',
 }

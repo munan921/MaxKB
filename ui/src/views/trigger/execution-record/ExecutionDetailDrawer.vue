@@ -105,18 +105,23 @@
         </h4>
         <template v-if="taskRecordDetails && taskRecordDetails.state === 'TRIGGER_ERROR'">
           <div class="card-never border-r-6 mb-12">
-            <h5 class="p-8-12">触发器入参</h5>
+            <h5 class="p-8-12">{{ $t('views.trigger.triggerParam') }}</h5>
             <div class="p-8-12 border-t-dashed lighter">
               {{ taskRecordDetails.meta.input }}
             </div>
           </div>
           <div class="card-never border-r-6 mb-12">
-            <h5 class="p-8-12">错误信息</h5>
+            <h5 class="p-8-12">{{ $t('views.trigger.errorMsg') }}</h5>
             <div class="p-8-12 border-t-dashed lighter">
               {{ taskRecordDetails.meta.err_message }}
             </div>
           </div>
         </template>
+        <ExecutionDetailContent
+          v-else-if="props.currentContent?.source_type === 'APPLICATION'"
+          :detail="detail"
+          :appType="props.currentContent.type"
+        ></ExecutionDetailContent>
         <template v-else v-for="(item, index) in arraySort(detail ?? [], 'index')" :key="index">
           <ExecutionDetailCard :data="item"> </ExecutionDetailCard>
         </template>
@@ -141,6 +146,7 @@ import { useRoute } from 'vue-router'
 import { arraySort } from '@/utils/array'
 import { isAppIcon, resetUrl } from '@/utils/common'
 import ExecutionDetailCard from '@/components/execution-detail-card/index.vue'
+import ExecutionDetailContent from '@/components/ai-chat/component/knowledge-source-component/ExecutionDetailContent.vue'
 import { datetimeFormat } from '@/utils/time'
 import triggerAPI from '@/api/trigger/trigger'
 const props = withDefaults(

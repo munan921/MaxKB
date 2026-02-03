@@ -45,4 +45,6 @@ export default {
     },
   },
   requestParameter: '請求參數',
+  triggerParam: '觸發器入參',
+  errorMsg: '錯誤信息',
 }
