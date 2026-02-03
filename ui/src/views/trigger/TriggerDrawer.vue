@@ -105,7 +105,10 @@
           </div>
           <el-card v-if="form.trigger_type === 'EVENT'" shadow="never" class="card-never mt-16">
             <el-form-item :label="$t('views.trigger.from.event_url.label')">
-              <div class="complex-input flex align-center w-full" style="background-color: #ffffff">
+              <div
+                class="complex-input flex-between align-center w-full"
+                style="background-color: #ffffff"
+              >
                 <el-input
                   class="complex-input__left"
                   v-bind:modelValue="event_url"
@@ -113,21 +116,35 @@
                 ></el-input>
 
                 <el-tooltip :content="$t('common.copy')" placement="top">
-                  <el-button text @click="copy">
+                  <el-button text @click="copyClick(event_url)" class="mr-4">
                     <AppIcon iconName="app-copy" class="color-secondary"></AppIcon>
                   </el-button>
                 </el-tooltip>
               </div>
             </el-form-item>
             <el-form-item label="Bearer Token">
-              <el-input
-                type="password"
-                :placeholder="$t('common.inputPlaceholder')"
-                v-model="form.trigger_setting.token"
-                show-password
-                readonly
-              >
-              </el-input>
+              <div class="complex-input flex-between w-full" style="background-color: #ffffff">
+                <el-input
+                  class="complex-input__left"
+                  :placeholder="$t('common.inputPlaceholder')"
+                  v-model="form.trigger_setting.token"
+                  readonly
+                  style="width: 80%"
+                >
+                </el-input>
+                <div>
+                  <el-tooltip :content="$t('common.copy')" placement="top">
+                    <el-button text @click="copyClick(form.trigger_setting.token)">
+                      <AppIcon iconName="app-copy" class="color-secondary"></AppIcon>
+                    </el-button>
+                  </el-tooltip>
+                  <el-tooltip :content="$t('common.refresh')" placement="top">
+                    <el-button @click="refreshToken" text style="margin: 0 4px 0 0 !important">
+                      <AppIcon iconName="app-refresh" class="color-secondary"></AppIcon>
+                    </el-button>
+                  </el-tooltip>
+                </div>
+              </div>
             </el-form-item>
             <el-form-item>
               <template #label>
@@ -538,9 +555,7 @@ const editPermission = computed(() => {
 })
 
 const triggerFormRef = ref<FormInstance>()
-const copy = () => {
-  copyClick(event_url.value)
-}
+
 const addParameter = () => {
   form.value.trigger_setting.body.push({ field: '', type: '' })
 }
@@ -681,7 +696,7 @@ const getDefaultValue = () => {
     trigger_task: [],
     trigger_type: 'SCHEDULED',
     trigger_setting: {
-      token: uuidv4().replace('-', ''),
+      token: uuidv4().replace(/-/g, ''),
       body: [],
     },
   }
@@ -725,6 +740,10 @@ const init = (trigger_id: string) => {
         .reduce((x: any, y: any) => ({ ...x, ...y }), {})
     })
   }
+}
+
+function refreshToken() {
+  form.value.trigger_setting.token = uuidv4().replace(/-/g, '')
 }
 const current_trigger_id = ref<string>()
 const current_source_id = ref<string>()
