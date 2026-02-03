@@ -154,7 +154,7 @@ class TaskSourceTriggerOperateSerializer(serializers.Serializer):
                 raise serializers.ValidationError(_('Trigger must have at least one task'))
 
         if need_redeploy:
-            if trigger.is_active:
+            if trigger.is_active and trigger.trigger_type == 'SCHEDULED':
                 deploy(TriggerModelSerializer(trigger).data, **{})
             else:
                 undeploy(TriggerModelSerializer(trigger).data, **{})

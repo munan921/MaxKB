@@ -536,7 +536,7 @@ class TriggerOperateSerializer(serializers.Serializer):
 
         # 重新部署触发器任务
         if need_redeploy:
-            if trigger.is_active:
+            if trigger.is_active and trigger.trigger_type == 'SCHEDULED':
                 deploy(TriggerModelSerializer(trigger).data, **{})
             else:
                 undeploy(TriggerModelSerializer(trigger).data, **{})
