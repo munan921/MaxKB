@@ -12,6 +12,7 @@ import traceback
 
 import uuid_utils.compat as uuid
 from django.db.models import QuerySet
+from django.utils.translation import gettext as _
 
 from common.utils.logger import maxkb_logger
 from common.utils.rsa_util import rsa_long_decrypt
@@ -42,41 +43,28 @@ def get_field_value(value, kwargs):
         return get_reference(value.get('value'), kwargs)
 
 
-def _coerce_by_type(field_type, raw):
-    if raw is None:
+def _convert_value(_type, value):
+    if value is None:
         return None
-    t = (field_type or "").lower()
 
-    if t in ("string", "str", "text"):
-        return str(raw)
-    if t in ("int", "integer"):
-        return int(raw)
-    if t in ("float", "number", "double"):
-        return float(raw)
-    if t in ("bool", "boolean"):
-        if isinstance(raw, bool):
-            return raw
-        if isinstance(raw, (int, float)):
-            return bool(raw)
-        if isinstance(raw, str):
-            v = raw.strip().lower()
-            if v in ("true", "1", "yes", "y", "on"):
-                return True
-            if v in ("false", "0", "no", "n", "off"):
-                return False
-        raise ValueError(f"Cannot coerce {raw!r} to bool")
-    if t in ("list", "array"):
-        if isinstance(raw, list):
-            return raw
-        if isinstance(raw, tuple):
-            return list(raw)
-        raise ValueError(f"Cannot coerce {raw!r} to list")
-    if t in ("dict", "object", "json"):
-        if isinstance(raw, dict):
-            return raw
-        raise ValueError(f"Cannot coerce {raw!r} to dict")
-
-    return raw
+    if _type == 'int':
+        return int(value)
+    if _type == 'boolean':
+        value = 0 if ['0', '[]'].__contains__(value) else value
+        return bool(value)
+    if _type == 'float':
+        return float(value)
+    if _type == 'dict':
+        v = json.loads(value)
+        if isinstance(v, dict):
+            return v
+        raise Exception(_('type error'))
+    if _type == 'array':
+        v = json.loads(value)
+        if isinstance(v, list):
+            return v
+        raise Exception(_('type error'))
+    return value
 
 
 def get_tool_execute_parameters(input_field_list, parameter_setting, kwargs):
@@ -85,7 +73,7 @@ def get_tool_execute_parameters(input_field_list, parameter_setting, kwargs):
     parameters = {}
     for key, value in parameter_setting.items():
         raw = get_field_value(value, kwargs)
-        parameters[key] = _coerce_by_type(type_map.get(key), raw)
+        parameters[key] = _convert_value(type_map.get(key), raw)
     return parameters
 
 
