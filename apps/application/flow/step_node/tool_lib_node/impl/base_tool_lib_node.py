@@ -251,6 +251,15 @@ class BaseToolLibNodeNode(IToolLibNode):
         task_record_id = uuid.uuid7()
         start_time = time.time()
         try:
+            # 过滤掉 tool_init_params 中的参数
+            tool_init_params = json.loads(rsa_long_decrypt(tool_lib.init_params))
+            if tool_init_params:
+                filtered_args = {
+                    k: v for k, v in all_params.items()
+                    if k not in tool_init_params
+                }
+            else:
+                filtered_args = all_params
             ToolRecord(
                 id=task_record_id,
                 workspace_id=tool_lib.workspace_id,
@@ -259,7 +268,7 @@ class BaseToolLibNodeNode(IToolLibNode):
                     'knowledge_id') else ToolTaskTypeChoices.APPLICATION.value,
                 source_id=self.workflow_manage.params.get('knowledge_id') or self.workflow_manage.params.get(
                     'application_id'),
-                meta={'input': all_params, 'output': {}},
+                meta={'input': filtered_args, 'output': {}},
                 state=State.STARTED
             ).save()
 
@@ -268,7 +277,7 @@ class BaseToolLibNodeNode(IToolLibNode):
             QuerySet(ToolRecord).filter(id=task_record_id).update(
                 state=State.SUCCESS,
                 run_time=time.time() - start_time,
-                meta={'input': all_params, 'output': result_dict}
+                meta={'input': filtered_args, 'output': result_dict}
             )
 
             return result
@@ -277,7 +286,7 @@ class BaseToolLibNodeNode(IToolLibNode):
             QuerySet(ToolRecord).filter(id=task_record_id).update(
                 state=State.FAILURE,
                 run_time=time.time() - start_time,
-                meta={'input': all_params, 'output': 'Error: ' + str(e)}
+                meta={'input': filtered_args, 'output': 'Error: ' + str(e)}
             )
 
     def upload_knowledge_file(self, file):
