@@ -176,11 +176,17 @@
               <template #default>
                 <el-table
                   :data="row.role_workspace"
+                  :max-height="300"
                   :tooltip-options="{
                     popperClass: 'max-w-350',
                   }"
                 >
-                  <el-table-column prop="role" :label="$t('views.role.member.role')" width="200">
+                  <el-table-column
+                    prop="role"
+                    :label="$t('views.role.member.role')"
+                    width="200"
+                    show-overflow-tooltip
+                  >
                   </el-table-column>
                   <el-table-column
                     prop="workspace"

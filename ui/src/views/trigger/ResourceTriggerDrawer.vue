@@ -24,7 +24,7 @@
           <div class="flex align-center" style="width: 60%">
             <TriggerIcon :type="item.trigger_type" class="mr-8" :size="20" />
             <auto-tooltip :content="item.name">
-              {{ item.name + '111' }}
+              {{ item.name }}
             </auto-tooltip>
           </div>
 
