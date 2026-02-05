@@ -42,7 +42,7 @@ def init_scheduler():
 
     # 获取所有有效的 Trigger ID
     valid_trigger_ids = set(Trigger.objects.filter(
-        id__in=trigger_ids_from_jobs
+        id__in=trigger_ids_from_jobs, is_active=True
     ).values_list('id', flat=True))
 
     # 找出需要删除的 job (trigger 已不存在的)
